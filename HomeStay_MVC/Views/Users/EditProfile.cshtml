@@ -1,0 +1,31 @@
+﻿@model HomeStay_MVC.Models.UserInfor
+
+<form asp-action="EditProfile" asp-controller="Users" method="post" enctype="multipart/form-data" style="margin-left:100px;">
+    <div class="form-group">
+        <label for="Name">Họ và tên</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="PHONE">Số điện thoại</label>
+        <input asp-for="PHONE" class="form-control" />
+        <span asp-validation-for="PHONE" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="CARD_NUMBER">Số CMND</label>
+        <input asp-for="CARD_NUMBER" class="form-control" />
+        <span asp-validation-for="CARD_NUMBER" class="text-danger"></span>
+    </div>
+    @* <div class="form-group"> *@
+    @*     <label for="AVATAR_PATH">Ảnh đại diện</label> *@
+    @*     <input type="file" name="AvatarFile" class="form-control-file" /> *@
+    @* </div> *@
+    <p style="text-align:right; margin-right:20px;">
+    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+    </p>
+</form>

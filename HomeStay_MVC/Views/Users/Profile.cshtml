@@ -1,0 +1,32 @@
+﻿@model HomeStay_MVC.Models.UserInfor
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Thông tin cá nhân";
+}
+
+<div style="margin-left:100px;">
+    <div class="form-group">
+        <label for="Name">Họ và tên</label>
+        <input id="Name" type="text" class="form-control" value="@Model.Name" readonly />
+    </div>
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input id="Email" type="email" class="form-control" value="@Model.Email" readonly />
+    </div>
+    <div class="form-group">
+        <label for="PHONE">Số điện thoại</label>
+        <input id="PHONE" type="text" class="form-control" value="@Model.PHONE" readonly />
+    </div>
+    <div class="form-group">
+        <label for="CARD_NUMBER">CCCD</label>
+        <input id="CARD_NUMBER" type="text" class="form-control" value="@Model.CARD_NUMBER" readonly />
+    </div>
+
+    <form asp-action="EditProfile" asp-controller="Users" method="get">
+        <p style="text-align:right; margin-right:20px;">
+            <button type="submit" class="btn btn-success">Chỉnh sửa thông tin</button>
+        </p>
+    </form>
+</div>
+
