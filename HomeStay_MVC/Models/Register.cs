@@ -1,0 +1,12 @@
+﻿namespace HomeStay_MVC.Models
+{
+    public class RegisterModel
+    {
+        public string Users { get; set; }
+        public string Pass1 { get; set; }
+        public string Pass2 { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+    }
+}

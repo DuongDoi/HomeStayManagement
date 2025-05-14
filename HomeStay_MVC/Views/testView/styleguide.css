@@ -1,0 +1,47 @@
+:root {
+    --blue-1: rgba(47, 128, 237, 1);
+    --black-high-emphasis: rgba(0, 0, 0, 0.87);
+    --grey-1: rgba(142, 142, 147, 1);
+    --basic-3: rgba(0, 0, 0, 1);
+    --green-2: rgba(39, 174, 96, 1);
+    --basic-4: rgba(255, 255, 255, 1);
+    --red: rgba(235, 87, 87, 1);
+    --white: rgba(255, 255, 255, 1);
+    --subtitle-2-med-14-21px-0-1px-font-family: "Roboto", Helvetica;
+    --subtitle-2-med-14-21px-0-1px-font-weight: 500;
+    --subtitle-2-med-14-21px-0-1px-font-size: 14px;
+    --subtitle-2-med-14-21px-0-1px-letter-spacing: 0.10000000149011612px;
+    --subtitle-2-med-14-21px-0-1px-line-height: 21px;
+    --subtitle-2-med-14-21px-0-1px-font-style: normal;
+    --title-font-family: "Roboto", Helvetica;
+    --title-font-weight: 500;
+    --title-font-size: 20px;
+    --title-letter-spacing: 0.2px;
+    --title-line-height: 24px;
+    --title-font-style: normal;
+    --caption-font-family: "Roboto", Helvetica;
+    --caption-font-weight: 400;
+    --caption-font-size: 12px;
+    --caption-letter-spacing: 0.12px;
+    --caption-line-height: 14px;
+    --caption-font-style: normal;
+    --body-1-font-family: "Roboto", Helvetica;
+    --body-1-font-weight: 400;
+    --body-1-font-size: 14px;
+    --body-1-letter-spacing: 0.5px;
+    --body-1-line-height: 20px;
+    --body-1-font-style: normal;
+    --h6-med-20-30px-0-15px-font-family: "Roboto", Helvetica;
+    --h6-med-20-30px-0-15px-font-weight: 500;
+    --h6-med-20-30px-0-15px-font-size: 20px;
+    --h6-med-20-30px-0-15px-letter-spacing: 0.15000000596046448px;
+    --h6-med-20-30px-0-15px-line-height: 30px;
+    --h6-med-20-30px-0-15px-font-style: normal;
+    --1:
+      0px 8px 8px 0px rgba(0, 0, 0, 0.24), 0px 0px 8px 0px rgba(0, 0, 0, 0.12), 0px 2px 2px 0px rgba(
+        0,
+        0,
+        0,
+        0.24
+      ), 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
+  }

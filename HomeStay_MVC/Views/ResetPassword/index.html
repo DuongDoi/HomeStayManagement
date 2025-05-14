@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quên mật khẩu</title>
+    <link rel="icon" type="image/x-icon" href="~/Assets/img/Homestay_logo_no_bg.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="../../wwwroot/css/reset-password/style.css" />
+</head>
+<body>
+  <main class="container">
+    <div class="form-wrapper">
+      <div class="form-left">
+        <img src="../../wwwroot/Assets/img/Homestay_logo.png" alt="Logo Homestay" />
+      </div>
+
+      <div class="form-right">
+        <form class="reset-password-form" method="post" action="#">
+          <h2 class="form-title">Quên mật khẩu</h2>
+
+          <div class="form-group">
+            <label for="username">Tên đăng nhập</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="pin">Mã PIN</label>
+            <input type="text" id="pin" name="pin" required />
+          </div>
+
+          <div class="form-group">
+            <label for="new-password">Mật khẩu mới</label>
+            <input type="password" id="new-password" name="new-password" required />
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-new-password">Xác nhận mật khẩu mới</label>
+            <input type="password" id="confirm-new-password" name="confirm-new-password" required />
+          </div>
+
+          <button type="submit" class="submit-btn">Xác nhận</button>
+
+          <p class="login-link">Quay lại trang <a href="#">Đăng nhập</a></p>
+          <p class="signup-link">Chưa có tài khoản? <a href="#">Đăng ký ngay</a></p>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

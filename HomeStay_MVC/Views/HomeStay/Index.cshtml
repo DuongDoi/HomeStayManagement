@@ -1,0 +1,67 @@
+﻿@model IEnumerable<HomeStay_MVC.Models.HomestaysObj>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Quản lý cơ sở";
+}
+
+<h2 class="text-center mt-4">Quản lý cơ sở</h2>
+
+<p style="text-align:right; margin-right:20px;">
+    <a class="btn btn-success" asp-action="AddOrEdit">Tạo cơ sở mới</a>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Tên cơ sở</th>
+                <th>Tên quản lí</th>
+                <th>Địa chỉ</th>
+                <th>Ngày tạo</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var homestay in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => homestay.id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => homestay.HOMESTAYS_NAME)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => homestay.MANAGER_NAME)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => homestay.HOMESTAYS_ADDRESS)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => homestay.CREATE_AT)
+                    </td>
+                    <td>
+                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@homestay.id">Chi tiết</a>
+                        <a asp-action="AddOrEdit" class="btn btn-sm btn-primary" asp-route-id="@homestay.id">Sửa</a>
+                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@homestay.id"
+                           onclick="return confirm('Bạn có chắc chắn muốn xóa cơ sở này?');">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                        Swal.fire('Thành công', '@TempData["Success"]', 'success');
+            </text>
+        }
+    </script>
+}

@@ -1,0 +1,82 @@
+﻿@using HomeStay_MVC.ModelCommon
+@{
+    Layout = null;
+}
+@model HomeStay_MVC.Models.ResetPassword
+@{
+
+
+
+    string root = Common.GetValuesAppSetting("webConfig", "root");
+
+
+
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quên mật khẩu</title>
+    <link rel="icon" type="image/x-icon" href="~/Assets/img/Homestay_logo_no_bg.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="~/css/reset-password/style.css" />
+</head>
+<body>
+    <main class="container">
+        <div class="form-wrapper">
+            <div class="form-left">
+                <img src="~/Assets/img/Homestay_logo.png" alt="Logo Homestay" />
+            </div>
+
+            <div class="form-right">
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-danger" style="color:red; text-align:center; margin-bottom: 10px;">
+                        @ViewBag.Message
+                    </div>
+                }
+                @using (Html.BeginForm())
+                  {
+                   @Html.AntiForgeryToken()
+                   @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+                <div class="reset-password-form">
+                    <h2 class="form-title">Quên mật khẩu</h2>
+
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                            @Html.TextBoxFor(m => m.Users, new { @id = "username", @required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                            @Html.TextBoxFor(m => m.Email, new { @id = "email",@type="email",  @required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="pin">Mã PIN</label>
+                            @Html.PasswordFor(m => m.PIN, new { @id = "pin", @required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-password">Mật khẩu mới</label>
+                            @Html.PasswordFor(m => m.Pass1, new { @id = "new-password", @required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-new-password">Xác nhận mật khẩu mới</label>
+                            @Html.PasswordFor(m => m.Pass2, new { @id = "confirm-new-password", @required = "required" })
+                    </div>
+
+                    <button type="submit" class="submit-btn">Xác nhận</button>
+
+                    <p class="login-link">Quay lại trang <a href="/Login">Đăng nhập</a></p>
+                    <p class="signup-link">Chưa có tài khoản? <a href="/Register">Đăng ký ngay</a></p>
+                </div>
+                }
+            </div>
+        </div>
+    </main>
+</body>
+</html>

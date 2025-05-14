@@ -1,0 +1,76 @@
+﻿@using HomeStay_MVC.ModelCommon
+@{
+    Layout = null;
+}
+@model HomeStay_MVC.Models.LoginModels
+@{
+
+
+
+    string root = Common.GetValuesAppSetting("webConfig", "root");
+
+
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đăng nhập</title>
+    <link rel="icon" type="image/x-icon" href="~/Assets/img/Homestay_logo_no_bg.ico" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="~/css/login/style.css" />
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if (TempData["Success"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: '@Html.Raw(TempData["Success"])',
+                confirmButtonText: 'OK'
+            });
+        </script>
+    }
+    <main class="container">
+        <div class="form-wrapper">
+            <div class="form-left">
+                <img src="~/Assets/img/Homestay_logo.png" alt="Logo Homestay" />
+            </div>
+
+            <div class="form-right">
+                
+                    @using (Html.BeginForm())
+                {
+                    <div class="login-form">
+                    <h2 class="form-title">Đăng nhập</h2>
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        @Html.TextBoxFor(m => m.Users, new { @id = "username", @required = "required"})
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        @Html.PasswordFor(m => m.Pass, new { @id = "password", @required = "required"})
+                    </div>
+
+                    <button type="submit" class="submit-btn">Đăng nhập</button>
+
+                    <p class="forgot-password-link"><a href="/ResetPassword">Quên mật khẩu?</a></p>
+
+                    <p class="signup-link">Chưa có tài khoản? <a href="/Register">Đăng ký ngay</a></p>
+
+                    </div>
+                    }
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,90 @@
+﻿@using HomeStay_MVC.ModelCommon
+@{
+    Layout = null;
+}
+@model HomeStay_MVC.Models.RegisterModel
+@{
+
+
+
+    string root = Common.GetValuesAppSetting("webConfig", "root");
+
+
+
+}
+
+
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr">
+
+<!-- Mirrored from pixinvent.com/bootstrap-admin-template/robust/html/ltr/vertical-menu-template/login-advanced.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 09 Jun 2020 02:20:38 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đăng ký tài khoản</title>
+    <link rel="icon" type="image/x-icon" href="~/Assets/img/Homestay_logo_no_bg.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="~/css/register/style.css" />
+</head>
+<body >
+    
+    <main class="container">
+        <div class="form-wrapper">
+            <div class="form-left">
+                <img src="~/Assets/img/Homestay_logo.png" alt="Logo Homestay" />
+            </div>
+
+            <div class="form-right">
+                @using (Html.BeginForm())
+                  {
+                   @Html.AntiForgeryToken()
+                   @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+
+                <div class="register-form">
+                    <h2 class="form-title">Đăng ký tài khoản</h2>
+
+                    <div class="form-group">
+                        <label for="username">Tên đăng nhập</label>
+                        @Html.TextBoxFor(m => m.Users, new { @id = "username", @required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        @Html.TextBoxFor(m => m.Email, new { @id = "email",Type="email", @required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullname">Họ và tên</label>
+                        @Html.TextBoxFor(m => m.Name, new { @id = "fullname", @required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Số điện thoại</label>
+                            @Html.TextBoxFor(m => m.Phone, new { @id = "phone", @type = "number", @class = "no-spinner",@required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                            @Html.PasswordFor(m => m.Pass1, new { @id = "password", @required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Nhập lại mật khẩu</label>
+                        @Html.PasswordFor(m => m.Pass2, new { @id = "confirm-password", @required = "required" })
+                    </div>
+
+                    <button type="submit" class="submit-btn">Đăng ký</button>
+
+                    <p class="login-link">Bạn đã có tài khoản? <a href="/Login">Đăng nhập</a></p>
+                                            @if (ViewBag.Message != null)
+                                            {
+                            <div class="alert alert-success">@ViewBag.Message</div>
+                                            }
+                </div>
+                }
+            </div>
+        </div>
+    </main>
+</body>
+</html>

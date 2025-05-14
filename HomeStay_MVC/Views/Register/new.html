@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đăng ký tài khoản</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="../../wwwroot/css/register/style.css" />
+</head>
+<body>
+  <main class="container">
+    <div class="form-wrapper">
+      <div class="form-left">
+        <img src="../../wwwroot/Assets/img/Homestay_logo.png" alt="Logo Homestay" />
+      </div>
+
+      <div class="form-right">
+        <form class="register-form" method="post" action="#">
+          <h2 class="form-title">Đăng ký tài khoản</h2>
+
+          <div class="form-group">
+            <label for="username">Tên đăng nhập</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+
+          <div class="form-group">
+            <label for="fullname">Họ và tên</label>
+            <input type="text" id="fullname" name="fullname" required />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Số điện thoại</label>
+            <input type="tel" id="phone" name="phone" required />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-password">Nhập lại mật khẩu</label>
+            <input type="password" id="confirm-password" name="confirm-password" required />
+          </div>
+
+          <button type="submit" class="submit-btn">Đăng ký</button>
+
+          <p class="login-link">Bạn đã có tài khoản? <a href="#">Đăng nhập</a></p>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
