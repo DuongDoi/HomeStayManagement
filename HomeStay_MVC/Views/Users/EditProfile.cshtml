@@ -1,31 +1,46 @@
 ﻿@model HomeStay_MVC.Models.UserInfor
 
-<form asp-action="EditProfile" asp-controller="Users" method="post" enctype="multipart/form-data" style="margin-left:100px;">
-    <div class="form-group">
-        <label for="Name">Họ và tên</label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="Email">Email</label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="PHONE">Số điện thoại</label>
-        <input asp-for="PHONE" class="form-control" />
-        <span asp-validation-for="PHONE" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="CARD_NUMBER">Số CMND</label>
-        <input asp-for="CARD_NUMBER" class="form-control" />
-        <span asp-validation-for="CARD_NUMBER" class="text-danger"></span>
-    </div>
-    @* <div class="form-group"> *@
-    @*     <label for="AVATAR_PATH">Ảnh đại diện</label> *@
-    @*     <input type="file" name="AvatarFile" class="form-control-file" /> *@
-    @* </div> *@
-    <p style="text-align:right; margin-right:20px;">
-    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-    </p>
-</form>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Chỉnh sửa thông tin cá nhân";
+}
+
+<h2 class="text-center mt-4">Chỉnh sửa thông tin cá nhân</h2>
+<div style="margin-left:50px; margin-top: 50px;">
+    @using (Html.BeginForm("EditProfile", "Users", new { username = Model.Users }, FormMethod.Post))
+    {
+        <div style="display: flex; flex-direction:row;">
+            <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+                <div class="form-group">
+                    <label for="Name">Họ và tên</label>
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @id = "Name", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", @id = "Email", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="Phone">Số điện thoại</label>
+                    @Html.TextBoxFor(m => m.PHONE, new { @class = "form-control", @id = "Phone", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="Card_Number">CCCD</label>
+                    @Html.TextBoxFor(m => m.CARD_NUMBER, new {@value = Model.CARD_NUMBER, @class = "form-control", @id = "Card_Number", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="Save_Code">Mã Pin</label>
+                    @Html.PasswordFor(m => m.Save_Code, new { @class = "form-control", @id = "Save_Code", @required = "required" })
+                </div>
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Message</div>
+                }
+
+                <p style="text-align:right; margin-right:40px; margin-top: 50px">
+                    <button type="submit" class="btn btn-success">Lưu</button>
+                    <a href="@Url.Action("Index", "Account")" class="btn btn-danger">Quay lại</a>
+                </p>
+            </div>
+        </div>
+    }
+</div>

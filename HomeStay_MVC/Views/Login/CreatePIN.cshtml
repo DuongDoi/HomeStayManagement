@@ -1,0 +1,68 @@
+﻿@using HomeStay_MVC.ModelCommon
+@{
+    Layout = null;
+}
+@model HomeStay_MVC.Models.CreatePIN
+@{
+
+
+
+    string root = Common.GetValuesAppSetting("webConfig", "root");
+
+
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tạo mã PIN</title>
+    <link rel="icon" type="image/x-icon" href="~/Assets/img/Homestay_logo_no_bg.ico" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" />
+    <link rel="stylesheet" href="~/css/login/style.css" />
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <main class="container">
+        <div class="form-wrapper">
+            <div class="form-left">
+                <img src="~/Assets/img/Homestay_logo.png" alt="Logo Homestay" />
+            </div>
+
+            <div class="form-right">
+
+                @using (Html.BeginForm())
+                {
+                    <div class="login-form">
+                        <h2 class="form-title">Tạo mã PIN</h2>
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+                        @Html.HiddenFor(m => m.Users)
+                        <div class="form-group">
+                            <label for="PIN1">Mã PIN</label>
+                            @Html.PasswordFor(m => m.PIN1, new { @id = "PIN1", @required = "required", maxlength = "8"})
+                        </div>
+
+                        <div class="form-group">
+                            <label for="PIN2">Nhập lại mã PIN</label>
+                            @Html.PasswordFor(m => m.PIN2, new { @id = "PIN2", @required = "required", maxlength = "8"})
+                        </div>
+                        <p>*mã PIN là bắt buộc để lấy lại mật khẩu và thực hiện các chức năng hệ thống</p>
+                        <button type="submit" class="submit-btn">Xác nhận</button>
+                        <p class="forgot-password-link"><a href="/Login">Quay lại Đăng nhập</a></p>
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Message</div>
+                        }
+
+                    </div>
+                }
+            </div>
+        </div>
+    </main>
+</body>
+</html>

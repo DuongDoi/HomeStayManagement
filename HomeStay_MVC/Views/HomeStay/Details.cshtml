@@ -1,0 +1,55 @@
+﻿@model HomeStay_MVC.Models.HomestaysObj
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Thông tin cơ sở";
+}
+<h2 class="text-center mt-4">Thông tin cơ sở</h2>
+<div style="margin-left:50px; margin-top: 50px;">
+    <div style="display: flex; flex-direction:row;">
+        <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+            <div class="form-group">
+                <label for="id">Mã số</label>
+                <input id="id" type="text" class="form-control" value="@Model.id" readonly />
+            </div>
+            <div class="form-group">
+                <label for="HOMESTAYS_NAME">Tên cơ sở</label>
+                <input id="HOMESTAYS_NAME" type="text" class="form-control" value="@Model.HOMESTAYS_NAME" readonly />
+            </div>
+            <div class="form-group">
+                <label for="HOMESTAYS_ADDRESS">Địa chỉ cơ sở</label>
+                <input id="HOMESTAYS_ADDRESS" type="email" class="form-control" value="@Model.HOMESTAYS_ADDRESS" readonly />
+            </div>
+            <div class="form-group">
+                <label for="HOMESTAY_DESCRIPTION">Mô tả</label>
+                <input id="HOMESTAY_DESCRIPTION" type="text" class="form-control" value="@Model.HOMESTAY_DESCRIPTION" readonly />
+            </div>
+            <div class="form-group">
+                <label for="CREATE_AT">Ngày tạo</label>
+                <input id="CREATE_AT" type="text" class="form-control" value="@Model.CREATE_AT" readonly />
+            </div>
+        </div>
+        <div style="flex:1; margin-left: 30px;margin-right: 30px;">
+            <div class="form-group">
+                <label for="MANAGER_NAME">Tên quản lý</label>
+                <input id="MANAGER_NAME" type="text" class="form-control" value="@Model.MANAGER_NAME" readonly />
+            </div>
+            <div class="form-group">
+                <label for="MANAGER_PHONE">Điện thoại liên hệ</label>
+                <input id="MANAGER_PHONE" type="text" class="form-control" value="@Model.MANAGER_PHONE" readonly />
+            </div>
+            <div class="form-group">
+                <label for="MANAGER_CARD_NUMBER">Số định danh quản lý</label>
+                <input id="MANAGER_CARD_NUMBER" type="text" class="form-control" value="@Model.MANAGER_CARD_NUMBER" readonly />
+            </div>
+            <div class="form-group">
+                <label for="UPDATE_AT">Ngày sửa đổi</label>
+                <input id="UPDATE_AT" type="text" class="form-control" value="@Model.UPDATE_AT" readonly />
+            </div>
+            <p style="text-align:right; margin-right:40px; margin-top: 50px">
+                <a href="@Url.Action("Index", "HomeStay")" class="btn btn-danger">Quay lại</a>
+            </p>
+        </div>
+   </div>
+</div>
+

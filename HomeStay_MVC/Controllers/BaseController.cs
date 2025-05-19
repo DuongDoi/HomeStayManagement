@@ -19,8 +19,12 @@ namespace HomeStay_MVC.Controllers
             HttpContext.Session.SetString("AuthID", authId);
             HttpContext.Session.SetString("User", _obj.Users ?? "");
             HttpContext.Session.SetString("Pass", _obj.Pass ?? "");
+            HttpContext.Session.SetString("Name", _obj.Name ?? "");
             HttpContext.Session.SetString("Email", _obj.Email ?? "");
             HttpContext.Session.SetString("Save_Code", _obj.Save_Code ?? "");
+            HttpContext.Session.SetString("CARD_NUMBER", _obj.CARD_NUMBER ?? "");
+            HttpContext.Session.SetString("PHONE", _obj.PHONE ?? "");
+            HttpContext.Session.SetString("AVATAR_PATH", _obj.AVATAR_PATH ?? "");
             HttpContext.Session.SetString("Role", _obj.Role ?? "");
             HttpContext.Session.SetString("IsLock", _obj.IsLock ?? "");
             HttpContext.Session.SetString("Is_First_Login", _obj.Is_First_Login ?? "");
@@ -63,6 +67,13 @@ namespace HomeStay_MVC.Controllers
                 rng.GetBytes(tokenData);
                 return Convert.ToBase64String(tokenData);
             }
+        }
+
+        protected bool checkPIN(string _save_code)
+        {
+            var PIN = HttpContext.Session.GetString("Save_Code");
+            if (_save_code == PIN) return true;
+            return false;
         }
 
 

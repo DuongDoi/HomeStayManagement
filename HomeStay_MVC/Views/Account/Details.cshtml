@@ -4,50 +4,49 @@
     Layout = "_Layout";
     ViewData["Title"] = "Thông tin người dùng";
 }
-
-<div style="margin-left:100px;">
-    <div class="form-group">
-        <label for="Name">Họ và tên</label>
-        <input id="Name" type="text" class="form-control" value="@Model.Name" readonly />
-    </div>
-    <div class="form-group">
-        <label for="Email">Email</label>
-        <input id="Email" type="email" class="form-control" value="@Model.Email" readonly />
-    </div>
-    <div class="form-group">
-        <label for="PHONE">Số điện thoại</label>
-        <input id="PHONE" type="text" class="form-control" value="@Model.Phone" readonly />
-    </div>
-    <div class="form-group">
-        <label for="CARD_NUMBER">CCCD</label>
-        <input id="CARD_NUMBER" type="text" class="form-control" value="@Model.Card_Number" readonly />
-    </div>
-    <div class="form-group">
-        <label for="Create_By">Người tạo</label>
-        <input id="Create_By" type="text" class="form-control" value="@Model.Create_By" readonly />
-    </div>
-    <div class="form-group">
-        <label for="Homestays_Id">Cơ sở Homestay làm việc</label>
-        <input id="Homestays_Id" type="text" class="form-control" value="@Model.Homestays_Id" readonly />
-    </div>
-    <div class="form-group">
-        <label for="IsLock">Trạng thái tài khoản</label>
-        <input id="IsLock" type="text" class="form-control" value="@Model.IsLock" readonly />
-    </div>
-    <div class="form-group">
-        <label for="Create_At">Ngày tạo</label>
-        <input id="Create_At" type="text" class="form-control" value="@Model.Create_At" readonly />
-    </div>
-    <div class="form-group">
-        <label for="Update_At">Ngày sửa đổi</label>
-        <input id="Update_At" type="text" class="form-control" value="@Model.Update_At" readonly />
-    </div>
-
-
-    <form asp-action="Edit" asp-controller="Account" method="get">
-        <p style="text-align:right; margin-right:20px;">
-            <button type="submit" class="btn btn-success">Chỉnh sửa thông tin</button>
-        </p>
-    </form>
+<h2 class="text-center mt-4">Thông tin người dùng</h2>
+<div style="margin-left:50px; margin-top: 50px;">
+    <div style="display: flex; flex-direction:row;">
+        <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+            <div class="form-group">
+                <label for="Name">Họ và tên</label>
+                <input id="Name" type="text" class="form-control" value="@Model.Name" readonly />
+            </div>
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input id="Email" type="email" class="form-control" value="@Model.Email" readonly />
+            </div>
+            <div class="form-group">
+                <label for="PHONE">Số điện thoại</label>
+                <input id="PHONE" type="text" class="form-control" value="@Model.Phone" readonly />
+            </div>
+            <div class="form-group">
+                <label for="CARD_NUMBER">CCCD</label>
+                <input id="CARD_NUMBER" type="text" class="form-control" value="@Model.Card_Number" readonly />
+            </div>
+            <div class="form-group">
+                <label for="Create_By">Người tạo</label>
+                <input id="Create_By" type="text" class="form-control" value="@Model.Create_By" readonly />
+            </div>
+        </div>
+        <div style="flex:1; margin-left: 30px;margin-right: 30px;">
+            <div class="form-group">
+                <label for="Homestays_Id">Cơ sở Homestay làm việc</label>
+                <input id="Homestays_Id" type="text" class="form-control" value="@Model.Homestays_Id" readonly />
+            </div>
+            <div class="form-group">
+                <label for="IsLock">Trạng thái tài khoản</label>
+                <input id="IsLock" type="text" class="form-control" value="@Model.IsLock" readonly />
+            </div>
+            <div class="form-group">
+                <label for="Create_At">Ngày tạo</label>
+                <input id="Create_At" type="text" class="form-control" value="@Model.Create_At" readonly />
+            </div>
+            <div class="form-group">
+                <label for="Update_At">Ngày sửa đổi</label>
+                <input id="Update_At" type="text" class="form-control" value="@Model.Update_At" readonly />
+            </div>
+        </div>
+   </div>
 </div>
 

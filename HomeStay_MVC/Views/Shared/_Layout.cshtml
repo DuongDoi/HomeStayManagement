@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@{
+    var role = Context.Session.GetString("Role");
+    if (role == "manager") role = "Quản lí";
+    var user_name = Context.Session.GetString("Name");
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,10 +37,11 @@
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i>@(string.IsNullOrEmpty(user_name) ? "Không xác định" : user_name)</a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Thông tin cá nhân</a></li>
-                    <li><a class="dropdown-item" href="#!">Đổi mật khẩu</a></li>
+                    <li><a class="dropdown-item" asp-controller="Users" asp-action="Profile">Thông tin cá nhân</a></li>
+                    <li><a class="dropdown-item" asp-controller="Users" asp-action="ChangePass">Đổi mật khẩu</a></li
+                    <li><a class="dropdown-item" asp-controller="Users" asp-action="ChangePIN">Đổi mã PIN</a></li>
                     <li><hr class="dropdown-divider" /></li>
                     <li><a class="dropdown-item" asp-controller="Logout" asp-action="Logout">Đăng xuất</a></li>
                 </ul>
@@ -76,15 +83,15 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                             Quản lý khách hàng
                         </a>
-                        <a class="nav-link" asp-controller="Service" asp-action="Index">
+                        <a class="nav-link" asp-controller="Services" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell"></i></div>
                             Quản lý dịch vụ
                         </a>
-                        <a class="nav-link" asp-controller="Food" asp-action="Index">
+                        <a class="nav-link" asp-controller="Foods" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-utensils"></i></div>
                             Quản lý đồ ăn & nước uống
                         </a>
-                        <a class="nav-link" asp-controller="Bill" asp-action="Index">
+                        <a class="nav-link" asp-controller="Bills" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar"></i></div>
                             Quản lý hóa đơn
                         </a>
@@ -101,12 +108,8 @@
 
                     </div>
                 </div>
-                @using Microsoft.AspNetCore.Http
+                
                 <div class="sb-sidenav-footer">
-                    @{
-                        var role = Context.Session.GetString("Role");
-                        if (role == "manager") role = "Quản lí";
-                    }
                     <p>Vai trò: @(string.IsNullOrEmpty(role) ? "Không xác định" : role)</p>
                 </div>
                 </nav>

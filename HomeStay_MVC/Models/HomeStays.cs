@@ -33,6 +33,8 @@ namespace HomeStay_MVC.Models
         public DateTime? CREATE_AT { get; set; }
         [JsonProperty("UPDATE_AT")]
         public DateTime? UPDATE_AT { get; set; }
+        [JsonProperty("Save_code")]
+        public string? Save_code { get; set; }
 
 
 

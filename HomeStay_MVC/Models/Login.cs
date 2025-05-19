@@ -1,4 +1,6 @@
-﻿namespace HomeStay_MVC.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HomeStay_MVC.Models
 {
     public class LoginModels
     {

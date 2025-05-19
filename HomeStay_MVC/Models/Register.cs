@@ -1,4 +1,6 @@
-﻿namespace HomeStay_MVC.Models
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace HomeStay_MVC.Models
 {
     public class RegisterModel
     {
@@ -8,5 +10,7 @@
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
+        public string? role { get; set; }
+        public IEnumerable<SelectListItem>? RoleOptions { get; set; }
     }
 }

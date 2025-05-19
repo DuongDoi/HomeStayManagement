@@ -240,3 +240,4 @@ D:\DATN\test\HOMESTAY_MVC\HomeStay_MVC\bin\Debug\net8.0\Microsoft.Extensions.Log
 D:\DATN\test\HOMESTAY_MVC\HomeStay_MVC\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 D:\DATN\test\HOMESTAY_MVC\HomeStay_MVC\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll
 D:\DATN\test\HOMESTAY_MVC\HomeStay_MVC\bin\Debug\net8.0\System.Diagnostics.DiagnosticSource.dll
+D:\DATN\test\HOMESTAY_MVC\HomeStay_MVC\obj\Debug\net8.0\HomeStay_MVC.sourcelink.json

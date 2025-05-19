@@ -14,9 +14,4 @@
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.8.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Food\" />
-    <Folder Include="Views\Service\" />
-  </ItemGroup>
-
 </Project>

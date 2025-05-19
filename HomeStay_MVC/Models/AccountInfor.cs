@@ -2,7 +2,7 @@
 
 namespace HomeStay_MVC.Models
 {
-     class AccountInfor
+    public class AccountInfor
     {
         
          public string Id { get; set; }
