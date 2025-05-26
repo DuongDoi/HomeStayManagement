@@ -20,9 +20,23 @@
             TempData["Success"] = null;
         }
     </script>
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('imgPreview');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 }
 <h2 class="text-center mt-4">Thông tin cá nhân</h2>
 <div style="margin-left:100px;">
+    @* <div class="form-group"> *@
+    @*     <img id="imgPreview" src="~/images/@Model.AVATAR_PATH" style="max-width: 150px;" /> *@
+    @*     <input type="file" name="AvatarFile" class="form-control" onchange="previewImage(event)" /> *@
+    @* </div> *@
     <div class="form-group">
         <label for="Name">Họ và tên</label>
         <input id="Name" type="text" class="form-control" value="@Model.Name" readonly />

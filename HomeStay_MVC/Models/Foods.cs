@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace HomeStay_MVC.Models
 {
-    public class Foods
+    public class FOODS
     {
         [JsonProperty("ID")]
         public string ID { get; set; }
@@ -27,5 +28,7 @@ namespace HomeStay_MVC.Models
 
         [JsonProperty("UPDATE_AT")]
         public DateTime? UPDATE_AT { get; set; }
+        public List<SelectListItem>? TypeOptions { get; set; }
+        public string Save_code { get; set; }
     }
 }

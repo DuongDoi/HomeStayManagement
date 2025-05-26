@@ -12,5 +12,7 @@ namespace HomeStay_MVC.Models
         public string Name { get; set; }
         public string? role { get; set; }
         public IEnumerable<SelectListItem>? RoleOptions { get; set; }
+        public List<SelectListItem> HomeStayOptions { get; set; } = new List<SelectListItem>();
+        public string HOMESTAYS_ID { get; set; }
     }
 }

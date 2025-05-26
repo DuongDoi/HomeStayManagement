@@ -25,5 +25,6 @@ namespace HomeStay_MVC.Models
 
         [JsonProperty("UPDATE_AT")]
         public DateTime? UPDATE_AT { get; set; }
+        public string Save_code { get; set; }
     }
 }

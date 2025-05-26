@@ -4,7 +4,7 @@ using HomeStay_MVC.Models;
 
 namespace HomeStay_MVC.Controllers;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
     private readonly ILogger<HomeController> _logger;
 
@@ -15,6 +15,10 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        if (!CheckAuthToken())
+        {
+            return RedirectToAction("Index", "Login");
+        }
         return View();
     }
 

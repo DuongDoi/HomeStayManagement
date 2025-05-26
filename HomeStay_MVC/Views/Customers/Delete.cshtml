@@ -1,12 +1,12 @@
-﻿@model HomeStay_MVC.Models.AccountInfor
+﻿@model HomeStay_MVC.Models.Customers
 
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Xóa tài khoản";
+    ViewData["Title"] = "Xóa khách hàng";
 }
-<h2 class="text-center mt-4">Xóa tài khoản</h2>
+<h2 class="text-center mt-4">Xóa khách hàng</h2>
 <div style="margin-left:50px; margin-top: 50px;">
-    @using (Html.BeginForm("Delete", "Account", new { username = Model.Users }, FormMethod.Post))
+    @using (Html.BeginForm("Delete", "Customers", new { id = Model.ID }, FormMethod.Post))
     {
         <div style="display: flex; flex-direction:row;">
             <div style="flex:1;margin-left: 30px;margin-right: 30px;">
@@ -20,8 +20,8 @@
                 }
 
                 <p style="text-align:right; margin-right:40px; margin-top: 50px">
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?')">Xác nhận</button>
-                    <a href="@Url.Action("Index", "Account")" class="btn btn-success">Quay lại</a>
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này?')">Xác nhận</button>
+                    <a href="@Url.Action("Index", "Customers")" class="btn btn-success">Quay lại</a>
                 </p>
             </div>
         </div>

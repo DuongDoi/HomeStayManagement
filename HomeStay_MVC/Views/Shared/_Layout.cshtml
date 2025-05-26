@@ -20,9 +20,9 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-secondary">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary bg-gradient"> <!-- Navbar đổi thành gradient xanh biển -->
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="#">
+        <a class="navbar-brand ps-3" asp-controller="AdminHome" asp-action="Index">
             <img src="~/Assets/img/Homestay_logo_no_bg.png" alt="Logo Homestay" class="img-fluid" style="max-height: 100px;" />
         </a>
         <!-- Sidebar Toggle-->
@@ -31,7 +31,7 @@
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div class="input-group">
                 <input class="form-control" type="text" placeholder="Tìm kiếm nhanh..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                <button class="btn btn-warning" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button> <!-- Nút tìm kiếm màu cam nổi bật -->
             </div>
         </form>
         <!-- Navbar-->
@@ -50,7 +50,7 @@
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <nav class="sb-sidenav accordion" id="sidenavAccordion" style="background-color: #2c3e50;"> <!-- Sidebar màu tối hiện đại -->
                 <div class="sb-sidenav-menu">
                     <div class="nav">
 
@@ -60,60 +60,55 @@
                         @*     Trang chủ *@
                         @* </a> *@
 
-                        <div class="sb-sidenav-menu-heading">Tài khoản</div>
-                        <a class="nav-link" asp-controller="Account" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-user-cog"></i></div>
+                        <div class="sb-sidenav-menu-heading text-light">Tài khoản</div>
+                        <a class="nav-link text-light" asp-controller="Account" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-cog text-warning"></i></div>
                             Quản lý tài khoản
                         </a>
-                        @* <a class="nav-link" href="/Role/Index"> *@
-                        @*     <div class="sb-nav-link-icon"><i class="fas fa-user-tag"></i></div> *@
-                        @*     Quản lý phân quyền *@
-                        @* </a> *@
 
-                        <div class="sb-sidenav-menu-heading">Quản lý</div>
-                        <a class="nav-link" asp-controller="HomeStay" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-person-shelter"></i></div>
+                        <div class="sb-sidenav-menu-heading text-light">Quản lý</div>
+                        <a class="nav-link text-light" asp-controller="HomeStay" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-person-shelter text-info"></i></div>
                             Quản lý cơ sở
                         </a>
-                        <a class="nav-link" asp-controller="Rooms" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-door-open"></i></div>
+                        <a class="nav-link text-light" asp-controller="Rooms" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-door-open text-success"></i></div>
                             Quản lý phòng
                         </a>
-                        <a class="nav-link" asp-controller="Customers" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        <a class="nav-link text-light" asp-controller="Customers" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users text-primary"></i></div>
                             Quản lý khách hàng
                         </a>
-                        <a class="nav-link" asp-controller="Services" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell"></i></div>
+                        <a class="nav-link text-light" asp-controller="Services" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell text-danger"></i></div>
                             Quản lý dịch vụ
                         </a>
-                        <a class="nav-link" asp-controller="Foods" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-utensils"></i></div>
+                        <a class="nav-link text-light" asp-controller="Foods" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-utensils text-warning"></i></div>
                             Quản lý đồ ăn & nước uống
                         </a>
-                        <a class="nav-link" asp-controller="Bills" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <a class="nav-link text-light" asp-controller="Bills" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar text-light"></i></div>
                             Quản lý hóa đơn
                         </a>
 
-                        <div class="sb-sidenav-menu-heading">Khác</div>
-                        <a class="nav-link" href="/Statistics/Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-bar"></i></div>
+                        @*<div class="sb-sidenav-menu-heading text-light">Khác</div>
+                        <a class="nav-link text-light" href="/Statistics/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-bar text-info"></i></div>
                             Thống kê - Báo cáo
                         </a>
-                        <a class="nav-link" href="/Settings/Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-cogs"></i></div>
+                        <a class="nav-link text-light" href="/Settings/Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-cogs text-success"></i></div>
                             Cài đặt hệ thống
-                        </a>
-
+                        </a> *@
                     </div>
                 </div>
-                
-                <div class="sb-sidenav-footer">
+
+                <div class="sb-sidenav-footer text-light" style="background-color: #1a252f;">
                     <p>Vai trò: @(string.IsNullOrEmpty(role) ? "Không xác định" : role)</p>
                 </div>
-                </nav>
-            </div>
+            </nav>
+        </div>
 
             <div id="layoutSidenav_content">
                 <main role="main" class="pb-3">

@@ -2,6 +2,7 @@
 {
     public class UserInfor
     {
+        public string ID { get; set; }
         public string Users { get; set; }
         public string Pass { get; set; }
         public string Email { get; set; }

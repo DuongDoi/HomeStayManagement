@@ -17,6 +17,7 @@ namespace HomeStay_MVC.Controllers
 
             // Lưu vào session (với giá trị null thì thay bằng chuỗi rỗng)
             HttpContext.Session.SetString("AuthID", authId);
+            HttpContext.Session.SetString("ID", _obj.ID ?? "");
             HttpContext.Session.SetString("User", _obj.Users ?? "");
             HttpContext.Session.SetString("Pass", _obj.Pass ?? "");
             HttpContext.Session.SetString("Name", _obj.Name ?? "");

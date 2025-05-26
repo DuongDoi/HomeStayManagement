@@ -1,5 +1,6 @@
 ﻿using HomeStay_MVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ResfullApi.Models;
 using System.Data;
 
@@ -17,14 +18,14 @@ namespace HomeStay_MVC.Controllers
                 return RedirectToAction("Index", "Login");
             }
             logger.Info("New request income select All Food :");
-            string food_name = "0";
+            string food_id = "0";
             string user_id = "0";
             string v_type = "0";
-            DataSet ds = DataAccess.FOODS_GET_LIST(food_name, user_id, v_type);
-            List<Foods> foods = new List<Foods>();
+            DataSet ds = DataAccess.FOODS_GET_LIST(food_id, user_id, v_type);
+            List<FOODS> foods = new List<FOODS>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                Foods _obj = new Foods();
+                FOODS _obj = new FOODS();
                 _obj.ID = dr["ID"].ToString();
                 _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
                 _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
@@ -47,5 +48,220 @@ namespace HomeStay_MVC.Controllers
             logger.Info("Pro Food Select All success.");
             return View(foods);
         }
+
+
+        public IActionResult Details(string id)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var userID = HttpContext.Session.GetString("ID");
+            DataSet ds = DataAccess.FOODS_GET_LIST(id, userID, "1");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                DataRow dr = ds.Tables[0].Rows[0];
+                FOODS _obj = new FOODS();
+                _obj.ID = dr["ID"].ToString();
+                _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
+                _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
+                var food_type = dr["FOODS_TYPE"].ToString();
+                if (food_type == "FOOD")
+                    _obj.FOODS_TYPE = "Đồ ăn";
+                else
+                    _obj.FOODS_TYPE = "Đồ uống";
+                _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+                _obj.USERS = dr["NAME"].ToString();
+                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                catch { }
+                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                catch { }
+
+                return View(_obj);
+            }
+            return RedirectToAction("Index", "Foods");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var userID = HttpContext.Session.GetString("ID");
+            DataSet ds = DataAccess.FOODS_GET_LIST(id, userID, "1");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                DataRow dr = ds.Tables[0].Rows[0];
+                FOODS _obj = new FOODS();
+                _obj.ID = dr["ID"].ToString();
+                _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
+                _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
+                var food_type = dr["FOODS_TYPE"].ToString();
+                if (food_type == "FOOD")
+                    _obj.FOODS_TYPE = "Đồ ăn";
+                else
+                    _obj.FOODS_TYPE = "Đồ uống";
+                _obj.TypeOptions = new List<SelectListItem>{
+                    new SelectListItem { Text = "Đồ ăn", Value = "FOOD" },
+                    new SelectListItem { Text = "Đồ uống", Value = "DRINK" }
+                };
+                _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+                _obj.USERS = dr["NAME"].ToString();
+                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                catch { }
+                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                catch { }
+
+                return View(_obj);
+            }
+            return RedirectToAction("Index", "Foods");
+        }
+
+        [HttpPost]
+        public IActionResult Edit(string id, FOODS model)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (!checkPIN(model.Save_code))
+            {
+                ViewBag.Message = "Sai mã PIN";
+                return View(model);
+            }
+
+
+
+            ResponseObjs _obj = new ResponseObjs();
+            _obj.errCode = "-1";
+            _obj.errMsgs = "unknow!";
+            var userID = HttpContext.Session.GetString("ID");
+            try
+            {
+                DataSet ds = DataAccess.FOODS_UPDATE(id,model.FOODS_NAME, model.FOODS_PRICE,model.FOODS_TYPE, userID, "1");
+                string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+                string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
+                _obj.errCode = errrCode;
+                _obj.errMsgs = errrMsg;
+            }
+            catch (HttpRequestException ex)
+            {
+                ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
+            }
+            if (_obj.errCode == "0")
+            {
+                TempData["Success"] = "Cập nhật thông tin thành công.";
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ViewBag.Message = _obj.errMsgs;
+                return View(model);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var obj = new FOODS();
+            obj.ID = id;
+            return View(obj);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(string id, FOODS model)
+        {
+            if (!CheckAuthToken())
+                return RedirectToAction("Index", "Login");
+
+            if (!checkPIN(model.Save_code))
+            {
+                ViewBag.Message = "Mã PIN không chính xác.";
+                return View(model);
+            }
+            var userID = HttpContext.Session.GetString("ID");
+            DataSet ds = DataAccess.FOODS_UPDATE(id, "", "","", userID, "2"); ;
+            var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+
+            if (errCode == "0")
+            {
+                TempData["Success"] = "Xóa món thành công.";
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Message = "Không thể xóa món.";
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            FOODS model = new FOODS();
+            model.TypeOptions = new List<SelectListItem>{
+                    new SelectListItem { Text = "Đồ ăn", Value = "FOOD" },
+                    new SelectListItem { Text = "Đồ uống", Value = "DRINK" }
+                };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Add(FOODS model)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            var userID = HttpContext.Session.GetString("ID");
+            ResponseObjs _obj = new ResponseObjs();
+            _obj.errCode = "-1";
+            _obj.errMsgs = "Thêm mới thất bại!";
+            try
+            {
+                DataSet ds = DataAccess.FOODS_INSERT(model.FOODS_NAME, model.FOODS_PRICE,model.FOODS_TYPE, userID);
+                string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+                string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
+                _obj.errCode = errrCode;
+                _obj.errMsgs = errrMsg;
+            }
+            catch (HttpRequestException ex)
+            {
+                ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
+            }
+            if (_obj.errCode == "0")
+            {
+                TempData["Success"] = "Thêm mới thành công.";
+                return RedirectToAction("Index", "Foods");
+            }
+            else
+            {
+                ViewBag.Message = _obj.errMsgs;
+                return View(model);
+            }
+        }
+
+
     }
 }

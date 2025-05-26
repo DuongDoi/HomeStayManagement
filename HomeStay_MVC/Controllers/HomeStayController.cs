@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using ResfullApi.Models;
 using HomeStay_MVC.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HomeStay_MVC.Controllers
 {
@@ -216,6 +217,56 @@ namespace HomeStay_MVC.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult Add()
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Add(HomestaysObj model)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+                var userID = HttpContext.Session.GetString("ID");
+                ResponseObjs _obj = new ResponseObjs();
+                _obj.errCode = "-1";
+                _obj.errMsgs = "Thêm mới thất bại!";
+                try
+                {
+                    //var role = model.role;
+                    DataSet ds = DataAccess.HOMESTAYS_INSERT(model.HOMESTAYS_NAME, model.MANAGER_CARD_NUMBER, model.HOMESTAYS_ADDRESS, model.HOMESTAY_DESCRIPTION, model.MANAGER_NAME, model.MANAGER_PHONE, userID);
+                    string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+                    string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
+                    _obj.errCode = errrCode;
+                    _obj.errMsgs = errrMsg;
+                }
+                catch (HttpRequestException ex)
+                {
+                    ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
+                }
+                if (_obj.errCode != "-1")
+                {
+                    TempData["Success"] = "Thêm mới thành công.";
+                    return RedirectToAction("Index", "HomeStay");
+                }
+                else
+                {
+                    ViewBag.Message = "Thêm mới thất bại!";
+                    return View(model);
+                }
+        }
 
 
 

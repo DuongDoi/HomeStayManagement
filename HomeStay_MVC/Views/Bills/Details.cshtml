@@ -1,0 +1,47 @@
+﻿@model HomeStay_MVC.Models.FOODS
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Thông tin dịch vụ";
+}
+<h2 class="text-center mt-4">Thông tin dịch vụ</h2>
+<div style="margin-left:50px; margin-top: 50px;">
+    <div style="display: flex; flex-direction:row;">
+        <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+            <div class="form-group">
+                <label for="id">Mã số</label>
+                <input id="id" type="text" class="form-control" value="@Model.ID" readonly />
+            </div>
+            <div class="form-group">
+                <label for="FOODS_NAME">Tên món</label>
+                <input id="FOODS_NAME" type="text" class="form-control" value="@Model.FOODS_NAME" readonly />
+            </div>
+            <div class="form-group">
+                <label for="FOODS_PRICE">Giá món</label>
+                <input id="FOODS_PRICE" class="form-control" value="@Model.FOODS_PRICE" readonly />
+            </div>
+            <div class="form-group">
+                <label for="FOODS_TYPE">Phân loại</label>
+                <input id="FOODS_TYPE" type="text" class="form-control" value="@Model.FOODS_TYPE" readonly />
+            </div>
+        </div>
+        <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+            <div class="form-group">
+                <label for="USERS">Người tạo</label>
+                <input id="USERS" type="text" class="form-control" value="@Model.USERS" readonly />
+            </div>
+            <div class="form-group">
+                <label for="CREATE_AT">Ngày tạo</label>
+                <input id="CREATE_AT" type="text" class="form-control" value="@Model.CREATE_AT" readonly />
+            </div>
+            <div class="form-group">
+                <label for="UPDATE_AT">Ngày sửa đổi</label>
+                <input id="UPDATE_AT" type="text" class="form-control" value="@Model.UPDATE_AT" readonly />
+            </div>
+            <p style="text-align:right; margin-right:40px; margin-top: 50px">
+                <a href="@Url.Action("Index", "FOODS")" class="btn btn-danger">Quay lại</a>
+            </p>
+        </div>
+   </div>
+</div>
+

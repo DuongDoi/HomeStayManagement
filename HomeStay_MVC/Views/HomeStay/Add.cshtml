@@ -1,4 +1,4 @@
-﻿@model HomeStay_MVC.Models.RegisterModel
+﻿@model HomeStay_MVC.Models.HomestaysObj
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Thêm cơ sở mới";
@@ -6,26 +6,23 @@
 
 <h2 class="text-center mt-4">Thêm cơ sở mới</h2>
 <div style="margin-left:50px; margin-top: 50px;">
-    @using (Html.BeginForm("Add", "Account", FormMethod.Post))
+    @using (Html.BeginForm("Add", "HomeStay", FormMethod.Post))
     {
         <div style="display: flex; flex-direction:row;">
             <div style="flex:1;margin-left: 30px;margin-right: 30px;">
                 <div class="form-group">
-                    <label for="Users">Tên đăng nhập</label>
-                    @Html.TextBoxFor(m => m.Users, new { @class = "form-control", @id = "Users", @required = "required" })
+                    <label for="HOMESTAYS_NAME">Tên cở sở</label>
+                    @Html.TextBoxFor(m => m.HOMESTAYS_NAME, new { @class = "form-control", @id = "HOMESTAYS_NAME", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="Pass1">Mật khẩu</label>
-                    @Html.PasswordFor(m => m.Pass1, new { @class = "form-control", @id = "Pass1", @required = "required" })
+                    <label for="HOMESTAYS_ADDRESS">Địa chỉ cơ sở</label>
+                    @Html.TextBoxFor(m => m.HOMESTAYS_ADDRESS, new { @class = "form-control", @id = "HOMESTAYS_ADDRESS", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="Pass2">Nhập lại mật khẩu</label>
-                    @Html.PasswordFor(m => m.Pass2, new { @class = "form-control", @id = "Pass2", @required = "required" })
+                    <label for="HOMESTAY_DESCRIPTION">Mô tả về cơ sở</label>
+                    @Html.TextBoxFor(m => m.HOMESTAY_DESCRIPTION, new { @class = "form-control", @id = "HOMESTAY_DESCRIPTION", @required = "required" })
                 </div>
-                <div class="form-group">
-                    <label for="Email">Email</label>
-                    @Html.PasswordFor(m => m.Email, new { @class = "form-control", @id = "Email", @required = "required" })
-                </div>
+                
                 @if (ViewBag.Message != null)
                 {
                     <div class="alert alert-danger">@ViewBag.Message</div>
@@ -33,19 +30,20 @@
             </div>
             <div style="flex:1; margin-left: 30px;margin-right: 30px;">
                 <div class="form-group">
-                    <label for="Phone">Số điện thoại</label>
-                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @id = "Phone", @required = "required" })
+                    <label for="MANAGER_NAME">Tên quản lý</label>
+                    @Html.TextBoxFor(m => m.MANAGER_NAME, new { @class = "form-control", @id = "MANAGER_NAME", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="Name">Họ tên</label>
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @id = "Name", @required = "required" })
+                    <label for="MANAGER_PHONE">Số điện thoại quản lý</label>
+                    @Html.TextBoxFor(m => m.MANAGER_PHONE, new { @class = "form-control", @id = "MANAGER_PHONE", @required = "required" })
                 </div>
-                <label for="role">Loại tài khoản</label>
-                @Html.DropDownListFor(m => m.role, Model.RoleOptions, new { @class = "form-control", @id = "role", required = "required" })
-
+                <div class="form-group">
+                    <label for="MANAGER_CARD_NUMBER">Số định danh quản lý</label>
+                    @Html.TextBoxFor(m => m.MANAGER_CARD_NUMBER, new { @class = "form-control", @id = "MANAGER_CARD_NUMBER", @required = "required" })
+                </div>
                 <p style="text-align:right; margin-right:40px; margin-top: 50px">
                     <button type="submit" class="btn btn-success">Thêm</button>
-                    <a href="@Url.Action("Index", "Account")" class="btn btn-danger">Hủy</a>
+                    <a href="@Url.Action("Index", "HomeStay")" class="btn btn-danger">Hủy</a>
                 </p>
             </div>
         </div>

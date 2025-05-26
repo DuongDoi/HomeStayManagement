@@ -1,7 +1,30 @@
 ﻿@{
-    Layout = "_Layout";
-    ViewData["Title"] = "Home Page";
+    Layout = "_Layout_Manager";
+    ViewData["Title"] = "Trang chủ";
+}
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công!',
+                            text: '@Html.Raw(TempData["Success"])',
+                            confirmButtonText: 'OK'
+                        });
+            </text>
+            TempData["Success"] = null;
+        }
+    </script>
 }
 
-<h2>Trang thử nghiệm Layout</h2>
-<p>Nội dung nằm trong phần Content.</p>
+<div style="background: linear-gradient(135deg, #f5af19, #f12711); border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); padding: 20px; margin: 20px auto;">
+    <h1 style="color: #ffffff; font-size: 36px; text-align: center; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+        Xin chào bạn<br>Chào mừng bạn đến với hệ thống quản lý HomeStay
+    </h1>
+    <h2 style="color: #ffffff; font-size: 28px; text-align: center; font-style: italic; text-shadow: 1px 1px 3px rgba(0,0,0,0.4); margin-top: 20px;">
+        Chúng tôi có thể giúp gì cho bạn ^.^
+    </h2>
+</div>

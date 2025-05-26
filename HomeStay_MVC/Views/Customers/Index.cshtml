@@ -8,17 +8,16 @@
 <h2 class="text-center mt-4">Quản lý khách hàng</h2>
 
 <p style="text-align:right; margin-right:20px;">
-    <a class="btn btn-success" asp-action="AddOrEdit">Thêm khách hàng mới</a>
+    <a class="btn btn-success" asp-action="Add">Thêm khách hàng mới</a>
 </p>
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center">
         <thead class="table-dark">
             <tr>
-                <th>Họ tên</th>
-                <th>CCCD</th>
+                <th>ID khách hàng</th>
+                <th>Họ tên khách hàng</th>
                 <th>Điện thoại</th>
-                <th>Địa chỉ</th>
                 <th>Hành động</th>
             </tr>
         </thead>
@@ -27,22 +26,18 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => customer.CUSTOMERS_NAME)
+                        @Html.DisplayFor(modelItem => customer.ID)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => customer.CUSTOMERS_CARD_NUMBER)
+                        @Html.DisplayFor(modelItem => customer.CUSTOMERS_NAME)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => customer.CUSTOMERS_PHONE)
                     </td>
-                    <td class="truncate-cell">
-                        @Html.DisplayFor(modelItem => customer.CUSTOMERS_ADDRESS)
-                    </td>
                     <td>
                         <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@customer.ID">Chi tiết</a>
-                        <a asp-action="AddOrEdit" class="btn btn-sm btn-primary" asp-route-id="@customer.ID">Sửa</a>
-                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@customer.ID"
-                           onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này?');">Xóa</a>
+                        <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@customer.ID">Sửa</a>
+                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@customer.ID">Xóa</a>
                     </td>
                 </tr>
             }

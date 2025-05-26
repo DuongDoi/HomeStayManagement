@@ -1,0 +1,62 @@
+﻿@model IEnumerable<HomeStay_MVC.Models.Bills>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Quản lý hóa đơn";
+}
+
+<h2 class="text-center mt-4">Quản lý hóa đơn</h2>
+
+<p style="text-align:right; margin-right:20px;">
+    <a class="btn btn-success" asp-action="Add">Tạo hóa đơn mới</a>
+</p>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Tên khách hàng</th>
+                <th>Trạng thái</th>
+                <th>Ngày tạo</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var bill in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => bill.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => bill.CUSTOMERS_NAME)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => bill.BILLS_STATUS)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => bill.CREATE_AT)
+                    </td>
+                    <td>
+                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@bill.ID">Chi tiết</a>
+                        <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@bill.ID">Sửa</a>
+                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@bill.ID">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                                Swal.fire('Thành công', '@TempData["Success"]', 'success');
+            </text>
+        }
+    </script>
+}

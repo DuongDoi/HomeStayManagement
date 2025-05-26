@@ -19,8 +19,10 @@ namespace HomeStay_MVC.Models
         [JsonProperty("CUSTOMERS_ADDRESS")]
         public string CUSTOMERS_ADDRESS { get; set; }
 
-        [JsonProperty("USERS")]
-        public string USERS { get; set; }
+        [JsonProperty("USERS_NAME")]
+        public string USERS_NAME { get; set; }
+        [JsonProperty("USERS_ID")]
+        public string USERS_ID { get; set; }
 
         [JsonProperty("CREATE_AT")]
         public DateTime? CREATE_AT { get; set; }
@@ -30,5 +32,6 @@ namespace HomeStay_MVC.Models
 
         [JsonProperty("UPDATE_AT")]
         public DateTime? UPDATE_AT { get; set; }
+        public string Save_Code { get; set; }
     }
 }

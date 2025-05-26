@@ -43,7 +43,7 @@ namespace HomeStay_MVC.Controllers
                     _obj.errMsgs = "Đăng ký thất bại!";
                     try
                     {
-                        DataSet ds = DataAccess.USERS_INSERT(model.Users, pass, model.Phone, model.Email, model.Name);
+                        DataSet ds = DataAccess.USERS_INSERT(model.Users, pass, model.Phone, model.Email, model.Name,"manager","",model.Users);
                         string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                         string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
                         _obj.errCode = errrCode;

@@ -59,6 +59,7 @@ namespace HomeStay_MVC.Controllers
                         DataRow dr = ds.Tables[0].Rows[0];
 
                         UserInfor _userInfor = new UserInfor();
+                        _userInfor.ID = dr["ID"].ToString();
                         _userInfor.Users = dr["USERS"].ToString();
                         _userInfor.Pass = dr["PASS"].ToString();
                         _userInfor.Email = dr["EMAIL"].ToString();
@@ -76,9 +77,18 @@ namespace HomeStay_MVC.Controllers
                         {
                             // Tạo session
                             CreateAuthToken(_userInfor);
-                            TempData["Success"] = "Đăng nhập thành công.";
+                            if(_userInfor.Role == "admin")
+                            {
+                                TempData["Success"] = "Đăng nhập thành công. Chào mừng bạn quay lại ^^";
 
-                            return RedirectToAction("Index", "AdminHome");
+                                return RedirectToAction("Index", "AdminHome");
+                            }
+                            if(_userInfor.Role == "manager")
+                            {
+                                TempData["Success"] = "Đăng nhập thành công.";
+
+                                return RedirectToAction("Index", "Home");
+                            }
                         }
                         else
                         {
@@ -163,6 +173,7 @@ namespace HomeStay_MVC.Controllers
                         DataRow dr = ds.Tables[0].Rows[0];
 
                         UserInfor _userInfor = new UserInfor();
+                        _userInfor.ID = dr["ID"].ToString();
                         _userInfor.Users = dr["USERS"].ToString();
                         _userInfor.Pass = dr["PASS"].ToString();
                         _userInfor.Email = dr["EMAIL"].ToString();
@@ -178,8 +189,18 @@ namespace HomeStay_MVC.Controllers
                         _userInfor.Create_By = dr["CREATE_BY"].ToString();
 
                         CreateAuthToken(_userInfor);
-                        TempData["Success"] = "Tạo mã PIN thành công. Đăng nhập thành công.";
-                        return RedirectToAction("Index", "AdminHome");
+                        if (_userInfor.Role == "employee")
+                        {
+                            TempData["Success"] = "Tạo mã PIN thành công. Đăng nhập thành công.";
+
+                            return RedirectToAction("Index", "EmployeeHome");
+                        }
+                        if (_userInfor.Role == "manager")
+                        {
+                            TempData["Success"] = "Tạo mã PIN thành công. Đăng nhập thành công.";
+
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
                 catch (HttpRequestException ex)
@@ -193,7 +214,7 @@ namespace HomeStay_MVC.Controllers
             }
             else
             {
-                ViewBag.Message = "Không thể cập nhật mã PIN.";
+                ViewBag.Message = "Không thể tạo mã PIN.";
             }
 
             return View(model);

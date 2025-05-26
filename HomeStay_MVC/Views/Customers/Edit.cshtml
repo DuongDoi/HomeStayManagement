@@ -1,30 +1,30 @@
-﻿@model HomeStay_MVC.Models.AccountInfor
+﻿@model HomeStay_MVC.Models.Customers
 
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Chỉnh sửa thông tin";
+    ViewData["Title"] = "Chỉnh sửa thông tin khách hàng";
 }
-<h2 class="text-center mt-4">Chỉnh sửa thông tin tài khoản</h2>
+<h2 class="text-center mt-4">Chỉnh sửa thông tin khách hàng</h2>
 <div style="margin-left:50px; margin-top: 50px;">
-    @using (Html.BeginForm("Edit", "Account", new { username = Model.Users }, FormMethod.Post))
+    @using (Html.BeginForm("Edit", "Customer", new { id = Model.ID }, FormMethod.Post))
     {
         <div style="display: flex; flex-direction:row;">
             <div style="flex:1;margin-left: 30px;margin-right: 30px;">
                 <div class="form-group">
-                    <label for="Name">Họ và tên</label>
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @id = "Name", @required = "required" })
+                    <label for="Name">Tên khách hàng</label>
+                    @Html.TextBoxFor(m => m.CUSTOMERS_NAME, new { @class = "form-control", @id = "Name", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="Email">Email</label>
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @type = "email", @id = "Email", @required = "required" })
+                    <label for="Phone">Điện thoại liên hệ</label>
+                    @Html.TextBoxFor(m => m.CUSTOMERS_PHONE, new { @class = "form-control", @id = "Phone", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="Phone">Số điện thoại</label>
-                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control", @id = "Phone", @required = "required" })
+                    <label for="Email">Địa chỉ</label>
+                    @Html.TextBoxFor(m => m.CUSTOMERS_ADDRESS, new { @class = "form-control", @id = "Email", @required = "required" })
                 </div>
                 <div class="form-group">
                     <label for="Card_Number">CCCD</label>
-                    @Html.TextBoxFor(m => m.Card_Number, new { @class = "form-control", @id = "Card_Number" , @required = "required"})
+                    @Html.TextBoxFor(m => m.CUSTOMERS_CARD_NUMBER, new { @class = "form-control", @id = "Card_Number" , @required = "required"})
                 </div>
                 <div class="form-group">
                     <label for="Save_Code">Mã Pin</label>
@@ -37,7 +37,7 @@
 
                 <p style="text-align:right; margin-right:40px; margin-top: 50px">
                     <button type="submit" class="btn btn-success">Lưu</button>
-                    <a href="@Url.Action("Index", "Account")" class="btn btn-danger">Quay lại</a>
+                    <a href="@Url.Action("Index", "Customers")" class="btn btn-danger">Quay lại</a>
                 </p>
             </div>
         </div>

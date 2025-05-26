@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace HomeStay_MVC.Models
 {
@@ -17,7 +18,7 @@ namespace HomeStay_MVC.Models
         public string ROOMS_PRICE { get; set; }
 
         [JsonProperty("ROOMS_STATUS")]
-        public string ROOMS_STATUS { get; set; }
+        public string? ROOMS_STATUS { get; set; }
 
 
         [JsonProperty("AVATAR_PATH")]
@@ -28,5 +29,9 @@ namespace HomeStay_MVC.Models
 
         [JsonProperty("UPDATE_AT")]
         public DateTime? UPDATE_AT { get; set; }
+        public string Save_code { get; set; }
+        public IEnumerable<SelectListItem>? StatusOptions { get; set; }
+        public List<SelectListItem> HomeStayOptions { get; set; } = new List<SelectListItem>();
+        public string HOMESTAYS_ID { get; set; }
     }
 }
