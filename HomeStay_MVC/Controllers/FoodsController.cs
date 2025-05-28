@@ -17,36 +17,64 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            logger.Info("New request income select All Food :");
-            string food_id = "0";
+            string _role = HttpContext.Session.GetString("Role");
+            string id = "0";
             string user_id = "0";
             string v_type = "0";
-            DataSet ds = DataAccess.FOODS_GET_LIST(food_id, user_id, v_type);
-            List<FOODS> foods = new List<FOODS>();
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            if (_role == "admin")
             {
-                FOODS _obj = new FOODS();
-                _obj.ID = dr["ID"].ToString();
-                _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
-                _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
-                var food_type =  dr["FOODS_TYPE"].ToString();
-                if (food_type == "FOOD")
-                    _obj.FOODS_TYPE = "Đồ ăn";
-                else
-                    _obj.FOODS_TYPE = "Đồ uống";
-                _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
-                _obj.USERS = dr["NAME"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
-
-                foods.Add(_obj);
-
+                id = "0";
+                user_id = "0";
+                v_type = "0";
             }
+            else
+            {
+                if (_role == "owner")
+                {
+                    id = "-1";
+                    user_id = HttpContext.Session.GetString("ID");
+                    v_type = "1";
+                }
+                else
+                {
+                    DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                    if (ds1.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr1 = ds1.Tables[0].Rows[0];
+                        user_id = dr1["ID"].ToString();
+                        id = "-1";
+                        v_type = "1";
+                    }
+                    else return RedirectToAction("Index", "Login");
+                }
+            }
+            logger.Info("New request income select All Food :");
+                DataSet ds = DataAccess.FOODS_GET_LIST(id, user_id, v_type);
+                List<FOODS> foods = new List<FOODS>();
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    FOODS _obj = new FOODS();
+                    _obj.ID = dr["ID"].ToString();
+                    _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
+                    _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
+                    var food_type = dr["FOODS_TYPE"].ToString();
+                    if (food_type == "FOOD")
+                        _obj.FOODS_TYPE = "Đồ ăn";
+                    else
+                        _obj.FOODS_TYPE = "Đồ uống";
+                    _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+                    _obj.USERS = dr["NAME"].ToString();
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                    catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                    catch { }
 
-            logger.Info("Pro Food Select All success.");
-            return View(foods);
+                    foods.Add(_obj);
+
+                }
+
+                logger.Info("Pro Food Select All success.");
+                return View(foods);
         }
 
 
@@ -56,30 +84,38 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var userID = HttpContext.Session.GetString("ID");
-            DataSet ds = DataAccess.FOODS_GET_LIST(id, userID, "1");
-            if (ds.Tables[0].Rows.Count > 0)
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                DataRow dr = ds.Tables[0].Rows[0];
-                FOODS _obj = new FOODS();
-                _obj.ID = dr["ID"].ToString();
-                _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
-                _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
-                var food_type = dr["FOODS_TYPE"].ToString();
-                if (food_type == "FOOD")
-                    _obj.FOODS_TYPE = "Đồ ăn";
-                else
-                    _obj.FOODS_TYPE = "Đồ uống";
-                _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
-                _obj.USERS = dr["NAME"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                var userID = HttpContext.Session.GetString("ID");
+                DataSet ds = DataAccess.FOODS_GET_LIST(id, "-1", "1");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    FOODS _obj = new FOODS();
+                    _obj.ID = dr["ID"].ToString();
+                    _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
+                    _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
+                    var food_type = dr["FOODS_TYPE"].ToString();
+                    if (food_type == "FOOD")
+                        _obj.FOODS_TYPE = "Đồ ăn";
+                    else
+                        _obj.FOODS_TYPE = "Đồ uống";
+                    _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+                    _obj.USERS = dr["NAME"].ToString();
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                    catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                    catch { }
 
-                return View(_obj);
+                    return View(_obj);
+                }
+                return RedirectToAction("Index", "Foods");
             }
-            return RedirectToAction("Index", "Foods");
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpGet]
@@ -89,34 +125,42 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var userID = HttpContext.Session.GetString("ID");
-            DataSet ds = DataAccess.FOODS_GET_LIST(id, userID, "1");
-            if (ds.Tables[0].Rows.Count > 0)
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                DataRow dr = ds.Tables[0].Rows[0];
-                FOODS _obj = new FOODS();
-                _obj.ID = dr["ID"].ToString();
-                _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
-                _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
-                var food_type = dr["FOODS_TYPE"].ToString();
-                if (food_type == "FOOD")
-                    _obj.FOODS_TYPE = "Đồ ăn";
-                else
-                    _obj.FOODS_TYPE = "Đồ uống";
-                _obj.TypeOptions = new List<SelectListItem>{
+                var userID = HttpContext.Session.GetString("ID");
+                DataSet ds = DataAccess.FOODS_GET_LIST(id, userID, "1");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    FOODS _obj = new FOODS();
+                    _obj.ID = dr["ID"].ToString();
+                    _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
+                    _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
+                    var food_type = dr["FOODS_TYPE"].ToString();
+                    if (food_type == "FOOD")
+                        _obj.FOODS_TYPE = "Đồ ăn";
+                    else
+                        _obj.FOODS_TYPE = "Đồ uống";
+                    _obj.TypeOptions = new List<SelectListItem>{
                     new SelectListItem { Text = "Đồ ăn", Value = "FOOD" },
                     new SelectListItem { Text = "Đồ uống", Value = "DRINK" }
                 };
-                _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
-                _obj.USERS = dr["NAME"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                    _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+                    _obj.USERS = dr["NAME"].ToString();
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                    catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                    catch { }
 
-                return View(_obj);
+                    return View(_obj);
+                }
+                return RedirectToAction("Index", "Foods");
             }
-            return RedirectToAction("Index", "Foods");
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
@@ -175,9 +219,17 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var obj = new FOODS();
-            obj.ID = id;
-            return View(obj);
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
+            {
+                var obj = new FOODS();
+                obj.ID = id;
+                return View(obj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
@@ -213,13 +265,21 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            FOODS model = new FOODS();
-            model.TypeOptions = new List<SelectListItem>{
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
+            {
+                FOODS model = new FOODS();
+                model.TypeOptions = new List<SelectListItem>{
                     new SelectListItem { Text = "Đồ ăn", Value = "FOOD" },
                     new SelectListItem { Text = "Đồ uống", Value = "DRINK" }
                 };
 
-            return View(model);
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]

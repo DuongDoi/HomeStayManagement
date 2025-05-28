@@ -3,6 +3,7 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Quản lý tài khoản";
+    var username = Context.Session.GetString("User");
 }
 
 <h2 class="text-center mt-4">Quản lý tài khoản</h2>
@@ -29,7 +30,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => account.Id)
+                        US.@Html.DisplayFor(modelItem => account.Id)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => account.Users)
@@ -49,8 +50,10 @@
                     <td>
                         <a asp-action="Details" class="btn btn-sm btn-info" asp-route-username="@account.Users">Chi tiết</a>
                         <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-username="@account.Users">Sửa</a>
-                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-username="@account.Users">Xóa</a>
-                           @*onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?');">Xóa</a>*@
+                        @if (username != account.Users && account.Users!="admin")
+                        {
+                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-username="@account.Users">Xóa</a>
+                        }
                     </td>
                 </tr>
             }

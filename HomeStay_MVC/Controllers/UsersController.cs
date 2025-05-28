@@ -332,7 +332,7 @@ namespace HomeStay_MVC.Controllers
 
 
 
-                DataSet ds = DataAccess.USERS_INSERT(users, pass, phone, email,name,"");
+                DataSet ds = DataAccess.USERS_INSERT(users, pass, phone, email,name,"","","");
                 string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                 string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
 

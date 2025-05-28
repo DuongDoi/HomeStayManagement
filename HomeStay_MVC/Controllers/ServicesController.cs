@@ -17,11 +17,39 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            logger.Info("New request income select All Service :");
-            string service_name = "0";
+            string _role = HttpContext.Session.GetString("Role");
+            string id = "0";
             string user_id = "0";
             string v_type = "0";
-            DataSet ds = DataAccess.SERVICES_GET_LIST(service_name, user_id, v_type);
+            if (_role == "admin")
+            {
+                id = "0";
+                user_id = "0";
+                v_type = "0";
+            }
+            else
+            {
+                if (_role == "owner")
+                {
+                    id = "-1";
+                    user_id = HttpContext.Session.GetString("ID");
+                    v_type = "1";
+                }
+                else
+                {
+                    DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                    if (ds1.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr1 = ds1.Tables[0].Rows[0];
+                        user_id = dr1["ID"].ToString();
+                        id = "-1";
+                        v_type = "1";
+                    }
+                    else return RedirectToAction("Index", "Login");
+                }
+            }
+            logger.Info("New request income select All Service :");
+            DataSet ds = DataAccess.SERVICES_GET_LIST(id, user_id, v_type);
             List<Services> services = new List<Services>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
@@ -51,24 +79,32 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var userID = HttpContext.Session.GetString("ID");
-            DataSet ds = DataAccess.SERVICES_GET_LIST(id, userID, "1");
-            if (ds.Tables[0].Rows.Count > 0)
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                DataRow dr = ds.Tables[0].Rows[0];
-                Services _obj = new Services();
-                _obj.ID = dr["ID"].ToString();
-                _obj.SERVICES_NAME = dr["SERVICES_NAME"].ToString();
-                _obj.SERVICES_PRICE = dr["SERVICES_PRICE"].ToString();
-                _obj.USERS = dr["NAME"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                var userID = HttpContext.Session.GetString("ID");
+                DataSet ds = DataAccess.SERVICES_GET_LIST(id, "-1", "1");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    Services _obj = new Services();
+                    _obj.ID = dr["ID"].ToString();
+                    _obj.SERVICES_NAME = dr["SERVICES_NAME"].ToString();
+                    _obj.SERVICES_PRICE = dr["SERVICES_PRICE"].ToString();
+                    _obj.USERS = dr["NAME"].ToString();
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                    catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                    catch { }
 
-                return View(_obj);
+                    return View(_obj);
+                }
+                return RedirectToAction("Index", "Services");
             }
-            return RedirectToAction("Index", "Services");
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpGet]
@@ -78,24 +114,32 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var userID = HttpContext.Session.GetString("ID");
-            DataSet ds = DataAccess.SERVICES_GET_LIST(id, userID, "1");
-            if (ds.Tables[0].Rows.Count > 0)
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                DataRow dr = ds.Tables[0].Rows[0];
-                Services _obj = new Services();
-                _obj.ID = dr["ID"].ToString();
-                _obj.SERVICES_NAME = dr["SERVICES_NAME"].ToString();
-                _obj.SERVICES_PRICE = dr["SERVICES_PRICE"].ToString();
-                _obj.USERS = dr["NAME"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                var userID = HttpContext.Session.GetString("ID");
+                DataSet ds = DataAccess.SERVICES_GET_LIST(id, userID, "1");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    Services _obj = new Services();
+                    _obj.ID = dr["ID"].ToString();
+                    _obj.SERVICES_NAME = dr["SERVICES_NAME"].ToString();
+                    _obj.SERVICES_PRICE = dr["SERVICES_PRICE"].ToString();
+                    _obj.USERS = dr["NAME"].ToString();
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                    catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                    catch { }
 
-                return View(_obj);
+                    return View(_obj);
+                }
+                return RedirectToAction("Index", "Services");
             }
-            return RedirectToAction("Index", "Services");
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
@@ -154,9 +198,17 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var obj = new Services();
-            obj.ID = id;
-            return View(obj);
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
+            {
+                var obj = new Services();
+                obj.ID = id;
+                return View(obj);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
@@ -204,36 +256,43 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-
-            var userID = HttpContext.Session.GetString("ID");
-            ResponseObjs _obj = new ResponseObjs();
-            _obj.errCode = "-1";
-            _obj.errMsgs = "Thêm mới thất bại!";
-            try
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                DataSet ds = DataAccess.SERVICES_INSERT(model.SERVICES_NAME, model.SERVICES_PRICE, userID);
-                string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
-                string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
-                _obj.errCode = errrCode;
-                _obj.errMsgs = errrMsg;
-            }
-            catch (HttpRequestException ex)
-            {
-                ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
-            }
-            if (_obj.errCode == "0")
-            {
-                TempData["Success"] = "Thêm mới thành công.";
-                return RedirectToAction("Index", "Services");
+                var userID = HttpContext.Session.GetString("ID");
+                ResponseObjs _obj = new ResponseObjs();
+                _obj.errCode = "-1";
+                _obj.errMsgs = "Thêm mới thất bại!";
+                try
+                {
+                    DataSet ds = DataAccess.SERVICES_INSERT(model.SERVICES_NAME, model.SERVICES_PRICE, userID);
+                    string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+                    string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
+                    _obj.errCode = errrCode;
+                    _obj.errMsgs = errrMsg;
+                }
+                catch (HttpRequestException ex)
+                {
+                    ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
+                }
+                if (_obj.errCode == "0")
+                {
+                    TempData["Success"] = "Thêm mới thành công.";
+                    return RedirectToAction("Index", "Services");
+                }
+                else
+                {
+                    ViewBag.Message = _obj.errMsgs;
+                    return View(model);
+                }
             }
             else
             {
-                ViewBag.Message = _obj.errMsgs;
-                return View(model);
+                return RedirectToAction("Index", "Login");
             }
         }
 

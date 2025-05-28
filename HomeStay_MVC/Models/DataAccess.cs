@@ -15,9 +15,6 @@ namespace ResfullApi.Models
         {
 
         }
-
-        
-
         
         //USER
         public static DataSet LOGIN(string user,string pass)
@@ -280,6 +277,8 @@ namespace ResfullApi.Models
 
             return getDataFromProcedure(str, "", parms);
         }
+
+
         //CUSTOMER
         public static DataSet CUSTOMERS_INSERT(string customer_card_id, string customer_name, string customer_phone, string customer_address, string users_id,string user_name)
         {
@@ -357,7 +356,7 @@ namespace ResfullApi.Models
         }
 
         //ROOM
-        public static DataSet ROOMS_GET_LIST(string ht_id, string room_id, string type)
+        public static DataSet ROOMS_GET_LIST(string ht_id, string room_id,string userID, string type)
         {
             
             string str;
@@ -368,12 +367,14 @@ namespace ResfullApi.Models
                             {
                                 new OracleParameter("v_homestays_id", OracleDbType.Varchar2),
                                 new OracleParameter("v_room_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_user_id", OracleDbType.Varchar2),
                                 new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
             parms[0].Value = ht_id;
             parms[1].Value =room_id;
-            parms[2].Value = type;
+            parms[2].Value = userID;
+            parms[3].Value = type;
 
             return getDataFromProcedure(str, "", parms);
         }

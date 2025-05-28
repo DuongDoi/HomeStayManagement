@@ -3,13 +3,15 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Quản lý dịch vụ";
+    var role = Context.Session.GetString("Role");
 }
 
 <h2 class="text-center mt-4">Quản lý dịch vụ</h2>
-
-<p style="text-align:right; margin-right:20px;">
-    <a class="btn btn-success" asp-action="Add">Tạo dịch vụ mới</a>
-</p>
+@if (role != "manager")
+{
+    <p style="text-align:right; margin-right:20px;">
+        <a class="btn btn-success" asp-action="Add">Tạo dịch vụ mới</a>
+    </p>}
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center">
@@ -18,7 +20,10 @@
                 <th>ID</th>
                 <th>Tên dịch vụ</th>
                 <th>Giá dịch vụ</th>
-                <th>Hành động</th>
+                @if (role != "manager")
+                {
+                    <th>Hành động</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -26,7 +31,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => service.ID)
+                        Ser.@Html.DisplayFor(modelItem => service.ID)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => service.SERVICES_NAME)
@@ -34,11 +39,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => service.SERVICES_PRICE)
                     </td>
-                    <td>
-                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@service.ID">Chi tiết</a>
+                    @if (role != "manager")
+                    {
+                        <td>
+                            <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@service.ID">Chi tiết</a>
                         <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@service.ID">Sửa</a>
                         <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@service.ID">Xóa</a>
-                    </td>
+                    </td>}
                 </tr>
             }
         </tbody>

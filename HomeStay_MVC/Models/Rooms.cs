@@ -33,5 +33,6 @@ namespace HomeStay_MVC.Models
         public IEnumerable<SelectListItem>? StatusOptions { get; set; }
         public List<SelectListItem> HomeStayOptions { get; set; } = new List<SelectListItem>();
         public string HOMESTAYS_ID { get; set; }
+        public string USERS_ID { get; set; }
     }
 }

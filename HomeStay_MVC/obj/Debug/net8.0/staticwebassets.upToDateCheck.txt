@@ -1127,6 +1127,7 @@ wwwroot\css\reset-password\style.css
 wwwroot\css\site.css
 wwwroot\css\styles.css
 wwwroot\favicon.ico
+wwwroot\Image\1234.jpg
 wwwroot\js\datatables-simple-demo.js
 wwwroot\js\scripts.js
 wwwroot\js\site.js

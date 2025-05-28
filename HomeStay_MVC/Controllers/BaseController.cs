@@ -39,14 +39,13 @@ namespace HomeStay_MVC.Controllers
 
         protected bool CheckAuthToken()
         {
-
             string sessionValue = HttpContext.Session.GetString("AuthID");
 
             log.Error("CheckAuthToken session value authid: " + sessionValue);
 
             if (string.IsNullOrEmpty(sessionValue))
             {
-                // Invalidate the session and log out the current user.
+                
                 return false;
             }
             else

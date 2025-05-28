@@ -3,14 +3,17 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Quản lý thực phẩm";
+    var role = Context.Session.GetString("Role");
+    string currentGroup = null;
 }
 
 <h2 class="text-center mt-4">Quản lý thực phẩm</h2>
-
-<p style="text-align:right; margin-right:20px;">
-    <a class="btn btn-success" asp-action="Add">Tạo món mới</a>
-</p>
-
+@if (role != "manager")
+{
+    <p style="text-align:right; margin-right:20px;">
+        <a class="btn btn-success" asp-action="Add">Tạo món mới</a>
+    </p>
+}
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center">
         <thead class="table-dark">
@@ -19,15 +22,29 @@
                 <th>Tên món</th>
                 <th>Loại</th>
                 <th>Giá món</th>
-                <th>Hành động</th>
+                @if (role != "manager")
+                {
+                    <th>Hành động</th>
+                }
             </tr>
         </thead>
         <tbody>
             @foreach (var food in Model)
             {
+                if (currentGroup != food.FOODS_TYPE)
+                {
+                    currentGroup = food.FOODS_TYPE;
+                    <tr>
+                        <td colspan="5">
+                            <strong>
+                                @currentGroup
+                            </strong>
+                        </td>
+                    </tr>
+                }
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => food.ID)
+                        FD.@Html.DisplayFor(modelItem => food.ID)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => food.FOODS_NAME)
@@ -38,11 +55,13 @@
                     <td>
                         @Html.DisplayFor(modelItem => food.FOODS_PRICE)
                     </td>
-                    <td>
-                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@food.ID">Chi tiết</a>
+                    @if (role != "manager")
+                    {
+                        <td>
+                            <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@food.ID">Chi tiết</a>
                         <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@food.ID">Sửa</a>
                         <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@food.ID">Xóa</a>
-                    </td>
+                    </td>}
                 </tr>
             }
         </tbody>

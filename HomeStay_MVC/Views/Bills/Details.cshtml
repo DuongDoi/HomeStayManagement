@@ -1,47 +1,109 @@
-﻿@model HomeStay_MVC.Models.FOODS
-
+﻿@*@model HomeStay_MVC.Models.Bills
 @{
-    Layout = "_Layout";
-    ViewData["Title"] = "Thông tin dịch vụ";
+    Layout = "_Layout"; 
+    ViewData["Title"] = "Hóa đơn thanh toán";
 }
-<h2 class="text-center mt-4">Thông tin dịch vụ</h2>
-<div style="margin-left:50px; margin-top: 50px;">
-    <div style="display: flex; flex-direction:row;">
-        <div style="flex:1;margin-left: 30px;margin-right: 30px;">
-            <div class="form-group">
-                <label for="id">Mã số</label>
-                <input id="id" type="text" class="form-control" value="@Model.ID" readonly />
-            </div>
-            <div class="form-group">
-                <label for="FOODS_NAME">Tên món</label>
-                <input id="FOODS_NAME" type="text" class="form-control" value="@Model.FOODS_NAME" readonly />
-            </div>
-            <div class="form-group">
-                <label for="FOODS_PRICE">Giá món</label>
-                <input id="FOODS_PRICE" class="form-control" value="@Model.FOODS_PRICE" readonly />
-            </div>
-            <div class="form-group">
-                <label for="FOODS_TYPE">Phân loại</label>
-                <input id="FOODS_TYPE" type="text" class="form-control" value="@Model.FOODS_TYPE" readonly />
-            </div>
-        </div>
-        <div style="flex:1;margin-left: 30px;margin-right: 30px;">
-            <div class="form-group">
-                <label for="USERS">Người tạo</label>
-                <input id="USERS" type="text" class="form-control" value="@Model.USERS" readonly />
-            </div>
-            <div class="form-group">
-                <label for="CREATE_AT">Ngày tạo</label>
-                <input id="CREATE_AT" type="text" class="form-control" value="@Model.CREATE_AT" readonly />
-            </div>
-            <div class="form-group">
-                <label for="UPDATE_AT">Ngày sửa đổi</label>
-                <input id="UPDATE_AT" type="text" class="form-control" value="@Model.UPDATE_AT" readonly />
-            </div>
-            <p style="text-align:right; margin-right:40px; margin-top: 50px">
-                <a href="@Url.Action("Index", "FOODS")" class="btn btn-danger">Quay lại</a>
-            </p>
-        </div>
-   </div>
-</div>
 
+<div class="container mt-4 mb-5">
+    <div class="text-center">
+        <h2>HÓA ĐƠN THANH TOÁN</h2>
+        <p><strong>HOMESTAY MANAGER</strong></p>
+        <p>Địa chỉ: Số 4, Ngõ 44/148 Trần Thái Tông, Cầu Giấy, Hà Nội</p>
+        <p>SĐT: 0865 226 834 | Email: contact@homestaymanager.vn</p>
+        <p>Mã số thuế: 0101234567</p>
+    </div>
+
+    <hr />
+
+    <div>
+        <p><strong>Mã hóa đơn:</strong> @Model.ID</p>
+        <p><strong>Ngày lập:</strong> @Model.CREATE_AT</p>
+        <p><strong>Nhân viên lập:</strong> @Model.CREATE_BY</p>
+    </div>
+
+    <h5 class="mt-4">Thông tin khách hàng</h5>
+    <p><strong>Họ tên:</strong> @Model.CUSTOMERS_NAME</p>
+    <p><strong>Số điện thoại:</strong> @Model.CUSTOMERS_PHONE</p>
+    <p><strong>CMND/CCCD:</strong> @Model.CUSTOMERS_CARD_ID</p>
+    <p><strong>Địa chỉ:</strong> @Model.CUSTOMERS_ADDRESS</p>
+
+    <h5 class="mt-4">Thông tin phòng</h5>
+    <table class="table table-bordered text-center">
+        <thead class="table-secondary">
+            <tr>
+                <th>STT</th>
+                <th>Tên phòng</th>
+                <th>Ngày nhận</th>
+                <th>Ngày trả</th>
+                <th>Số đêm</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var i = 1;
+                foreach (var room in Model.Rooms)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@room.RoomName</td>
+                        <td>@room.CheckIn.ToString("dd/MM/yyyy")</td>
+                        <td>@room.CheckOut.ToString("dd/MM/yyyy")</td>
+                        <td>@room.Nights</td>
+                        <td>@room.PricePerNight.ToString("N0") VNĐ</td>
+                        <td>@room.TotalPrice.ToString("N0") VNĐ</td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+
+    <h5 class="mt-4">Dịch vụ phát sinh</h5>
+    <table class="table table-bordered text-center">
+        <thead class="table-secondary">
+            <tr>
+                <th>STT</th>
+                <th>Tên dịch vụ</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                i = 1;
+                foreach (var service in Model.Services)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@service.ServiceName</td>
+                        <td>@service.Quantity</td>
+                        <td>@service.UnitPrice.ToString("N0") VNĐ</td>
+                        <td>@service.TotalPrice.ToString("N0") VNĐ</td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
+
+    <h5 class="mt-4">Tổng kết</h5>
+    <ul class="list-unstyled">
+        <li><strong>Tổng tiền phòng:</strong> @Model.TotalRoomPrice.ToString("N0") VNĐ</li>
+        <li><strong>Tổng dịch vụ:</strong> @Model.TotalServicePrice.ToString("N0") VNĐ</li>
+        <li><strong>Giảm giá:</strong> @Model.Discount.ToString("N0") VNĐ</li>
+        <li><strong>VAT (10%):</strong> @Model.VAT.ToString("N0") VNĐ</li>
+        <li><strong style="font-size: 1.2em;">Tổng thanh toán:</strong> <span class="text-danger fw-bold">@Model.GrandTotal.ToString("N0") VNĐ</span></li>
+    </ul>
+
+    <h5 class="mt-4">Thanh toán</h5>
+    <p><strong>Phương thức:</strong> @Model.PaymentMethod</p>
+    <p><strong>Ngày thanh toán:</strong> @Model.PaymentDate.ToString("dd/MM/yyyy")</p>
+    <p><strong>Tình trạng:</strong> @Model.PaymentStatus</p>
+
+    <div class="text-center mt-5">
+        <p><em>Cảm ơn quý khách đã sử dụng dịch vụ!</em></p>
+    </div>
+</div>*@

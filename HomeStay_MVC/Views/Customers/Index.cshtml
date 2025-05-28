@@ -3,6 +3,7 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Quản lý khách hàng";
+    var role = Context.Session.GetString("Role");
 }
 
 <h2 class="text-center mt-4">Quản lý khách hàng</h2>
@@ -26,7 +27,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => customer.ID)
+                        CTM.@Html.DisplayFor(modelItem => customer.ID)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => customer.CUSTOMERS_NAME)
@@ -37,7 +38,10 @@
                     <td>
                         <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@customer.ID">Chi tiết</a>
                         <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@customer.ID">Sửa</a>
-                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@customer.ID">Xóa</a>
+                        @if (role != "manager")
+                        {
+                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@customer.ID">Xóa</a>
+                        }
                     </td>
                 </tr>
             }

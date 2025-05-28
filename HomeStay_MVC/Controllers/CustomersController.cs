@@ -18,9 +18,37 @@ namespace HomeStay_MVC.Controllers
                 return RedirectToAction("Index", "Login");
             }
             logger.Info("New request income select All Custommer :");
+            string _role = HttpContext.Session.GetString("Role");
             string id = "0";
             string user_id = "0";
             string v_type = "0";
+            if (_role == "admin")
+            {
+                id = "0";
+                user_id = "0";
+                v_type = "0";
+            }
+            else
+            {
+                if (_role == "owner")
+                {
+                    id = "-1";
+                    user_id = HttpContext.Session.GetString("ID");
+                    v_type = "1";
+                }
+                else
+                {
+                    DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                    if (ds1.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr1 = ds1.Tables[0].Rows[0];
+                        user_id = dr1["ID"].ToString();
+                        id = "-1";
+                        v_type = "1";
+                    }
+                    else return RedirectToAction("Index", "Login");
+                }
+            }
             DataSet ds = DataAccess.CUSTOMERS_GET_LIST(id, user_id, v_type);
             List<Customers> customers = new List<Customers>();
             foreach (DataRow dr in ds.Tables[0].Rows)
@@ -52,8 +80,35 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var userID = HttpContext.Session.GetString("ID");
-            DataSet ds = DataAccess.CUSTOMERS_GET_LIST(id, userID, "1");
+            string _role = HttpContext.Session.GetString("Role");
+            string user_id = "0";
+            string v_type = "0";
+            if (_role == "admin" )
+            {
+                user_id = "-1";
+                v_type = "1";
+            }
+            else
+            {
+                if (_role == "owner")
+                {
+                    user_id = HttpContext.Session.GetString("ID");
+                    v_type = "1";
+                }
+                else
+                {
+                    DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                    if (ds1.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr1 = ds1.Tables[0].Rows[0];
+                        user_id = dr1["ID"].ToString();
+                        v_type = "1";
+                    }
+                    else return RedirectToAction("Index", "Login");
+                }
+            }
+            
+            DataSet ds = DataAccess.CUSTOMERS_GET_LIST(id, user_id, v_type);
             if (ds.Tables[0].Rows.Count > 0)
             {
                 DataRow dr = ds.Tables[0].Rows[0];
@@ -65,6 +120,11 @@ namespace HomeStay_MVC.Controllers
                 _obj.CUSTOMERS_ADDRESS = dr["CUSTOMERS_ADDRESS"].ToString();
                 _obj.USERS_NAME = dr["NAME"].ToString();
                 _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+
+                _obj.USERS_ID = dr["USERS_ID"].ToString();
+                if(_obj.USERS_ID != user_id && _role!="admin") return RedirectToAction("Index", "Login");
+
+
                 try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
                 catch { }
                 try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
@@ -85,8 +145,24 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var userID = HttpContext.Session.GetString("ID");
-            DataSet ds = DataAccess.CUSTOMERS_GET_LIST(id, userID, "1");
+            string userID = "";
+            string type = "1";
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "manager")
+            {
+                DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                if (ds1.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr1 = ds1.Tables[0].Rows[0];
+                    userID = dr1["ID"].ToString();
+                }
+                else return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                userID = HttpContext.Session.GetString("ID");
+            }
+            DataSet ds = DataAccess.CUSTOMERS_GET_LIST(id, userID, type);
             if (ds.Tables[0].Rows.Count > 0)
             {
                 DataRow dr = ds.Tables[0].Rows[0];
@@ -164,28 +240,36 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            var userID = HttpContext.Session.GetString("ID");
-            DataSet ds = DataAccess.CUSTOMERS_GET_LIST(id, userID, "1");
-            if (ds.Tables[0].Rows.Count > 0)
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role != "manager")
             {
+                var userID = HttpContext.Session.GetString("ID");
+                DataSet ds = DataAccess.CUSTOMERS_GET_LIST(id, userID, "1");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
 
-                DataRow dr = ds.Tables[0].Rows[0];
-                Customers _obj = new Customers();
-                _obj.ID = dr["ID"].ToString();
-                _obj.CUSTOMERS_CARD_NUMBER = dr["CUSTOMERS_CARD_NUMBER"].ToString();
-                _obj.CUSTOMERS_NAME = dr["CUSTOMERS_NAME"].ToString();
-                _obj.CUSTOMERS_PHONE = dr["CUSTOMERS_PHONE"].ToString();
-                _obj.CUSTOMERS_ADDRESS = dr["CUSTOMERS_ADDRESS"].ToString();
-                _obj.USERS_NAME = dr["NAME"].ToString();
-                _obj.CREATE_BY = dr["CREATE_BY"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    Customers _obj = new Customers();
+                    _obj.ID = dr["ID"].ToString();
+                    _obj.CUSTOMERS_CARD_NUMBER = dr["CUSTOMERS_CARD_NUMBER"].ToString();
+                    _obj.CUSTOMERS_NAME = dr["CUSTOMERS_NAME"].ToString();
+                    _obj.CUSTOMERS_PHONE = dr["CUSTOMERS_PHONE"].ToString();
+                    _obj.CUSTOMERS_ADDRESS = dr["CUSTOMERS_ADDRESS"].ToString();
+                    _obj.USERS_NAME = dr["NAME"].ToString();
+                    _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                    catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                    catch { }
 
-                return View(_obj);
+                    return View(_obj);
+                }
+                return RedirectToAction("Index", "Customers");
             }
-            return RedirectToAction("Index", "Customers");
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
@@ -232,9 +316,23 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-
-            var userID = HttpContext.Session.GetString("ID");
-            var user_name = HttpContext.Session.GetString("Name");
+            string _role = HttpContext.Session.GetString("Role");
+            string userID = "";
+            if (_role != "manager")
+            {
+                userID = HttpContext.Session.GetString("ID");
+            }
+            else
+            {
+                DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                if (ds1.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr1 = ds1.Tables[0].Rows[0];
+                    userID = dr1["ID"].ToString();
+                }
+                else return RedirectToAction("Index", "Login");
+            }
+            string user_name = HttpContext.Session.GetString("Name");
             ResponseObjs _obj = new ResponseObjs();
             _obj.errCode = "-1";
             _obj.errMsgs = "Thêm mới thất bại!";

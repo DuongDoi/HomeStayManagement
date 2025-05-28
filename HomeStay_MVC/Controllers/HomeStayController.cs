@@ -20,10 +20,27 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            logger.Info("New request income select All HomeStay :");
+            logger.Info("New request income select HomeStay :");
+            string _role = HttpContext.Session.GetString("Role");
             string users = "0";
             string ht_id = "0";
             string v_type = "0";
+            if (_role == "admin")
+            {
+                users = "0";
+                ht_id = "-1";
+                v_type = "0";
+            }
+            else
+            {
+                if (_role == "owner")
+                {
+                    users = HttpContext.Session.GetString("ID");
+                    ht_id = "-1";
+                    v_type = "1";
+                }
+                else return RedirectToAction("Index", "Login");
+            }
             DataSet ds = DataAccess.HOMESTAYS_GET_LIST(ht_id,users,v_type);
             List<HomestaysObj> homestays = new List<HomestaysObj>();
             foreach (DataRow dr in ds.Tables[0].Rows)
@@ -47,7 +64,7 @@ namespace HomeStay_MVC.Controllers
 
             }
 
-            logger.Info("Pro HOMESTAYS Select All success.");
+            logger.Info("Pro HOMESTAYS Select success.");
             return View(homestays);
         }
 
@@ -57,28 +74,42 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            DataSet ds = DataAccess.HOMESTAYS_GET_LIST(id,userId,"1");
-            if (ds.Tables[0].Rows.Count > 0)
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                DataRow dr = ds.Tables[0].Rows[0];
-                HomestaysObj _obj = new HomestaysObj();
-                _obj.id = dr["ID"].ToString();
-                _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
-                _obj.MANAGER_CARD_NUMBER = dr["MANAGER_CARD_NUMBER"].ToString();
-                _obj.HOMESTAYS_ADDRESS = dr["HOMESTAYS_ADDRESS"].ToString();
-                _obj.HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString();
-                _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
-                _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
-                _obj.USERS_ID = dr["USERS_ID"].ToString();
-                _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                string _userID = HttpContext.Session.GetString("ID");
+                if(_userID != userId && _role != "admin") return RedirectToAction("Index", "HomeStay");
+                else
+                {
+                    DataSet ds = DataAccess.HOMESTAYS_GET_LIST(id, userId, "1");
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr = ds.Tables[0].Rows[0];
+                        HomestaysObj _obj = new HomestaysObj();
+                        _obj.id = dr["ID"].ToString();
+                        _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+                        _obj.MANAGER_CARD_NUMBER = dr["MANAGER_CARD_NUMBER"].ToString();
+                        _obj.HOMESTAYS_ADDRESS = dr["HOMESTAYS_ADDRESS"].ToString();
+                        _obj.HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString();
+                        _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
+                        _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
+                        _obj.USERS_ID = dr["USERS_ID"].ToString();
+                        _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+                        try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                        catch { }
+                        try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                        catch { }
 
-                return View(_obj);
+                        return View(_obj);
+                    }
+                    return RedirectToAction("Index", "HomeStay");
+                }
+                    
             }
-            return RedirectToAction("Index", "HomeStay");
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpGet]
@@ -88,28 +119,41 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            DataSet ds = DataAccess.HOMESTAYS_GET_LIST(id, userId, "1");
-            if (ds.Tables[0].Rows.Count > 0)
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                DataRow dr = ds.Tables[0].Rows[0];
-                HomestaysObj _obj = new HomestaysObj();
-                _obj.id = dr["ID"].ToString();
-                _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
-                _obj.MANAGER_CARD_NUMBER = dr["MANAGER_CARD_NUMBER"].ToString();
-                _obj.HOMESTAYS_ADDRESS = dr["HOMESTAYS_ADDRESS"].ToString();
-                _obj.HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString();
-                _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
-                _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
-                _obj.USERS_ID = dr["USERS_ID"].ToString();
-                _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                string _userID = HttpContext.Session.GetString("ID");
+                if (_userID != userId) return RedirectToAction("Index", "HomeStay");
+                else
+                {
+                    DataSet ds = DataAccess.HOMESTAYS_GET_LIST(id, userId, "1");
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr = ds.Tables[0].Rows[0];
+                        HomestaysObj _obj = new HomestaysObj();
+                        _obj.id = dr["ID"].ToString();
+                        _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+                        _obj.MANAGER_CARD_NUMBER = dr["MANAGER_CARD_NUMBER"].ToString();
+                        _obj.HOMESTAYS_ADDRESS = dr["HOMESTAYS_ADDRESS"].ToString();
+                        _obj.HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString();
+                        _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
+                        _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
+                        _obj.USERS_ID = dr["USERS_ID"].ToString();
+                        _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+                        try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                        catch { }
+                        try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                        catch { }
 
-                return View(_obj);
+                        return View(_obj);
+                    }
+                    return RedirectToAction("Index", "HomeStay");
+                }
             }
-            return RedirectToAction("Index", "HomeStay");
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
@@ -119,43 +163,49 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            if (!checkPIN(model.Save_code))
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                ViewBag.Message = "Sai mã PIN";
-                return View(model);
-            }
 
+                if (!checkPIN(model.Save_code))
+                {
+                    ViewBag.Message = "Sai mã PIN";
+                    return View(model);
+                }
+                ResponseObjs _obj = new ResponseObjs();
+                _obj.errCode = "-1";
+                _obj.errMsgs = "unknow!";
+                try
+                {
+                    DataSet ds = DataAccess.HOMESTAYS_UPDATE(id, model.HOMESTAYS_NAME, model.MANAGER_CARD_NUMBER, model.HOMESTAYS_ADDRESS, model.HOMESTAY_DESCRIPTION, model.MANAGER_NAME, model.MANAGER_PHONE, "1");
+                    string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+                    string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
+                    _obj.errCode = errrCode;
+                    _obj.errMsgs = errrMsg;
+                }
+                catch (HttpRequestException ex)
+                {
+                    ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
+                }
+                if (_obj.errCode == "0")
+                {
+                    TempData["Success"] = "Cập nhật thông tin thành công.";
 
-
-            ResponseObjs _obj = new ResponseObjs();
-            _obj.errCode = "-1";
-            _obj.errMsgs = "unknow!";
-            try
-            {
-                DataSet ds = DataAccess.HOMESTAYS_UPDATE(id, model.HOMESTAYS_NAME, model.MANAGER_CARD_NUMBER, model.HOMESTAYS_ADDRESS, model.HOMESTAY_DESCRIPTION, model.MANAGER_NAME, model.MANAGER_PHONE, "1");
-                string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
-                string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
-                _obj.errCode = errrCode;
-                _obj.errMsgs = errrMsg;
-            }
-            catch (HttpRequestException ex)
-            {
-                ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
-            }
-            if (_obj.errCode == "0")
-            {
-                TempData["Success"] = "Cập nhật thông tin thành công.";
-
-                return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Message = _obj.errMsgs;
+                    return View(model);
+                }
             }
             else
             {
-                ViewBag.Message = _obj.errMsgs;
-                return View(model);
+                return RedirectToAction("Index","Login");
             }
         }
 
@@ -167,28 +217,41 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            DataSet ds = DataAccess.HOMESTAYS_GET_LIST(id, userId, "1");
-            if (ds.Tables[0].Rows.Count > 0)
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                DataRow dr = ds.Tables[0].Rows[0];
-                HomestaysObj _obj = new HomestaysObj();
-                _obj.id = dr["ID"].ToString();
-                _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
-                _obj.MANAGER_CARD_NUMBER = dr["MANAGER_CARD_NUMBER"].ToString();
-                _obj.HOMESTAYS_ADDRESS = dr["HOMESTAYS_ADDRESS"].ToString();
-                _obj.HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString();
-                _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
-                _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
-                _obj.USERS_ID = dr["USERS_ID"].ToString();
-                _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                string _userID = HttpContext.Session.GetString("ID");
+                if (_userID != userId) return RedirectToAction("Index", "HomeStay");
+                else
+                {
+                    DataSet ds = DataAccess.HOMESTAYS_GET_LIST(id, userId, "1");
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr = ds.Tables[0].Rows[0];
+                        HomestaysObj _obj = new HomestaysObj();
+                        _obj.id = dr["ID"].ToString();
+                        _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+                        _obj.MANAGER_CARD_NUMBER = dr["MANAGER_CARD_NUMBER"].ToString();
+                        _obj.HOMESTAYS_ADDRESS = dr["HOMESTAYS_ADDRESS"].ToString();
+                        _obj.HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString();
+                        _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
+                        _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
+                        _obj.USERS_ID = dr["USERS_ID"].ToString();
+                        _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+                        try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                        catch { }
+                        try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                        catch { }
 
-                return View(_obj);
+                        return View(_obj);
+                    }
+                    return RedirectToAction("Index", "HomeStay");
+                }
             }
-            return RedirectToAction("Index", "HomeStay");
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
@@ -196,24 +259,31 @@ namespace HomeStay_MVC.Controllers
         {
             if (!CheckAuthToken())
                 return RedirectToAction("Index", "Login");
-
-            if (!checkPIN(model.Save_code))
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
             {
-                ViewBag.Message = "Mã PIN không chính xác.";
+                if (!checkPIN(model.Save_code))
+                {
+                    ViewBag.Message = "Mã PIN không chính xác.";
+                    return View(model);
+                }
+
+                var ds = DataAccess.HOMESTAYS_UPDATE(id, "", "", "", "", "", "", "2");
+                var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+
+                if (errCode == "0")
+                {
+                    TempData["Success"] = "Xóa cơ sở thành công.";
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.Message = "Không thể xóa cơ sở.";
                 return View(model);
             }
-
-            var ds = DataAccess.HOMESTAYS_UPDATE(id,"","","","","","", "2");
-            var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
-
-            if (errCode == "0")
+            else
             {
-                TempData["Success"] = "Xóa cơ sở thành công.";
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Login");
             }
-
-            ViewBag.Message = "Không thể xóa cơ sở.";
-            return View(model);
         }
 
 
@@ -224,7 +294,15 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            return View();
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         [HttpPost]
@@ -234,6 +312,9 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
+            {
 
                 var userID = HttpContext.Session.GetString("ID");
                 ResponseObjs _obj = new ResponseObjs();
@@ -266,6 +347,11 @@ namespace HomeStay_MVC.Controllers
                     ViewBag.Message = "Thêm mới thất bại!";
                     return View(model);
                 }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
 

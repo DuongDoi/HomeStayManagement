@@ -75,20 +75,41 @@ namespace HomeStay_MVC.Controllers
                         _userInfor.Create_By = dr["CREATE_BY"].ToString();
                         if (_userInfor.Is_First_Login == "0")
                         {
-                            // Tạo session
-                            CreateAuthToken(_userInfor);
-                            if(_userInfor.Role == "admin")
+                            if (_userInfor.IsLock == "0") 
                             {
-                                TempData["Success"] = "Đăng nhập thành công. Chào mừng bạn quay lại ^^";
+                                DataSet ds1 = DataAccess.USERS_GET_LIST(_userInfor.Create_By);
+                                if (ds1.Tables[0].Rows.Count > 0)
+                                {
+                                    DataRow dr1 = ds1.Tables[0].Rows[0];
 
-                                return RedirectToAction("Index", "AdminHome");
+                                    UserInfor _userInfor1 = new UserInfor();
+                                    _userInfor1.IsLock = dr1["ISLOCK"].ToString();
+                                    if (_userInfor1.IsLock == "1")
+                                    {
+                                        ViewBag.Message = "Tài khoản của chủ cơ sở đang bị khóa do hết hạn, hãy liên hệ Admin để được hỗ trợ.";
+                                        return View(model);
+                                    }
+                                    else
+                                    {
+
+                                        // Tạo session
+                                        CreateAuthToken(_userInfor);
+                                        TempData["Success"] = "Đăng nhập thành công. Chào mừng bạn quay lại ^^";
+
+                                        return RedirectToAction("Index", "AdminHome");
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.Message = "Người dùng không tồn tại, vui lòng liên hệ Admin để được hỗ trợ!";
+                                }
                             }
-                            if(_userInfor.Role == "manager")
+                            else
                             {
-                                TempData["Success"] = "Đăng nhập thành công.";
-
-                                return RedirectToAction("Index", "Home");
+                                ViewBag.Message = "Tài khoản của bạn đang bị khóa do hết hạn, hãy liên hệ Admin để được hỗ trợ.";
+                                return View(model);
                             }
+
                         }
                         else
                         {
@@ -189,18 +210,8 @@ namespace HomeStay_MVC.Controllers
                         _userInfor.Create_By = dr["CREATE_BY"].ToString();
 
                         CreateAuthToken(_userInfor);
-                        if (_userInfor.Role == "employee")
-                        {
-                            TempData["Success"] = "Tạo mã PIN thành công. Đăng nhập thành công.";
-
-                            return RedirectToAction("Index", "EmployeeHome");
-                        }
-                        if (_userInfor.Role == "manager")
-                        {
-                            TempData["Success"] = "Tạo mã PIN thành công. Đăng nhập thành công.";
-
-                            return RedirectToAction("Index", "Home");
-                        }
+                        TempData["Success"] = "Tạo mã PIN thành công. Đăng nhập thành công.";
+                        return RedirectToAction("Index", "AdminHome");
                     }
                 }
                 catch (HttpRequestException ex)

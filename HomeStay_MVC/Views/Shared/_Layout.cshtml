@@ -2,7 +2,9 @@
 @{
     var role = Context.Session.GetString("Role");
     if (role == "manager") role = "Quản lí";
+    if (role == "owner") role = "Chủ cơ sở";
     var user_name = Context.Session.GetString("Name");
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -54,23 +56,24 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
 
-                        @* <div class="sb-sidenav-menu-heading">Hệ thống</div> *@
-                        @* <a class="nav-link" href="/Dashboard/Index"> *@
-                        @*     <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div> *@
-                        @*     Trang chủ *@
-                        @* </a> *@
+                 @if (role == "admin"||role == "Chủ cơ sở")
+                {
 
                         <div class="sb-sidenav-menu-heading text-light">Tài khoản</div>
-                        <a class="nav-link text-light" asp-controller="Account" asp-action="Index">
+                         <a class="nav-link text-light" asp-controller="Account" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-user-cog text-warning"></i></div>
                             Quản lý tài khoản
                         </a>
-
+                }
                         <div class="sb-sidenav-menu-heading text-light">Quản lý</div>
+            
+                @if (role == "admin"||role == "Chủ cơ sở")
+                {
                         <a class="nav-link text-light" asp-controller="HomeStay" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-person-shelter text-info"></i></div>
                             Quản lý cơ sở
                         </a>
+                    }
                         <a class="nav-link text-light" asp-controller="Rooms" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-door-open text-success"></i></div>
                             Quản lý phòng
@@ -91,16 +94,6 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar text-light"></i></div>
                             Quản lý hóa đơn
                         </a>
-
-                        @*<div class="sb-sidenav-menu-heading text-light">Khác</div>
-                        <a class="nav-link text-light" href="/Statistics/Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-bar text-info"></i></div>
-                            Thống kê - Báo cáo
-                        </a>
-                        <a class="nav-link text-light" href="/Settings/Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-cogs text-success"></i></div>
-                            Cài đặt hệ thống
-                        </a> *@
                     </div>
                 </div>
 
@@ -114,18 +107,6 @@
                 <main role="main" class="pb-3">
                     @RenderBody()
                 </main>   
-                <!-- <footer class="py-4 bg-light mt-auto">
-                    <div class="container-fluid px-4">
-                        <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                            <div>
-                                <a href="#">Privacy Policy</a>
-                                &middot;
-                                <a href="#">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer> -->
             </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

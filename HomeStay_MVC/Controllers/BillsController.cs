@@ -46,5 +46,29 @@ namespace HomeStay_MVC.Controllers
             return View(bills);
         }
 
+
+
+        public IActionResult Details(string id)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            DataSet ds = DataAccess.BILLS_GET_LIST(id,"","");
+            List<Bills> billDetails = new List<Bills>();
+
+            if (ds != null && ds.Tables.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    Bills bill = new Bills();
+                    bill.ID = dr["Id"].ToString();
+
+                    billDetails.Add(bill);
+                }
+            }
+
+            return View(billDetails);
+        }
     }
 }

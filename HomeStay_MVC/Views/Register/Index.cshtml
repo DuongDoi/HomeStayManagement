@@ -36,10 +36,12 @@
             </div>
 
             <div class="form-right">
-                @using (Html.BeginForm())
+                @if (ViewBag.Message != null)
+                {
+                    <div style="color: red;font-size:25px;">@ViewBag.Message</div>
+                }
+                @using (Html.BeginForm("Index", "Register", FormMethod.Post))
                   {
-                   @Html.AntiForgeryToken()
-                   @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
 
                 <div class="register-form">
                     <h2 class="form-title">Đăng ký tài khoản</h2>
@@ -77,10 +79,7 @@
                     <button type="submit" class="submit-btn">Đăng ký</button>
 
                     <p class="login-link">Bạn đã có tài khoản? <a href="/Login">Đăng nhập</a></p>
-                                            @if (ViewBag.Message != null)
-                                            {
-                            <div class="alert alert-success">@ViewBag.Message</div>
-                                            }
+                        
                 </div>
                 }
             </div>

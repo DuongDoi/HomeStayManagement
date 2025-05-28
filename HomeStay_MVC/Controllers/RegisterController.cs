@@ -43,7 +43,7 @@ namespace HomeStay_MVC.Controllers
                     _obj.errMsgs = "Đăng ký thất bại!";
                     try
                     {
-                        DataSet ds = DataAccess.USERS_INSERT(model.Users, pass, model.Phone, model.Email, model.Name,"manager","",model.Users);
+                        DataSet ds = DataAccess.USERS_INSERT(model.Users, pass, model.Phone, model.Email, model.Name,"owner","",model.Users);
                         string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                         string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
                         _obj.errCode = errrCode;
@@ -52,10 +52,12 @@ namespace HomeStay_MVC.Controllers
                     catch (HttpRequestException ex)
                     {
                         ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
+                        return View();
                     }
                     catch (Exception ex)
                     {
                         ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
+                        return View();
                     }
                     if (_obj.errCode != "-1")
                     {
@@ -65,10 +67,9 @@ namespace HomeStay_MVC.Controllers
                     else
                     {
                         ViewBag.Message = "Đăng ký thất bại!";
+                        return View();
                     }
                 }
-
-                return View();
             }
 
             return View(model);
