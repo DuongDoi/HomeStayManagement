@@ -17,7 +17,7 @@
     <table class="table table-bordered table-hover text-center">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th> </th>
                 <th>Cơ sở</th>
                 <th>Tên phòng</th>
                 <th>Giá phòng</th>
@@ -35,8 +35,11 @@
             @foreach (var room in Model)
             {
                 <tr>
+                    
                     <td>
-                        R.@Html.DisplayFor(modelItem => room.ID)
+                        <img src="@Url.Content($"~/uploads/AvatarRoom/{room.AVATAR_PATH}")"
+                             alt="Avatar"
+                             style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => room.HOMESTAYS_NAME)

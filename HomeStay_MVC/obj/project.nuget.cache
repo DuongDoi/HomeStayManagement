@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nJAJlrF0wZk=",
+  "dgSpecHash": "XI+omRuj/pc=",
   "success": true,
-  "projectFilePath": "D:\\DATN\\test\\HOMESTAY_MVC\\HomeStay_MVC\\HomeStay_MVC.csproj",
+  "projectFilePath": "D:\\DATN\\test\\HomeStay_MVC\\HomeStay_MVC\\HomeStay_MVC.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dvdoi\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\dvdoi\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

@@ -5,37 +5,68 @@
     ViewData["Title"] = "Cập nhật thông tin";
 }
 <h2 class="text-center mt-4">Cập nhật thông tin</h2>
-<div style="margin-left:50px; margin-top: 50px;">
-    @using (Html.BeginForm("Edit", "Rooms", new { id = Model.ID}, FormMethod.Post))
-    {
-        <div style="display: flex; flex-direction:row;">
-            <div style="flex:1;margin-left: 30px;margin-right: 30px;">
-                <div class="form-group">
-                    <label for="ROOMS_NAME">Tên phòng</label>
-                    @Html.TextBoxFor(m => m.ROOMS_NAME, new { @class = "form-control", @id = "ROOMS_NAME", @required = "required" ,autocomplete = "off" })
-                </div>
-                <div class="form-group">
-                    <label for="ROOMS_PRICE">Giá phòng( VND/ngày-đêm)</label>
-                    @Html.TextBoxFor(m => m.ROOMS_PRICE, new { type = "number", @class = "form-control", @id = "ROOMS_PRICE", @required = "required", autocomplete = "off" })
-                </div>
-                <div class="form-group">
-                    <label for="ROOMS_STATUS">Tình trạng</label>
-                    @Html.DropDownListFor(m => m.ROOMS_STATUS, Model.StatusOptions, "-- Chọn trạng thái --", new { @class = "form-control", @id = "ROOMS_STATUS", required = "required" })
-                </div>
-                <div class="form-group">
-                    <label for="Save_code">Mã Pin</label>
-                    @Html.PasswordFor(m => m.Save_code, new { @class = "form-control", @id = "Save_code", @required = "required", autocomplete = "off" })
-                </div>
-                @if (ViewBag.Message != null)
-                {
-                    <div class="alert alert-danger">@ViewBag.Message</div>
-                }
 
-                <p style="text-align:right; margin-right:40px; margin-top: 50px">
-                    <button type="submit" class="btn btn-success">Lưu</button>
-                    <a href="@Url.Action("Index", "Rooms")" class="btn btn-danger">Quay lại</a>
-                </p>
-            </div>
+
+@using (Html.BeginForm("Edit", "Rooms", new { id = Model.ID }, FormMethod.Post, false, htmlAttributes: new { enctype = "multipart/form-data" }))
+ {
+    <div style="text-align: center; margin-top: 20px;display:flex;align-items:center;justify-content:center;">
+        <img id="previewImage"
+             src="@Url.Content($"~/uploads/AvatarRoom/{Model.AVATAR_PATH}")"
+             alt="Avatar"
+             style="width: 300px; height: 300px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
+        <div style="width: 400px;margin-left:30px; text-align: center; margin-top: 20px;">
+            <label for="avatarFile">Tải lên ảnh đại diện mới:</label>
+            <input type="file"
+                   id="avatarFile"
+                   name="avatarFile"
+                   class="form-control"
+                   accept="image/*" />
         </div>
-    }
-</div>
+    </div>
+
+    <div style="margin-left:50px; margin-top: 50px;">
+            <div style="display: flex; flex-direction:row;">
+                <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+                <input type="hidden" name="HOMESTAYS_ID" value="@Model.HOMESTAYS_ID" />
+
+                    <div class="form-group">
+                        <label for="ROOMS_NAME">Tên phòng</label>
+                        @Html.TextBoxFor(m => m.ROOMS_NAME, new { @class = "form-control", @id = "ROOMS_NAME", @required = "required" ,autocomplete = "off" })
+                    </div>
+                    <div class="form-group">
+                        <label for="ROOMS_PRICE">Giá phòng( VND/ngày-đêm)</label>
+                        @Html.TextBoxFor(m => m.ROOMS_PRICE, new { type = "number", @class = "form-control", @id = "ROOMS_PRICE", @required = "required", autocomplete = "off" })
+                    </div>
+                    <div class="form-group">
+                        <label for="ROOMS_STATUS">Tình trạng</label>
+                        @Html.DropDownListFor(m => m.ROOMS_STATUS, Model.StatusOptions, "-- Chọn trạng thái --", new { @class = "form-control", @id = "ROOMS_STATUS", required = "required" })
+                    </div>
+                    <div class="form-group">
+                        <label for="Save_code">Mã Pin</label>
+                        @Html.PasswordFor(m => m.Save_code, new { @class = "form-control", @id = "Save_code", @required = "required", autocomplete = "off" })
+                    </div>
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-danger">@ViewBag.Message</div>
+                    }
+
+                    <p style="text-align:right; margin-right:40px; margin-top: 50px">
+                        <button type="submit" class="btn btn-success">Lưu</button>
+                        <a href="@Url.Action("Index", "Rooms")" class="btn btn-danger">Quay lại</a>
+                    </p>
+                </div>
+            </div>
+    </div>
+
+}
+@section Scripts {
+    <script>
+        document.getElementById('avatarFile').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const imageUrl = URL.createObjectURL(file);
+                document.getElementById('previewImage').src = imageUrl;
+            }
+        });
+    </script>
+}

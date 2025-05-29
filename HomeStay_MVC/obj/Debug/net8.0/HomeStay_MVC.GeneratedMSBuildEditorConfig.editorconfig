@@ -17,229 +17,233 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HomeStay_MVC
 build_property.RootNamespace = HomeStay_MVC
-build_property.ProjectDir = D:\DATN\test\HOMESTAY_MVC\HomeStay_MVC\
+build_property.ProjectDir = D:\DATN\test\HomeStay_MVC\HomeStay_MVC\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\DATN\test\HOMESTAY_MVC\HomeStay_MVC
+build_property.MSBuildProjectDirectory = D:\DATN\test\HomeStay_MVC\HomeStay_MVC
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Account/Add.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Account/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBZGQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Account/Delete.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Account/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Account/Details.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Account/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Account/Edit.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Account/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Account/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Account/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Account/IndexManager.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Account/IndexManager.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxJbmRleE1hbmFnZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/AdminHome/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/AdminHome/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Ib21lXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Bills/Add.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Avatar/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhdGFyXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Bills/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcQWRkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Bills/Delete.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Bills/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Bills/Details.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Bills/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Bills/Edit.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Bills/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Bills/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Bills/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQmlsbHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Customers/Add.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Customers/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXEFkZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Customers/Delete.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Customers/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXERlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Customers/Details.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Customers/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Customers/Edit.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Customers/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Customers/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Customers/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VzdG9tZXJzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Foods/Add.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Foods/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcQWRkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Foods/Delete.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Foods/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Foods/Details.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Foods/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Foods/Edit.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Foods/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Foods/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Foods/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRm9vZHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/HomeStay/Add.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/HomeStay/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVN0YXlcQWRkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/HomeStay/Delete.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/HomeStay/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVN0YXlcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/HomeStay/Details.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/HomeStay/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVN0YXlcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/HomeStay/Edit.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/HomeStay/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVN0YXlcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/HomeStay/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/HomeStay/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVN0YXlcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Home/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Home/Privacy.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Login/CreatePIN.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Login/CreatePIN.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cQ3JlYXRlUElOLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Login/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Register/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Register/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVnaXN0ZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/ResetPassword/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/ResetPassword/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVzZXRQYXNzd29yZFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Rooms/Add.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Rooms/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcQWRkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Rooms/Delete.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Rooms/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Rooms/Details.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Rooms/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Rooms/Edit.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Rooms/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Rooms/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Rooms/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Services/Add.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Services/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcQWRkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Services/Delete.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Services/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Services/Details.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Services/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Services/Edit.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Services/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Services/Index.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Services/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2VydmljZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Shared/Error.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Shared/_Layout_Manager.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Shared/_Layout_Manager.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRfTWFuYWdlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Users/Avatar.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Users/Avatar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcQXZhdGFyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Users/ChangePass.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Users/ChangePass.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcQ2hhbmdlUGFzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Users/ChangePIN.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Users/ChangePIN.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcQ2hhbmdlUElOLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Users/EditProfile.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Users/EditProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRWRpdFByb2ZpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Users/Profile.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Users/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcUHJvZmlsZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/_ViewImports.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/_ViewStart.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/DATN/test/HOMESTAY_MVC/HomeStay_MVC/Views/Shared/_Layout.cshtml]
+[D:/DATN/test/HomeStay_MVC/HomeStay_MVC/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-tvt1u3x0w8

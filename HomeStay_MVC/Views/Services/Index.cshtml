@@ -17,7 +17,7 @@
     <table class="table table-bordered table-hover text-center">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th></th>
                 <th>Tên dịch vụ</th>
                 <th>Giá dịch vụ</th>
                 @if (role != "manager")
@@ -31,7 +31,9 @@
             {
                 <tr>
                     <td>
-                        Ser.@Html.DisplayFor(modelItem => service.ID)
+                        <img src="@Url.Content($"~/uploads/AvatarServices/{service.AVATAR_PATH}")"
+                             alt="Avatar"
+                             style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => service.SERVICES_NAME)

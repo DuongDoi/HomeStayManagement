@@ -57,6 +57,27 @@ namespace ResfullApi.Models
 
             return getDataFromProcedure(str, "", parms);
         }
+
+        public static DataSet USERS_UPDATE_AVATAR(string user, string avatar_name)
+        {
+
+            string str;
+            str = "";
+            str = "API_USES_PKG.USERS_UPDATE_AVATAR";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_users", OracleDbType.Varchar2),
+                                new OracleParameter("v_avatar_path", OracleDbType.Varchar2),
+
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = user;
+            parms[1].Value = avatar_name;
+
+
+            return getDataFromProcedure(str, "", parms);
+        }
         public static DataSet USERS_INSERT(string user, string pass,string phone, string email,string name,string role,string ht_id,string create_by_user)
         {
             
@@ -227,7 +248,7 @@ namespace ResfullApi.Models
 
             return getDataFromProcedure(str, "", parms);
         }
-        public static DataSet HOMESTAYS_UPDATE(string id,string name, string card, string address, string description, string manager, string phone, string type)
+        public static DataSet HOMESTAYS_UPDATE(string id,string name, string card, string address, string description, string manager, string phone,string avatar_path, string type)
         {
             
             string str;
@@ -243,6 +264,8 @@ namespace ResfullApi.Models
                                 new OracleParameter("v_description", OracleDbType.NVarchar2),
                                 new OracleParameter("v_manager", OracleDbType.NVarchar2),
                                 new OracleParameter("v_phone", OracleDbType.Varchar2),
+
+                                new OracleParameter("v_avatar_path", OracleDbType.Varchar2),
                                 new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
@@ -253,7 +276,9 @@ namespace ResfullApi.Models
             parms[4].Value = description;
             parms[5].Value = manager;
             parms[6].Value = phone;
-            parms[7].Value = type;
+            parms[7].Value = avatar_path ?? (object)DBNull.Value;
+
+            parms[8].Value = type;
 
             return getDataFromProcedure(str, "", parms);
         }
@@ -379,7 +404,7 @@ namespace ResfullApi.Models
             return getDataFromProcedure(str, "", parms);
         }
 
-        public static DataSet ROOMS_UPDATE(string id, string name, string price, string status,  string type)
+        public static DataSet ROOMS_UPDATE(string id, string name, string price, string status,string avatar_path,  string type)
         {
 
             string str;
@@ -392,6 +417,7 @@ namespace ResfullApi.Models
                                 new OracleParameter("v_room_name", OracleDbType.NVarchar2),
                                 new OracleParameter("v_price", OracleDbType.Varchar2),
                                 new OracleParameter("v_status", OracleDbType.Varchar2),
+                                new OracleParameter("v_avatar_path", OracleDbType.Varchar2),
                                 new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
@@ -399,7 +425,9 @@ namespace ResfullApi.Models
             parms[1].Value = name;
             parms[2].Value = price;
             parms[3].Value = status;
-            parms[4].Value = type;
+            parms[4].Value = avatar_path;
+
+            parms[5].Value = type;
 
             return getDataFromProcedure(str, "", parms);
         }
@@ -451,7 +479,7 @@ namespace ResfullApi.Models
 
             return getDataFromProcedure(str, "", parms);
         }
-        public static DataSet FOODS_UPDATE(string id, string name, string price,string f_type, string userID, string type)
+        public static DataSet FOODS_UPDATE(string id, string name, string price,string f_type, string userID,string avata_path, string type)
         {
 
             string str;
@@ -464,6 +492,7 @@ namespace ResfullApi.Models
                                 new OracleParameter("v_foods_name", OracleDbType.NVarchar2),
                                 new OracleParameter("v_price", OracleDbType.Varchar2),
                                 new OracleParameter("v_users_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_avatar_path", OracleDbType.Varchar2),
                                 new OracleParameter("v_type_food", OracleDbType.Varchar2),
                                 new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
@@ -472,8 +501,9 @@ namespace ResfullApi.Models
             parms[1].Value = name;
             parms[2].Value = price;
             parms[3].Value = userID;
-            parms[4].Value = f_type;
-            parms[5].Value = type;
+            parms[4].Value = avata_path;
+            parms[5].Value = f_type;
+            parms[6].Value = type;
 
             return getDataFromProcedure(str, "", parms);
         }
@@ -527,7 +557,7 @@ namespace ResfullApi.Models
         }
 
 
-        public static DataSet SERVICES_UPDATE(string id, string name, string price, string userID, string type)
+        public static DataSet SERVICES_UPDATE(string id, string name, string price, string userID,string avatar_path, string type)
         {
 
             string str;
@@ -540,6 +570,7 @@ namespace ResfullApi.Models
                                 new OracleParameter("v_services_name", OracleDbType.NVarchar2),
                                 new OracleParameter("v_price", OracleDbType.Varchar2),
                                 new OracleParameter("v_users_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_avatar_path", OracleDbType.Varchar2),
                                 new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
@@ -547,7 +578,10 @@ namespace ResfullApi.Models
             parms[1].Value = name;
             parms[2].Value = price;
             parms[3].Value = userID;
-            parms[4].Value = type;
+            parms[4].Value = avatar_path;
+
+            parms[5].Value = type;
+
 
             return getDataFromProcedure(str, "", parms);
         }

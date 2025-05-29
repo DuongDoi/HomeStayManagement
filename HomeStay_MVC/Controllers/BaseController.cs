@@ -8,7 +8,7 @@ namespace HomeStay_MVC.Controllers
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(Program));
 
-
+        
         protected void CreateAuthToken(UserInfor _obj)
         {
             HttpContext.Session.Clear();
@@ -76,6 +76,7 @@ namespace HomeStay_MVC.Controllers
             return false;
         }
 
+        
 
     }
 }

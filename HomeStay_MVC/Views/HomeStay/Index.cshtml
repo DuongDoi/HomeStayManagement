@@ -15,7 +15,7 @@
     <table class="table table-bordered table-hover text-center">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th></th>
                 <th>Tên cơ sở</th>
                 <th>Tên quản lí</th>
                 <th>Địa chỉ</th>
@@ -28,7 +28,9 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => homestay.id)
+                        <img src="@Url.Content($"~/uploads/AvatarHomestay/{homestay.AVATAR_PATH}")"
+                             alt="Avatar"
+                             style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => homestay.HOMESTAYS_NAME)
@@ -36,7 +38,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => homestay.MANAGER_NAME)
                     </td>
-                    <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;" title="@Html.DisplayFor(modelItem => homestay.HOMESTAYS_ADDRESS)">
+                    <td style="white-space: wrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;" title="@Html.DisplayFor(modelItem => homestay.HOMESTAYS_ADDRESS)">
                         @Html.DisplayFor(modelItem => homestay.HOMESTAYS_ADDRESS)
                     </td>
                     <td>

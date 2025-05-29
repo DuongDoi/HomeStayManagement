@@ -12,7 +12,11 @@ namespace HomeStay_MVC.Controllers
     public class HomeStayController : BaseController
     {
         static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(UsersController));
-
+        private readonly IWebHostEnvironment _env;
+        public HomeStayController(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
 
         public IActionResult Index()
         {
@@ -54,7 +58,16 @@ namespace HomeStay_MVC.Controllers
                 _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
                 _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
                 _obj.USERS_ID = dr["USERS_ID"].ToString();
-                _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+
+                string _avatar_name = dr["AVATAR_PATH"].ToString();
+                if (!string.IsNullOrWhiteSpace(_avatar_name))
+                {
+                    
+                    _obj.AVATAR_PATH = $"{_obj.USERS_ID}/{_avatar_name}";
+                }
+                else { _obj.AVATAR_PATH = "no_image.png"; }
+
+
                 try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
                 catch { }
                 try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
@@ -94,7 +107,16 @@ namespace HomeStay_MVC.Controllers
                         _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
                         _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
                         _obj.USERS_ID = dr["USERS_ID"].ToString();
-                        _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+
+
+                        string _avatar_name = dr["AVATAR_PATH"].ToString();
+                        if (!string.IsNullOrWhiteSpace(_avatar_name))
+                        {
+                            _obj.AVATAR_PATH = $"{_obj.USERS_ID}/{_avatar_name}";
+                        }
+                        else { _obj.AVATAR_PATH = "no_image.png"; }
+
+
                         try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
                         catch { }
                         try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
@@ -139,7 +161,15 @@ namespace HomeStay_MVC.Controllers
                         _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
                         _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
                         _obj.USERS_ID = dr["USERS_ID"].ToString();
-                        _obj.AVATAR_PATH = dr["AVATAR_PATH"].ToString();
+
+                        string _avatar_name = dr["AVATAR_PATH"].ToString();
+                        if (!string.IsNullOrWhiteSpace(_avatar_name))
+                        {
+                            _obj.AVATAR_PATH = $"{_obj.USERS_ID}/{_avatar_name}";
+                        }
+                        else { _obj.AVATAR_PATH = "no_image.png"; }
+
+
                         try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
                         catch { }
                         try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
@@ -157,7 +187,7 @@ namespace HomeStay_MVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(string id, HomestaysObj model)
+        public IActionResult Edit(string id, HomestaysObj model, IFormFile avatarFile)
         {
             if (!CheckAuthToken())
             {
@@ -172,12 +202,33 @@ namespace HomeStay_MVC.Controllers
                     ViewBag.Message = "Sai mã PIN";
                     return View(model);
                 }
+
+                string savedFileName = SaveImageToUploads(avatarFile);
+                string avatar_path;
+                if (!string.IsNullOrEmpty(savedFileName)) { avatar_path = savedFileName; }
+                else
+                {
+                    string _userID = HttpContext.Session.GetString("ID");
+                    DataSet ds1 = DataAccess.HOMESTAYS_GET_LIST(id, _userID, "1");
+                    if (ds1.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr1 = ds1.Tables[0].Rows[0];
+                        avatar_path = dr1["AVATAR_PATH"].ToString(); ;
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Login");
+                    }
+                }
+
+
+
                 ResponseObjs _obj = new ResponseObjs();
                 _obj.errCode = "-1";
                 _obj.errMsgs = "unknow!";
                 try
                 {
-                    DataSet ds = DataAccess.HOMESTAYS_UPDATE(id, model.HOMESTAYS_NAME, model.MANAGER_CARD_NUMBER, model.HOMESTAYS_ADDRESS, model.HOMESTAY_DESCRIPTION, model.MANAGER_NAME, model.MANAGER_PHONE, "1");
+                    DataSet ds = DataAccess.HOMESTAYS_UPDATE(id, model.HOMESTAYS_NAME, model.MANAGER_CARD_NUMBER, model.HOMESTAYS_ADDRESS, model.HOMESTAY_DESCRIPTION, model.MANAGER_NAME, model.MANAGER_PHONE,avatar_path, "1");
                     string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                     string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
                     _obj.errCode = errrCode;
@@ -194,7 +245,6 @@ namespace HomeStay_MVC.Controllers
                 if (_obj.errCode == "0")
                 {
                     TempData["Success"] = "Cập nhật thông tin thành công.";
-
                     return RedirectToAction("Index");
                 }
                 else
@@ -268,7 +318,7 @@ namespace HomeStay_MVC.Controllers
                     return View(model);
                 }
 
-                var ds = DataAccess.HOMESTAYS_UPDATE(id, "", "", "", "", "", "", "2");
+                var ds = DataAccess.HOMESTAYS_UPDATE(id, "", "", "", "", "", "", "","2");
                 var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
 
                 if (errCode == "0")
@@ -354,7 +404,39 @@ namespace HomeStay_MVC.Controllers
             }
         }
 
+        protected string SaveImageToUploads(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return null;
 
+            try
+            {
+                var UserID = HttpContext.Session.GetString("ID");
+                // Đảm bảo thư mục tồn tại
+                string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "AvatarHomestay", UserID);
+                Directory.CreateDirectory(uploadsFolder);
+
+                // Tạo tên file duy nhất
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+                // Đường dẫn tuyệt đối
+                string filePath = Path.Combine(uploadsFolder, fileName);
+
+                // Lưu file
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                // Trả về tên file (để lưu vào DB hoặc hiển thị lại)
+                return fileName;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error saving image: " + ex.Message);
+                return null;
+            }
+        }
 
 
 
@@ -443,7 +525,7 @@ namespace HomeStay_MVC.Controllers
                 if (string.IsNullOrEmpty(type)) type = "1"; //TYPE 1 UPDATE, TYPE 2 XOA
 
 
-                DataSet ds = DataAccess.HOMESTAYS_UPDATE("1",name,card, address,description, manager,phone,type);
+                DataSet ds = DataAccess.HOMESTAYS_UPDATE("1",name,card, address,description, manager,phone,"",type);
                 string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                 string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
 

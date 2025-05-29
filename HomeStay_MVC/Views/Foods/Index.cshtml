@@ -18,7 +18,7 @@
     <table class="table table-bordered table-hover text-center">
         <thead class="table-dark">
             <tr>
-                <th>ID</th>
+                <th></th>
                 <th>Tên món</th>
                 <th>Loại</th>
                 <th>Giá món</th>
@@ -44,7 +44,9 @@
                 }
                 <tr>
                     <td>
-                        FD.@Html.DisplayFor(modelItem => food.ID)
+                        <img src="@Url.Content($"~/uploads/AvatarFoodDrink/{food.AVATAR_PATH}")"
+                             alt="Avatar"
+                             style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => food.FOODS_NAME)
