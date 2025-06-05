@@ -1,11 +1,8 @@
-﻿using System.Data;
-using log4net.Core;
+﻿using HomeStay_MVC.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using ResfullApi.Models;
-using HomeStay_MVC.Models;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 
 namespace HomeStay_MVC.Controllers
 {
@@ -145,7 +142,7 @@ namespace HomeStay_MVC.Controllers
             if (_role == "admin" || _role == "owner")
             {
                 string _userID = HttpContext.Session.GetString("ID");
-                if (_userID != userId) return RedirectToAction("Index", "HomeStay");
+                if (_userID != userId && _role != "admin") return RedirectToAction("Index", "HomeStay");
                 else
                 {
                     DataSet ds = DataAccess.HOMESTAYS_GET_LIST(id, userId, "1");
@@ -160,7 +157,9 @@ namespace HomeStay_MVC.Controllers
                         _obj.HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString();
                         _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
                         _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
+
                         _obj.USERS_ID = dr["USERS_ID"].ToString();
+                        if (_obj.USERS_ID != userId && _role != "admin") return RedirectToAction("Index", "HomeStay");
 
                         string _avatar_name = dr["AVATAR_PATH"].ToString();
                         if (!string.IsNullOrWhiteSpace(_avatar_name))
@@ -203,13 +202,13 @@ namespace HomeStay_MVC.Controllers
                     return View(model);
                 }
 
-                string savedFileName = SaveImageToUploads(avatarFile);
+                string savedFileName = SaveImageToUploads(model.USERS_ID,avatarFile);
                 string avatar_path;
                 if (!string.IsNullOrEmpty(savedFileName)) { avatar_path = savedFileName; }
                 else
                 {
-                    string _userID = HttpContext.Session.GetString("ID");
-                    DataSet ds1 = DataAccess.HOMESTAYS_GET_LIST(id, _userID, "1");
+                    
+                    DataSet ds1 = DataAccess.HOMESTAYS_GET_LIST(id, model.USERS_ID, "1");
                     if (ds1.Tables[0].Rows.Count > 0)
                     {
                         DataRow dr1 = ds1.Tables[0].Rows[0];
@@ -271,7 +270,7 @@ namespace HomeStay_MVC.Controllers
             if (_role == "admin" || _role == "owner")
             {
                 string _userID = HttpContext.Session.GetString("ID");
-                if (_userID != userId) return RedirectToAction("Index", "HomeStay");
+                if (_userID != userId && _role != "admin") return RedirectToAction("Index", "HomeStay");
                 else
                 {
                     DataSet ds = DataAccess.HOMESTAYS_GET_LIST(id, userId, "1");
@@ -404,14 +403,14 @@ namespace HomeStay_MVC.Controllers
             }
         }
 
-        protected string SaveImageToUploads(IFormFile file)
+        protected string SaveImageToUploads(string UserID,IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return null;
 
             try
             {
-                var UserID = HttpContext.Session.GetString("ID");
+                
                 // Đảm bảo thư mục tồn tại
                 string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "AvatarHomestay", UserID);
                 Directory.CreateDirectory(uploadsFolder);

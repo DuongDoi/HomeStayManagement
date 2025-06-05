@@ -1,16 +1,16 @@
-﻿@*@model HomeStay_MVC.Models.Bills
+﻿@model HomeStay_MVC.Models.Bills
 @{
     Layout = "_Layout"; 
     ViewData["Title"] = "Hóa đơn thanh toán";
+    string bill_status = Model.BILLS_STATUS;
 }
 
 <div class="container mt-4 mb-5">
     <div class="text-center">
         <h2>HÓA ĐƠN THANH TOÁN</h2>
-        <p><strong>HOMESTAY MANAGER</strong></p>
-        <p>Địa chỉ: Số 4, Ngõ 44/148 Trần Thái Tông, Cầu Giấy, Hà Nội</p>
-        <p>SĐT: 0865 226 834 | Email: contact@homestaymanager.vn</p>
-        <p>Mã số thuế: 0101234567</p>
+        <p><strong>@Model.HOMESTAYS_NAME</strong></p>
+        <p>Địa chỉ: @Model.HOMESTAYS_ADDRESS</p>
+        <p>SĐT: @Model.MANAGER_PHONE </p>
     </div>
 
     <hr />
@@ -18,7 +18,7 @@
     <div>
         <p><strong>Mã hóa đơn:</strong> @Model.ID</p>
         <p><strong>Ngày lập:</strong> @Model.CREATE_AT</p>
-        <p><strong>Nhân viên lập:</strong> @Model.CREATE_BY</p>
+        <p><strong>Nhân viên lập:</strong>NV-@Model.CREATE_BY</p>
     </div>
 
     <h5 class="mt-4">Thông tin khách hàng</h5>
@@ -47,19 +47,46 @@
                 {
                     <tr>
                         <td>@i</td>
-                        <td>@room.RoomName</td>
-                        <td>@room.CheckIn.ToString("dd/MM/yyyy")</td>
-                        <td>@room.CheckOut.ToString("dd/MM/yyyy")</td>
-                        <td>@room.Nights</td>
-                        <td>@room.PricePerNight.ToString("N0") VNĐ</td>
-                        <td>@room.TotalPrice.ToString("N0") VNĐ</td>
+                        <td>@room.ROOMS_NAME</td>
+                        <td>@room.CheckInDate.ToString("dd/MM/yyyy")</td>
+                        <td>@room.CheckOutDate.ToString("dd/MM/yyyy")</td>
+                        <td>@room.TOTAL_DAYS</td>
+                        <td>@String.Format("{0:N0}",room.PRICE_PER_DAY) VNĐ</td>
+                        <td>@String.Format("{0:N0}",room.TOTAL_PRICE) VNĐ</td>
                     </tr>
                     i++;
                 }
             }
         </tbody>
     </table>
-
+    <h5 class="mt-4">Món ăn phát sinh</h5>
+    <table class="table table-bordered text-center">
+        <thead class="table-secondary">
+            <tr>
+                <th>STT</th>
+                <th>Tên món</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                i = 1;
+                foreach (var food in Model.Foods)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@food.FOODS_NAME</td>
+                        <td>@food.Quantity</td>
+                        <td>@String.Format("{0:N0}",food.UNIT_PRICE_FOOD) VND</td>
+                        <td>@String.Format("{0:N0}",food.TOTAL_PRICE_FOOD) VND</td>
+                    </tr>
+                    i++;
+                }
+            }
+        </tbody>
+    </table>
     <h5 class="mt-4">Dịch vụ phát sinh</h5>
     <table class="table table-bordered text-center">
         <thead class="table-secondary">
@@ -78,10 +105,10 @@
                 {
                     <tr>
                         <td>@i</td>
-                        <td>@service.ServiceName</td>
+                        <td>@service.SERVICES_NAME</td>
                         <td>@service.Quantity</td>
-                        <td>@service.UnitPrice.ToString("N0") VNĐ</td>
-                        <td>@service.TotalPrice.ToString("N0") VNĐ</td>
+                        <td>@String.Format("{0:N0}",service.UNIT_PRICE_SERVICE) VNĐ</td>
+                        <td>@String.Format("{0:N0}", service.TOTAL_PRICE_SERVICE) VND</td>
                     </tr>
                     i++;
                 }
@@ -91,19 +118,39 @@
 
     <h5 class="mt-4">Tổng kết</h5>
     <ul class="list-unstyled">
-        <li><strong>Tổng tiền phòng:</strong> @Model.TotalRoomPrice.ToString("N0") VNĐ</li>
-        <li><strong>Tổng dịch vụ:</strong> @Model.TotalServicePrice.ToString("N0") VNĐ</li>
-        <li><strong>Giảm giá:</strong> @Model.Discount.ToString("N0") VNĐ</li>
-        <li><strong>VAT (10%):</strong> @Model.VAT.ToString("N0") VNĐ</li>
-        <li><strong style="font-size: 1.2em;">Tổng thanh toán:</strong> <span class="text-danger fw-bold">@Model.GrandTotal.ToString("N0") VNĐ</span></li>
+        <li><strong>Tổng tiền phòng:</strong>  VNĐ</li>
+        <li><strong>Tổng dịch vụ:</strong>  VNĐ</li>
+        <li><strong>Giảm giá:</strong>  VNĐ</li>
+        <li><strong>VAT (10%):</strong> VNĐ</li>
+        <li><strong style="font-size: 1.2em;">Tổng thanh toán:</strong> <span class="text-danger fw-bold">@String.Format("{0:N0}", Model.TOTAL_MONEY) VND</span></li>
     </ul>
 
     <h5 class="mt-4">Thanh toán</h5>
-    <p><strong>Phương thức:</strong> @Model.PaymentMethod</p>
-    <p><strong>Ngày thanh toán:</strong> @Model.PaymentDate.ToString("dd/MM/yyyy")</p>
-    <p><strong>Tình trạng:</strong> @Model.PaymentStatus</p>
+    <p><strong>Phương thức:</strong> </p>
+    @if (Model.BILLS_STATUS != "Chưa thanh toán")
+    {
+
+        <p><strong>NV thanh toán:</strong> @Model.UPDATE_BY </p>
+        <p><strong>Ngày thanh toán:</strong> @Model.UPDATE_AT</p>
+    }
+    <p><strong>Tình trạng:</strong> @Model.BILLS_STATUS</p>
 
     <div class="text-center mt-5">
         <p><em>Cảm ơn quý khách đã sử dụng dịch vụ!</em></p>
     </div>
-</div>*@
+    @using (Html.BeginForm("pay", "Bills", new { id = Model.ID }, FormMethod.Post))
+    {
+        @Html.TextBoxFor(m => m.ID, new { @class = "form-control", type = "hidden", name = "ID", value = "@Model.ID" })
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Message</div>
+        }
+        <p style="text-align:right; margin-right:40px; margin-top: 50px">
+            @if (bill_status == "Chưa thanh toán")
+            {
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Xác nhận thanh toán hóa đơn này?')">Thanh toán</button>
+            }
+            <a href="@Url.Action("Index", "Bills")" class="btn btn-success">Quay lại</a>
+        </p>
+    }
+</div>

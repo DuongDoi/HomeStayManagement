@@ -10,6 +10,7 @@
     {
         <div style="display: flex; flex-direction:row;">
             <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+                @Html.HiddenFor(m => m.ID)
                 <div class="form-group">
                     <label for="Save_Code">Mã Pin</label>
                     @Html.PasswordFor(m => m.Save_code, new { @class = "form-control", @id = "Save_Code", @required = "required" })

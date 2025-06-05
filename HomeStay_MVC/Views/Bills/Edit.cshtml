@@ -1,40 +1,391 @@
-﻿@model HomeStay_MVC.Models.FOODS
+﻿@model HomeStay_MVC.Models.Bills
 
 @{
+    ViewData["Title"] = "Sửa hóa đơn";
     Layout = "_Layout";
-    ViewData["Title"] = "Cập nhật thông tin";
 }
-<h2 class="text-center mt-4">Cập nhật thông tin</h2>
-<div style="margin-left:50px; margin-top: 50px;">
-    @using (Html.BeginForm("Edit", "Foods", new { id = Model.ID}, FormMethod.Post))
-    {
-        <div style="display: flex; flex-direction:row;">
-            <div style="flex:1;margin-left: 30px;margin-right: 30px;">
-                <div class="form-group">
-                    <label for="FOODS_NAME">Tên dịch vụ</label>
-                    @Html.TextBoxFor(m => m.FOODS_NAME, new { @class = "form-control", @id = "FOODS_NAME", @required = "required" })
-                </div>
-                <div class="form-group">
-                    <label for="FOODS_PRICE">Giá dịch vụ</label>
-                    @Html.TextBoxFor(m => m.FOODS_PRICE, new { @class = "form-control", @id = "FOODS_PRICE", @required = "required" })
-                </div>
-                <div class="form-group">
-                    <label for="FOODS_TYPE">Phân loại</label>
-                    @Html.DropDownListFor(m => m.FOODS_TYPE, Model.TypeOptions, "-- Chọn loại thực phẩm--", new { @class = "form-control", @id = "FOODS_TYPE", required = "required" })
-                </div>
-                <div class="form-group">
-                    <label for="Save_code">Mã Pin</label>
-                    @Html.PasswordFor(m => m.Save_code, new { @class = "form-control", @id = "Save_code", @required = "required" })
-                </div>
-                @if (ViewBag.Message != null)
-                {
-                    <div class="alert alert-danger">@ViewBag.Message</div>
-                }
 
-                <p style="text-align:right; margin-right:40px; margin-top: 50px">
-                    <button type="submit" class="btn btn-success">Lưu</button>
-                    <a href="@Url.Action("Index", "Foods")" class="btn btn-danger">Quay lại</a>
+<div class="container mt-4">
+    <h2 class="text-center">Sửa hóa đơn</h2>
+    @using (Html.BeginForm("Edit", "Bills", new { ID = Model.ID }, FormMethod.Post))
+    {
+        @Html.TextBoxFor(m => m.ID, new { @class = "form-control", type = "hidden", name = "ID", value = "@Model.ID" })
+        <!-- Danh sách cơ sở -->
+        <h5>Danh sách cơ sở</h5>
+        <table class="table table-bordered" id="homestay-table">
+            <thead class="table-light">
+                <tr><th>Chọn cơ sở</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select asp-for="ID_HOMESTAYS" asp-items="Model.HomestayOptions" class="form-select" id="homestay-select">
+                            <option value="">-- Chọn cơ sở --</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Khách hàng -->
+        <h5>Thông tin khách hàng</h5>
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <input type="number" id="search-customer" class="form-control" placeholder="Nhập CCCD khách hàng" />
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-success w-100" id="btn-search-customer">Tìm kiếm</button>
             </div>
         </div>
+        <div class="mb-3">
+            <label for="customer-select" class="form-label">Chọn khách hàng</label>
+            <select asp-for="CUSTOMERS_CARD_ID" asp-items="Model.CustomerOptions" class="form-select" id="customer-select" required>
+                <option value="">-- Chọn khách hàng --</option>
+            </select>
+        </div>
+
+        <!-- Danh sách phòng -->
+        <h5>Danh sách phòng</h5>
+        <table class="table table-bordered" id="room-table">
+            <thead class="table-light">
+                <tr>
+                    <th>Phòng</th>
+                    <th>Ngày nhận</th>
+                    <th>Ngày trả</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="room-body">
+                @for (int i = 0; i < Model.Rooms.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <select class="form-select room-select" name="Rooms[@i].RoomId" required>
+                                <option value="">-- Chọn phòng --</option>
+                                @foreach (var item in Model.RoomOptions)
+                                {
+                                    if (item.Value == Model.Rooms[i].RoomId.ToString())
+                                    {
+                                        <option value="@item.Value" selected>
+                                            @item.Text
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">
+                                            @item.Text
+                                        </option>
+                                    }
+
+                                 }
+                                </select>
+                            </td>
+                            <td>
+                                <input type="date" class="form-control" name="Rooms[@i].CheckInDate" value="@Model.Rooms[i].CheckInDate.ToString("yyyy-MM-dd")" required />
+                            </td>
+                            <td>
+                                <input type="date" class="form-control" name="Rooms[@i].CheckOutDate" value="@Model.Rooms[i].CheckOutDate.ToString("yyyy-MM-dd")" required />
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button>
+                            </td>
+                        </tr>
+                    }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-warning btn-sm mb-3" id="add-room" onclick="addRoomRow()">+ Thêm phòng</button>
+
+        <!-- Món ăn -->
+        <h5>Danh sách món ăn</h5>
+        <table class="table table-bordered" id="food-table">
+            <thead class="table-light">
+                <tr>
+                    <th>Tên món</th>
+                    <th>Số lượng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="food-body">
+
+                @for (int i = 0; i < Model.Foods.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <select class="form-select food-select" name="Foods[@i].FoodId" required>
+                                <option value="">-- Chọn món --</option>
+                                @foreach (var item in Model.FoodDrinkOptions)
+                                {
+                                    if (item.Value == Model.Foods[i].FoodId.ToString())
+                                    {
+                                        <option value="@item.Value" selected>
+                                            @item.Text
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">
+                                            @item.Text
+                                        </option>
+                                    }
+
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="Foods[@i].Quantity" value="@Model.Foods[i].Quantity.ToString()" required />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-warning btn-sm mb-3" id="add-food" onclick="addFoodRow()">+ Thêm món ăn</button>
+
+        <!-- Dịch vụ -->
+        <h5>Danh sách dịch vụ</h5>
+        <table class="table table-bordered" id="service-table">
+            <thead class="table-light">
+                <tr>
+                    <th>Tên dịch vụ</th>
+                    <th>Số lượng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="service-body">
+                @for (int i = 0; i < Model.Services.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <select class="form-select food-select" name="Services[@i].ServiceId" required>
+                                <option value="">-- Chọn dịch vụ --</option>
+                                @foreach (var item in Model.ServiceOptions)
+                                {
+                                    if (item.Value == Model.Services[i].ServiceId.ToString())
+                                    {
+                                        <option value="@item.Value" selected>
+                                            @item.Text
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">
+                                            @item.Text
+                                        </option>
+                                    }
+
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" name="Services[@i].Quantity" value="@Model.Services[i].Quantity.ToString()" required />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-warning btn-sm mb-3" id="add-service" onclick="addServiceRow()">+ Thêm dịch vụ</button>
+
+
+
+
+
+
+        <div class="form-group">
+            <label for="Save_Code">Mã Pin</label>
+            @Html.PasswordFor(m => m.Save_code, new { @class = "form-control", @id = "Save_Code", @required = "required" })
+        </div>
+        <br />
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Message</div>
+        }
+        <br />
+        
+        <p style="text-align:right; margin-right:40px; margin-top: 50px">
+            <button type="submit" class="btn btn-primary">Lưu hóa đơn</button>
+            <a href="@Url.Action("Index", "Bills")" class="btn btn-danger">Quay lại</a>
+        </p>
     }
+
+
 </div>
+
+
+
+
+<template id="room-template">
+    <tr>
+        <td>
+            <select class="form-select room-select" name="Rooms[__INDEX__].RoomId" required>
+            </select>
+        </td>
+        <td>
+            <input type="date" name="Rooms[__INDEX__].CheckInDate" class="form-control" required />
+        </td>
+        <td>
+            <input type="date" name="Rooms[__INDEX__].CheckOutDate" class="form-control" required />
+        </td>
+        <td>
+            <button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button>
+        </td>
+    </tr>
+</template>
+
+
+<template id="food-template">
+    <tr>
+        <td>
+            <select class="form-select food-select" name="Foods[__INDEX__].FoodId" required>
+            </select>
+        </td>
+        <td><input type="number" name="Foods[__INDEX__].Quantity" class="form-control" required /></td>
+        <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
+    </tr>
+</template>
+
+
+
+
+<template id="service-template">
+    <tr>
+        <td>
+            <select class="form-select service-select" name="Services[__INDEX__].ServiceId" required>
+            </select>
+        </td>
+        <td><input type="number" name="Services[__INDEX__].Quantity" class="form-control" required /></td>
+        <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
+    </tr>
+</template>
+@section Scripts {
+
+    <script>
+
+
+        // Gọi API lấy danh sách phòng khi chọn homestay
+        document.getElementById("homestay-select").addEventListener("change", function () {
+            const homestayId = this.value;
+            //if (!homestayId) return;
+
+            fetch(`/Bills/GetRoomsByHomestay?homestayId=${homestayId}`)
+                .then(res => res.json())
+                .then(data => {
+                    let options = '<option value="">-- Chọn phòng --</option>';
+                    data.forEach(room => {
+                        options += `<option value="${room.value}">${room.text}</option>`;
+                    });
+
+                    document.querySelectorAll(".room-select").forEach(select => {
+                        select.innerHTML = options;
+                    });
+
+                    document.getElementById("room-template").dataset.options = options;
+
+                    updateSelectOptions('room-select', 'room-template');
+                });
+        });
+
+        // Gọi API tìm khách hàng
+        document.getElementById("btn-search-customer").addEventListener("click", function () {
+            const cccd = document.getElementById("search-customer").value.trim();
+            if (!cccd) return;
+
+            fetch(`/Bills/GetCustomersByCCCD?cccd=${cccd}`)
+                .then(res => res.json())
+                .then(data => {
+                    const select = document.getElementById("customer-select");
+
+                    while (select.options.length > 1) {
+                        select.remove(1);
+                    }
+
+                    if (data.length === 0) {
+                        alert("Không tìm thấy khách hàng nào!");
+                        return;
+                    }
+
+                    let options = '';
+                    data.forEach(item => {
+                        options += `<option value="${item.value}">${item.text}</option>`;
+                    });
+
+                    document.getElementById("customer-select").dataset.options = options;
+
+                    select.insertAdjacentHTML("beforeend", options);
+
+                    select.selectedIndex = 1;
+                })
+                .catch(() => alert("Lỗi khi tìm kiếm khách hàng!"));
+        });
+
+        let roomIndex = @Model.Rooms.Count;
+        let foodIndex = @Model.Foods.Count;
+        let serviceIndex = @Model.Services.Count;
+        const roomOptions = @Html.Raw(Json.Serialize(Model.RoomOptions));
+        const foodOptions = @Html.Raw(Json.Serialize(Model.FoodDrinkOptions));
+        const serviceOptions = @Html.Raw(Json.Serialize(Model.ServiceOptions));
+        function populateSelectOptions(selectElement, options) {
+            selectElement.innerHTML = '<option value="">-- Chọn --</option>';
+            for (const opt of options) {
+                const option = document.createElement("option");
+                option.value = opt.value;
+                option.textContent = opt.text;
+                selectElement.appendChild(option);
+            }
+        }
+
+        function addRoomRow() {
+            const template = document.getElementById("room-template").content.cloneNode(true);
+            const html = template.firstElementChild.outerHTML.replace(/__INDEX__/g, roomIndex);
+            const row = document.createElement("tr");
+            row.innerHTML = html;
+
+            const select = row.querySelector("select");
+            populateSelectOptions(select, roomOptions);
+
+            document.getElementById("room-body").appendChild(row);
+            roomIndex++;
+        }
+
+        function addFoodRow() {
+            const template = document.getElementById("food-template").content.cloneNode(true);
+            const html = template.firstElementChild.outerHTML.replace(/__INDEX__/g, foodIndex);
+            const row = document.createElement("tr");
+            row.innerHTML = html;
+
+            const select = row.querySelector("select");
+            populateSelectOptions(select, foodOptions);
+
+            document.getElementById("food-body").appendChild(row);
+            foodIndex++;
+        }
+
+        function addServiceRow() {
+            const template = document.getElementById("service-template").content.cloneNode(true);
+            const html = template.firstElementChild.outerHTML.replace(/__INDEX__/g, serviceIndex);
+            const row = document.createElement("tr");
+            row.innerHTML = html;
+
+            const select = row.querySelector("select");
+            populateSelectOptions(select, serviceOptions);
+
+            document.getElementById("service-body").appendChild(row);
+            serviceIndex++;
+        }
+
+        
+        document.addEventListener("click", function (e) {
+            if (e.target && e.target.classList.contains("remove-row")) {
+                e.target.closest("tr").remove();
+            }
+        });
+        
+    </script>
+}
+
+
+
+

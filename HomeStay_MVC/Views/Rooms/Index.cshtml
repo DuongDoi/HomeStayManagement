@@ -4,34 +4,114 @@
     Layout = "_Layout";
     ViewData["Title"] = "Quản lý phòng";
     var role = Context.Session.GetString("Role");
+    var ht_id = Context.Session.GetString("Homestays_Id");
 }
 
 <h2 class="text-center mt-4">Quản lý phòng</h2>
-@if (role != "manager")
-{
-    <p style="text-align:right; margin-right:20px;">
-    <a class="btn btn-success" asp-action="Add">Tạo phòng mới</a>
-</p>}
+<form id="filter-form" method="get" action="/Rooms/Filter">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; padding: 20px 30px;">
+        <!-- Khối chọn cơ sở + Xóa -->
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="display: flex; flex-direction: column;">
+                <label for="homestay-select">Chọn cơ sở</label>
+                <select id="homestay-select" name="HomestayId" class="form-control" >
+                    <option value="0">-- Chọn cơ sở --</option>
+                    @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
+                    {
+                        if(item.Value == ht_id)
+                        {
+                            <option value="@item.Value" selected>@item.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                       
+                }
+            </select>
+        </div>
+        <div style="margin-top: 25px;">
+            <a asp-action="Index" class="btn btn-sm btn-danger">Xóa</a>
+        </div>
+    </div>
+
+    <!-- Bộ lọc ngày -->
+    @* <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;"> *@
+    @*     <div style="display: flex; flex-direction: column;"> *@
+    @*         <label for="checkin_date">Ngày nhận phòng</label> *@
+    @*         <input type="date" name="checkin_date" id="checkin_date" class="form-control" required /> *@
+    @*     </div> *@
+    @*     <div style="display: flex; flex-direction: column;"> *@
+    @*         <label for="checkout_date">Ngày trả phòng</label> *@
+    @*         <input type="date" name="checkout_date" id="checkout_date" class="form-control" required /> *@
+    @*     </div> *@
+    @*     <div style="display: flex; flex-direction: column;"> *@
+    @*         <label for="type-room-select">Loại phòng</label> *@
+    @*         <select id="type-room-select" name="TYPE_VALUE" class="form-control" required> *@
+    @*             <option value="">-- Chọn loại phòng --</option> *@
+    @*             <option value="1">Phòng đơn</option> *@
+    @*             <option value="2">Phòng đôi</option> *@
+    @*             <option value="3">Phòng nhiều người</option> *@
+    @*         </select> *@
+    @*     </div> *@
+    @*     <div style="display: flex; flex-direction: column;"> *@
+    @*         <label style="visibility: hidden;">Lọc</label> *@
+    @*         <input type="button" name="btn_filter" id="btn_filter" value="Lọc" class="btn btn-primary" /> *@
+    @*     </div> *@
+    @* </div> *@
+    
+        <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div style="display: flex; flex-direction: column;">
+                <label for="checkin_date">Ngày nhận phòng</label>
+                <input type="date" name="checkin_date" id="checkin_date" class="form-control" required />
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <label for="checkout_date">Ngày trả phòng</label>
+                <input type="date" name="checkout_date" id="checkout_date" class="form-control" required />
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <label for="type-room-select">Loại phòng</label>
+                <select id="type-room-select" name="TYPE_VALUE" class="form-control" >
+                    <option value="0">-- Chọn loại phòng --</option>
+                    <option value="1">Phòng đơn</option>
+                    <option value="2">Phòng đôi</option>
+                    <option value="3">Phòng nhiều người</option>
+                </select>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Lọc</label>
+                <button type="submit" class="btn btn-primary">Lọc</button>
+            </div>
+        </div>
+    </form>
+    <!-- Nút tạo phòng -->
+    @if (role != "manager")
+    {
+        <div style="margin-top: 20px; width: 100%; text-align: right;">
+            <a class="btn btn-success" asp-action="Add">Tạo phòng mới</a>
+        </div>
+    }
+</div>
+
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center">
-        <thead class="table-dark">
+        <thead class="table-dark" >
             <tr>
                 <th> </th>
                 <th>Cơ sở</th>
                 <th>Tên phòng</th>
                 <th>Giá phòng</th>
-                <th>Trạng thái</th>
-
+                <th>Loại phòng</th>
+                <th>Số giường</th>
                 @if (role != "manager")
                 {
-                <th>Ngày tạo</th>
                 <th>Hành động</th>
                 }
 
             </tr>
         </thead>
-        <tbody>
+        <tbody id="room_body">
             @foreach (var room in Model)
             {
                 <tr>
@@ -48,17 +128,18 @@
                         @Html.DisplayFor(modelItem => room.ROOMS_NAME)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => room.ROOMS_PRICE)
+                        @int.Parse(room.ROOMS_PRICE).ToString("N0") VND
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => room.ROOMS_STATUS)
+                        @Html.DisplayFor(modelItem => room.TYPE)
                     </td>
 
+                   
+                    <td>
+                        @Html.DisplayFor(modelItem => room.NUMBER_BED)
+                    </td>
                     @if (role != "manager")
                     {
-                    <td>
-                        @Html.DisplayFor(modelItem => room.CREATE_AT)
-                    </td>
                     <td>
                         <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@room.ID">Chi tiết</a>
                         <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@room.ID">Sửa</a>
@@ -80,5 +161,65 @@
                             Swal.fire('Thành công', '@TempData["Success"]', 'success');
             </text>
         }
+    </script>
+
+    <script>
+        const roomBody = document.getElementById("room_body");
+        const userRole = "@role";
+        document.getElementById("homestay-select").addEventListener("change", function () {
+            const homestayId = this.value;
+            if (!homestayId) return;
+
+            fetch(`/Rooms/GetRoomsByHomestay?homestayId=${homestayId}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    roomBody.innerHTML = "";
+
+                    if (data.length === 0) {
+                        roomBody.innerHTML = `<tr><td colspan="7">Không có phòng nào.</td></tr>`;
+                        return;
+                    }
+
+                    data.forEach(room => {
+                        const tr = document.createElement("tr");
+
+                            const createDate = room.creatE_AT
+                                ? new Date(room.creatE_AT).toLocaleDateString("vi-VN")
+                                : "";
+
+                            const avatarUrl = `/uploads/AvatarRoom/${room.avataR_PATH}`;
+
+                                let html = `
+                                    <td>
+                                        <img src="${avatarUrl}" alt="Avatar"
+                                             style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
+                                    </td>
+                                    <td>${room.homestayS_NAME ?? ""}</td>
+                                    <td>${room.roomS_NAME ?? ""}</td>
+                                    <td>${room.roomS_PRICE ?? ""}</td>
+                                    <td>${room.roomS_STATUS ?? ""}</td>
+                                `;
+
+                                if (userRole !== "manager") {
+                                    html += `
+                                        <td>${createDate}</td>
+                                        <td>
+                                            <a href="/Rooms/Details/${room.id}" class="btn btn-sm btn-info">Chi tiết</a>
+                                            <a href="/Rooms/Edit/${room.id}" class="btn btn-sm btn-primary">Sửa</a>
+                                            <a href="/Rooms/Delete/${room.id}" class="btn btn-sm btn-danger">Xóa</a>
+                                        </td>
+                                    `;
+                                }
+
+                                tr.innerHTML = html;
+                                roomBody.appendChild(tr);
+                            });
+                })
+                .catch(error => {
+                    console.error("Lỗi khi tải phòng:", error);
+                    billBody.innerHTML = `<tr><td colspan="5">Đã xảy ra lỗi khi tải phòng.</td></tr>`;
+                });
+        });
     </script>
 }

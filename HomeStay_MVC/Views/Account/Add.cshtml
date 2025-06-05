@@ -44,7 +44,7 @@
                 @Html.DropDownListFor(m => m.role, Model.RoleOptions, new { @class = "form-control", @id = "role", required = "required" })
                 <div class="form-group">
                     <label for="HOMESTAYS_ID">Cơ sở</label>
-                    @Html.DropDownListFor(m => m.HOMESTAYS_ID, Model.HomeStayOptions, "-- Chọn cơ sở --", new { @class = "form-control", @id = "HOMESTAYS_ID", required = "required" })
+                    @Html.DropDownListFor(m => m.HOMESTAYS_ID, Model.HomeStayOptions, "-- Chọn cơ sở --", new { @class = "form-control", @id = "HOMESTAYS_ID" })
                 </div>
                 <p style="text-align:right; margin-right:40px; margin-top: 50px">
                     <button type="submit" class="btn btn-success">Thêm</button>

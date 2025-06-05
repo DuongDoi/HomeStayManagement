@@ -27,6 +27,7 @@
     
         <div style="display: flex; flex-direction:row;">
             <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+                <input type="hidden" name="USERS_ID" value="@Model.USERS_ID" />
                 <div class="form-group">
                     <label for="HOMESTAYS_NAME">Tên cơ sở</label>
                     @Html.TextBoxFor(m => m.HOMESTAYS_NAME, new { @class = "form-control", @id = "HOMESTAYS_NAME", @required = "required" })

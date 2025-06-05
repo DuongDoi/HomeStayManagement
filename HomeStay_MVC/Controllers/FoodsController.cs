@@ -152,7 +152,11 @@ namespace HomeStay_MVC.Controllers
             string _role = HttpContext.Session.GetString("Role");
             if (_role == "admin" || _role == "owner")
             {
-                var userID = HttpContext.Session.GetString("ID");
+
+                var userID = "";
+                if (_role == "admin") userID = "-1";
+                else
+                    userID = HttpContext.Session.GetString("ID");
                 DataSet ds = DataAccess.FOODS_GET_LIST(id, userID, "1");
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -166,12 +170,15 @@ namespace HomeStay_MVC.Controllers
                         _obj.FOODS_TYPE = "Đồ ăn";
                     else
                         _obj.FOODS_TYPE = "Đồ uống";
+
                     _obj.TypeOptions = new List<SelectListItem>{
                     new SelectListItem { Text = "Đồ ăn", Value = "FOOD" },
                     new SelectListItem { Text = "Đồ uống", Value = "DRINK" }
                     };
 
                     _obj.USERS_ID = dr["USERS_ID"].ToString();
+                    if (_obj.USERS_ID != userID && _role != "admin") return RedirectToAction("Index", "Foods");
+
                     string _avatar_name = dr["AVATAR_PATH"].ToString();
                     if (!string.IsNullOrWhiteSpace(_avatar_name))
                     {
@@ -206,17 +213,35 @@ namespace HomeStay_MVC.Controllers
             }
             if (!checkPIN(model.Save_code))
             {
+                var ds = DataAccess.FOODS_GET_LIST(id, "-1", "1");
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+                    string _avatar_name = dr["AVATAR_PATH"].ToString();
+                    if (!string.IsNullOrWhiteSpace(_avatar_name))
+                    {
+                        model.AVATAR_PATH = $"{dr["USERS_ID"]}/{_avatar_name}";
+                    }
+                    else
+                    {
+                        model.AVATAR_PATH = "no_image.png";
+                    }
+                }
+                model.TypeOptions = new List<SelectListItem>{
+                    new SelectListItem { Text = "Đồ ăn", Value = "FOOD" },
+                    new SelectListItem { Text = "Đồ uống", Value = "DRINK" }
+                    };
                 ViewBag.Message = "Sai mã PIN";
                 return View(model);
             }
 
-            string savedFileName = SaveImageToUploads(avatarFile);
+            string savedFileName = SaveImageToUploads(model.USERS_ID, avatarFile);
             string avatar_path;
             if (!string.IsNullOrEmpty(savedFileName)) { avatar_path = savedFileName; }
             else
             {
                 
-                DataSet ds1 = DataAccess.FOODS_GET_LIST(id, model.USERS_ID, "1");
+                DataSet ds1 = DataAccess.FOODS_GET_LIST(id, "-1", "1");
                 if (ds1.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr1 = ds1.Tables[0].Rows[0];
@@ -231,10 +256,9 @@ namespace HomeStay_MVC.Controllers
             ResponseObjs _obj = new ResponseObjs();
             _obj.errCode = "-1";
             _obj.errMsgs = "unknow!";
-            var userID = HttpContext.Session.GetString("ID");
             try
             {
-                DataSet ds = DataAccess.FOODS_UPDATE(id,model.FOODS_NAME, model.FOODS_PRICE,model.FOODS_TYPE, userID,avatar_path, "1");
+                DataSet ds = DataAccess.FOODS_UPDATE(id,model.FOODS_NAME, model.FOODS_PRICE,model.FOODS_TYPE, model.USERS_ID,avatar_path, "1");
                 string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                 string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
                 _obj.errCode = errrCode;
@@ -256,6 +280,10 @@ namespace HomeStay_MVC.Controllers
             }
             else
             {
+                model.TypeOptions = new List<SelectListItem>{
+                    new SelectListItem { Text = "Đồ ăn", Value = "FOOD" },
+                    new SelectListItem { Text = "Đồ uống", Value = "DRINK" }
+                    };
                 ViewBag.Message = _obj.errMsgs;
                 return View(model);
             }
@@ -293,7 +321,11 @@ namespace HomeStay_MVC.Controllers
                 ViewBag.Message = "Mã PIN không chính xác.";
                 return View(model);
             }
-            var userID = HttpContext.Session.GetString("ID");
+            string _role = HttpContext.Session.GetString("Role");
+            var userID = "";
+            if (_role == "admin") userID = "-1";
+            else
+                userID = HttpContext.Session.GetString("ID");
             DataSet ds = DataAccess.FOODS_UPDATE(id, "", "","", userID,"", "2"); ;
             var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
 
@@ -376,16 +408,15 @@ namespace HomeStay_MVC.Controllers
 
 
 
-        protected string SaveImageToUploads(IFormFile file)
+        protected string SaveImageToUploads(string userID,IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return null;
 
             try
             {
-                var UserID = HttpContext.Session.GetString("ID");
                 // Đảm bảo thư mục tồn tại
-                string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "AvatarFoodDrink", UserID);
+                string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "AvatarFoodDrink", userID);
                 Directory.CreateDirectory(uploadsFolder);
 
                 // Tạo tên file duy nhất

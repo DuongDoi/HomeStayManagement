@@ -1,36 +1,376 @@
-﻿@model HomeStay_MVC.Models.FOODS
+﻿@model HomeStay_MVC.Models.Bills
+
 @{
+    ViewData["Title"] = "Tạo hóa đơn";
     Layout = "_Layout";
-    ViewData["Title"] = "Thêm món mới";
 }
 
-<h2 class="text-center mt-4">Thêm món mới</h2>
-<div style="margin-left:50px; margin-top: 50px;">
-    @using (Html.BeginForm("Add", "Foods", FormMethod.Post))
-    {
-        <div style="display: flex; flex-direction:row;">
-            <div style="flex:1;margin-left: 30px;margin-right: 30px;">
-                <div class="form-group">
-                    <label for="SERVICES_NAME">Tên món</label>
-                    @Html.TextBoxFor(m => m.FOODS_NAME, new { @class = "form-control", @id = "SERVICES_NAME", @required = "required" })
-                </div>
-                <div class="form-group">
-                    <label for="FOODS_PRICE">Giá món</label>
-                    @Html.TextBoxFor(m => m.FOODS_PRICE, new { type = "number", @class = "form-control", @id = "FOODS_PRICE", @required = "required" })
-                </div>
-                <div class="form-group">
-                    <label for="FOODS_TYPE">Phân loại</label>
-                    @Html.DropDownListFor(m => m.FOODS_TYPE, Model.TypeOptions, "-- Chọn loại món --", new { @class = "form-control", @id = "FOODS_TYPE", required = "required" })
-                </div>
-                @if (ViewBag.Message != null)
-                {
-                    <div class="alert alert-danger">@ViewBag.Message</div>
-                }
-                <p style="text-align:right; margin-right:40px; margin-top: 50px">
-                    <button type="submit" class="btn btn-success">Thêm</button>
-                    <a href="@Url.Action("Index", "Foods")" class="btn btn-danger">Hủy</a>
-                </p>
+<div class="container mt-4">
+    <h2 class="text-center">Tạo mới hóa đơn</h2>
+    <form asp-action="Add" method="post">
+        <!-- Danh sách cơ sở -->
+        <h5>Danh sách cơ sở</h5>
+        <table class="table table-bordered" id="homestay-table">
+            <thead class="table-light">
+                <tr><th>Chọn cơ sở</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select asp-for="ID_HOMESTAYS" asp-items="Model.HomestayOptions" class="form-select" id="homestay-select">
+                            <option value="">-- Chọn cơ sở --</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Khách hàng -->
+        <h5>Thông tin khách hàng</h5>
+        <div class="row mb-3">
+            <div class="col-md-8">
+                <input type="number" id="search-customer" class="form-control" placeholder="Nhập CCCD khách hàng" />
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-success w-100" id="btn-search-customer">Tìm kiếm</button>
             </div>
         </div>
-    }
+        <div class="mb-3">
+            <label for="customer-select" class="form-label">Chọn khách hàng</label>
+            <select asp-for="CUSTOMERS_CARD_ID" asp-items="Model.CustomerOptions" class="form-select" id="customer-select" required>
+                <option value="">-- Chọn khách hàng --</option>
+            </select>
+        </div>
+
+        <!-- Danh sách phòng -->
+        <h5>Danh sách phòng</h5>
+        <table class="table table-bordered" id="room-table" >
+            <thead class="table-light">
+                <tr>
+                    <th>Phòng</th>
+                    <th>Ngày nhận</th>
+                    <th>Ngày trả</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-warning btn-sm mb-3" id="add-room">+ Thêm phòng</button>
+
+        <!-- Món ăn -->
+        <h5>Danh sách món ăn</h5>
+        <table class="table table-bordered" id="food-table">
+            <thead class="table-light">
+                <tr>
+                    <th>Tên món</th>
+                    <th>Số lượng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select class="form-select food-select" name="Foods[0].FoodId" required>
+                            <option value="">-- Chọn món --</option>
+                            @foreach (var item in Model.FoodDrinkOptions)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td><input type="number" name="Foods[0].Quantity" class="form-control" required /></td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-warning btn-sm mb-3" id="add-food">+ Thêm món ăn</button>
+
+        <!-- Dịch vụ -->
+        <h5>Danh sách dịch vụ</h5>
+        <table class="table table-bordered" id="service-table" >
+            <thead class="table-light">
+                <tr>
+                    <th>Tên dịch vụ</th>
+                    <th>Số lượng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select class="form-select service-select" name="Services[0].ServiceId" required>
+                            <option value="">-- Chọn dịch vụ --</option>
+                            @foreach (var item in Model.ServiceOptions)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td><input type="number" name="Services[0].Quantity" class="form-control" required /></td>
+                    <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-warning btn-sm mb-3" id="add-service">+ Thêm dịch vụ</button>
+        <br/>
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Message</div>
+        }
+        <br />
+        <p style="text-align:right; margin-right:40px; margin-top: 50px">
+            <button type="submit" class="btn btn-primary">Lưu hóa đơn</button>
+            <a href="@Url.Action("Index", "Bills")" class="btn btn-danger">Quay lại</a>
+        </p>
+    </form>
 </div>
+
+<!-- Templates dùng để nhân bản dòng -->
+<template id="room-template">
+    <tr>
+        <td>
+            <select class="form-select room-select" name="Rooms[__INDEX__].RoomId" required>
+                <option value="">-- Chọn phòng --</option>
+            </select>
+        </td>
+        <td><input type="date" name="Rooms[__INDEX__].CheckInDate" class="form-control" required /></td>
+        <td><input type="date" name="Rooms[__INDEX__].CheckOutDate" class="form-control" required /></td>
+        <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
+    </tr>
+</template>
+
+<template id="food-template">
+    <tr>
+        <td>
+            <select class="form-select food-select" name="Foods[__INDEX__].FoodId" required>
+                <option value="">-- Chọn món --</option>
+            </select>
+        </td>
+        <td><input type="number" name="Foods[__INDEX__].Quantity" class="form-control" required /></td>
+        <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
+    </tr>
+</template>
+
+<template id="service-template">
+    <tr>
+        <td>
+            <select class="form-select service-select" name="Services[__INDEX__].ServiceId" required>
+                <option value="">-- Chọn dịch vụ --</option>
+            </select>
+        </td>
+        <td><input type="number" name="Services[__INDEX__].Quantity" class="form-control" required /></td>
+        <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
+    </tr>
+</template>
+@section Scripts {
+
+    <script>
+
+
+
+        // Hàm gán lại chỉ số cho các input mảng
+        function updateIndexes(tableId, prefix) {
+            const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+            rows.forEach((row, index) => {
+                row.querySelectorAll("select, input").forEach(el => {
+                    const name = el.getAttribute("name");
+                    if (name) {
+                        const newName = name.replace(/\[\d+\]/, `[${index}]`);
+                        el.setAttribute("name", newName);
+                    }
+                });
+            });
+        }
+
+        // Hàm lấy danh sách các giá trị đã chọn trong các select tương ứng
+        function getSelectedValues(selector) {
+            return Array.from(document.querySelectorAll(selector))
+                .map(s => s.value)
+                .filter(v => v !== "");
+        }
+
+        // Hàm cập nhật option cho tất cả select trong một nhóm, loại bỏ các giá trị đã được chọn ở các select khác
+                function updateSelectOptions(selectClass, templateId) {
+            const allSelects = document.querySelectorAll(`.${selectClass}`);
+            const selectedValues = getSelectedValues(`.${selectClass}`);
+
+            const optionsHtml = document.getElementById(templateId).dataset.options || '';
+            const temp = document.createElement('select');
+            temp.innerHTML = optionsHtml;
+
+            allSelects.forEach(select => {
+                const currentValue = select.value;
+
+                select.innerHTML = ''; // clear
+                Array.from(temp.options).forEach(opt => {
+                    if (opt.value === "" || opt.value === currentValue || !selectedValues.includes(opt.value)) {
+                        select.appendChild(opt.cloneNode(true));
+                    }
+                });
+
+                // Gán lại giá trị hiện tại nếu tồn tại trong danh sách
+                if (Array.from(select.options).some(opt => opt.value === currentValue)) {
+                    select.value = currentValue;
+                }
+            });
+        }
+
+
+        // Thêm dòng mới
+        function addRow(templateId, tableId, prefix, optionsHtml = '') {
+            const template = document.getElementById(templateId);
+            const tbody = document.querySelector(`#${tableId} tbody`);
+            const rowCount = tbody.children.length;
+            const newRowHtml = template.innerHTML.replace(/__INDEX__/g, rowCount);
+            const temp = document.createElement("tbody");
+            temp.innerHTML = newRowHtml.trim();
+            const newRow = temp.firstChild;
+
+            // Đổ danh sách nếu cần (phòng / món / dịch vụ)
+            const select = newRow.querySelector("select");
+            if (select && optionsHtml) {
+                select.innerHTML = optionsHtml;
+            }
+
+            tbody.appendChild(newRow);
+            updateIndexes(tableId, prefix);
+        }
+
+        // Xóa dòng
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-row")) {
+                const row = e.target.closest("tr");
+                const table = row.closest("table");
+                row.remove();
+                updateIndexes(table.id, table.id.replace("-table", ""));
+                refreshSelects();
+            }
+        });
+
+        // Cập nhật các dropdown phòng, món ăn, dịch vụ sau mỗi thay đổi
+        function bindSelectChangeHandlers() {
+            ['room-select', 'food-select', 'service-select'].forEach(className => {
+                document.querySelectorAll(`.${className}`).forEach(select => {
+                    select.addEventListener('change', () => {
+                        const templateId = `${className.replace('-select', '')}-template`;
+                        updateSelectOptions(className, templateId);
+                    });
+                });
+            });
+        }
+
+        // Gọi sau khi thêm dòng mới để bind event change và cập nhật options
+        function refreshSelects() {
+            bindSelectChangeHandlers();
+            updateSelectOptions('room-select', 'room-template');
+            updateSelectOptions('food-select', 'food-template');
+            updateSelectOptions('service-select', 'service-template');
+        }
+
+        // Gọi API lấy danh sách phòng khi chọn homestay
+        document.getElementById("homestay-select").addEventListener("change", function () {
+            const homestayId = this.value;
+            if (!homestayId) return;
+
+            fetch(`/Bills/GetRoomsByHomestay?homestayId=${homestayId}`)
+                .then(res => res.json())
+                .then(data => {
+                    let options = '<option value="">-- Chọn phòng --</option>';
+                    data.forEach(room => {
+                        options += `<option value="${room.value}">${room.text}</option>`;
+                    });
+
+                    // Gán cho tất cả dropdown phòng
+                    document.querySelectorAll(".room-select").forEach(select => {
+                        select.innerHTML = options;
+                    });
+
+                    // Lưu sẵn options vào thẻ template
+                    document.getElementById("room-template").dataset.options = options;
+
+                    // Cập nhật lại select options để loại bỏ phòng đã chọn
+                    updateSelectOptions('room-select', 'room-template');
+                });
+        });
+
+        // Gọi API tìm khách hàng
+        document.getElementById("btn-search-customer").addEventListener("click", function () {
+            const cccd = document.getElementById("search-customer").value.trim();
+            if (!cccd) return;
+
+            fetch(`/Bills/GetCustomersByCCCD?cccd=${cccd}`)
+                .then(res => res.json())
+                .then(data => {
+                    const select = document.getElementById("customer-select");
+
+                    // Xóa tất cả option ngoại trừ option mặc định
+                    while (select.options.length > 1) {
+                        select.remove(1);
+                    }
+
+                    if (data.length === 0) {
+                        alert("Không tìm thấy khách hàng nào!");
+                        return;
+                    }
+
+                    // Tạo HTML cho danh sách khách hàng
+                    let options = '';
+                    data.forEach(item => {
+                        options += `<option value="${item.value}">${item.text}</option>`;
+                    });
+
+                    // Lưu sẵn danh sách khách hàng để dùng lại nếu cần
+                    document.getElementById("customer-select").dataset.options = options;
+
+                    // Thêm option vào select
+                    select.insertAdjacentHTML("beforeend", options);
+
+                    // Chọn khách hàng đầu tiên
+                    select.selectedIndex = 1;
+                })
+                .catch(() => alert("Lỗi khi tìm kiếm khách hàng!"));
+        });
+
+        // Thêm dòng phòng
+        document.getElementById("add-room").addEventListener("click", function () {
+            const options = document.getElementById("room-template").dataset.options || '';
+            addRow("room-template", "room-table", "Rooms", options);
+            refreshSelects();
+        });
+
+        // Thêm món ăn
+        document.getElementById("add-food").addEventListener("click", function () {
+            const options = document.getElementById("food-template").dataset.options || '';
+            addRow("food-template", "food-table", "Foods", options);
+            refreshSelects();
+        });
+
+        // Thêm dịch vụ
+        document.getElementById("add-service").addEventListener("click", function () {
+            const options = document.getElementById("service-template").dataset.options || '';
+            addRow("service-template", "service-table", "Services", options);
+            refreshSelects();
+        });
+
+        // Khởi tạo ban đầu: lưu options dropdown nếu có
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("room-template").dataset.options = document.querySelector(".room-select")?.innerHTML || '';
+
+            document.getElementById("food-template").dataset.options = Array.from(document.querySelectorAll(".food-select option"))
+                .map(opt => `<option value="${opt.value}">${opt.textContent}</option>`)
+                .join('');
+            document.getElementById("service-template").dataset.options =
+                Array.from(document.querySelectorAll(".service-select option"))
+                    .map(opt => `<option value="${opt.value}">${opt.textContent}</option>`)
+                    .join('');
+
+            refreshSelects();
+        });
+    </script>
+}
+
+
+
+

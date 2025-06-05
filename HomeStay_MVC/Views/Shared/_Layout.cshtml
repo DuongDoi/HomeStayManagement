@@ -6,7 +6,12 @@
     var user_name = Context.Session.GetString("Name");
     var avatar_name  = Context.Session.GetString("AVATAR_PATH");
     var username = Context.Session.GetString("User");
-    string avatarPath = !string.IsNullOrEmpty(avatar_name)?Url.Content($"~/uploads/AvatarUser/{username}/{avatar_name}"):null;
+    string avatarPath = null;
+
+    if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(avatar_name))
+    {
+        avatarPath = Url.Content($"~/uploads/AvatarUser/{username}/{avatar_name}");
+    }
 
 }
 <!DOCTYPE html>
@@ -25,7 +30,7 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary bg-gradient"> 
+    <nav class="sb-topnav navbar navbar-expand navbar-dark " style="background-color:#6699CC"> 
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" asp-controller="AdminHome" asp-action="Index">
             <img src="~/Assets/img/Homestay_logo_no_bg.png" alt="Logo Homestay" class="img-fluid" style="max-height: 100px;" />
@@ -33,12 +38,12 @@
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Tìm kiếm nhanh..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-warning" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button> <!-- Nút tìm kiếm màu cam nổi bật -->
-            </div>
-        </form>
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"> 
+        @*     <div class="input-group"> *@
+        @*         <input class="form-control" type="text" placeholder="Tìm kiếm nhanh..." aria-label="Search for..." aria-describedby="btnNavbarSearch" /> *@
+        @*         <button class="btn btn-warning" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button> <!-- Nút tìm kiếm màu cam nổi bật --> *@
+        @*     </div> *@
+         </form>
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
@@ -66,10 +71,13 @@
     </nav>
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion" id="sidenavAccordion" style="background-color: #2c3e50;">
-                <div class="sb-sidenav-menu">
+            <nav class="sb-sidenav accordion" id="sidenavAccordion" >
+                <div class="sb-sidenav-menu" style="background-color: #1a252f;">
                     <div class="nav">
-
+                        <a class="nav-link text-light" asp-controller="AdminHome" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fa-sharp-duotone fa-solid fa-house"></i></div>
+                            Trang chủ
+                        </a>
                  @if (role == "admin"||role == "Chủ cơ sở")
                 {
 
@@ -87,15 +95,6 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-person-shelter text-info"></i></div>
                             Quản lý cơ sở
                         </a>
-                    }
-                        <a class="nav-link text-light" asp-controller="Rooms" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-door-open text-success"></i></div>
-                            Quản lý phòng
-                        </a>
-                        <a class="nav-link text-light" asp-controller="Customers" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users text-primary"></i></div>
-                            Quản lý khách hàng
-                        </a>
                         <a class="nav-link text-light" asp-controller="Services" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell text-danger"></i></div>
                             Quản lý dịch vụ
@@ -104,16 +103,52 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-utensils text-warning"></i></div>
                             Quản lý đồ ăn & nước uống
                         </a>
+                        <a class="nav-link text-light" asp-controller="Rooms" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-door-open text-success"></i></div>
+                            Quản lý phòng
+                        </a>
+                        <a class="nav-link text-light" asp-controller="Customers" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users text-primary"></i></div>
+                            Quản lý khách hàng
+                        </a>
                         <a class="nav-link text-light" asp-controller="Bills" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar text-light"></i></div>
                             Quản lý hóa đơn
                         </a>
+                    }
+                    @if (role == "Quản lí"){
+                        <a class="nav-link text-light" asp-controller="Services" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell text-danger"></i></div>
+                            Dịch vụ
+                        </a>
+                        <a class="nav-link text-light" asp-controller="Foods" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-utensils text-warning"></i></div>
+                            Đồ ăn & nước uống
+                        </a>
+                         <a class="nav-link text-light" asp-controller="Rooms" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-door-open text-success"></i></div>
+                            Phòng
+                        </a>
+                        <a class="nav-link text-light" asp-controller="Customers" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users text-primary"></i></div>
+                            Khách hàng
+                        </a>
+                        <a class="nav-link text-light" asp-controller="Bills" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar text-light"></i></div>
+                            Hóa đơn
+                        </a>
+                    }
+                        @* <div class="sb-sidenav-menu-heading text-light">Booking</div> *@
+                        @* <a class="nav-link text-light" asp-controller="Bills" asp-action="Index"> *@
+                        @*     <div class="sb-nav-link-icon"><i class="fa-solid fa-map-location-dot"></i></div> *@
+                        @*     T *@
+                        @* </a> *@
                     </div>
                 </div>
 
-                <div class="sb-sidenav-footer text-light" style="background-color: #1a252f;">
-                    <p>Vai trò: @(string.IsNullOrEmpty(role) ? "Không xác định" : role)</p>
-                </div>
+                @* <div class="sb-sidenav-footer text-light" style="background-color: #1a252f;"> *@
+                @*     <p> @(string.IsNullOrEmpty(role) ? "Không xác định" : role)</p> *@
+                @* </div> *@
             </nav>
         </div>
 

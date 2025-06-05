@@ -404,7 +404,7 @@ namespace ResfullApi.Models
             return getDataFromProcedure(str, "", parms);
         }
 
-        public static DataSet ROOMS_UPDATE(string id, string name, string price, string status,string avatar_path,  string type)
+        public static DataSet ROOMS_UPDATE(string id, string name, string price, string status,string avatar_path,string _type, string number_bed,string square,string id_homestay, string type)
         {
 
             string str;
@@ -418,6 +418,10 @@ namespace ResfullApi.Models
                                 new OracleParameter("v_price", OracleDbType.Varchar2),
                                 new OracleParameter("v_status", OracleDbType.Varchar2),
                                 new OracleParameter("v_avatar_path", OracleDbType.Varchar2),
+                                new OracleParameter("v_room_type", OracleDbType.NVarchar2),
+                                new OracleParameter("v_number_bed", OracleDbType.Varchar2),
+                                new OracleParameter("v_square", OracleDbType.Varchar2),
+                                new OracleParameter("v_id_homestay", OracleDbType.Varchar2),
                                 new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
@@ -426,13 +430,19 @@ namespace ResfullApi.Models
             parms[2].Value = price;
             parms[3].Value = status;
             parms[4].Value = avatar_path;
+            parms[5].Value = _type;
+            parms[6].Value = number_bed;
+            parms[7].Value = square;
+            parms[8].Value = id_homestay;
 
-            parms[5].Value = type;
+            parms[9].Value = type;
+
+
 
             return getDataFromProcedure(str, "", parms);
         }
 
-        public static DataSet ROOMS_INSERT(string ht_id, string name, string price, string status)
+        public static DataSet ROOMS_INSERT(string ht_id, string name, string price, string status,string _type,string number_bed,string square)
         {
 
             string str;
@@ -445,18 +455,45 @@ namespace ResfullApi.Models
                                 new OracleParameter("v_room_name", OracleDbType.NVarchar2),
                                 new OracleParameter("v_price", OracleDbType.Varchar2),
                                 new OracleParameter("v_status", OracleDbType.Varchar2),
+                                new OracleParameter("v_room_type", OracleDbType.NVarchar2),
+                                new OracleParameter("v_number_bed", OracleDbType.Varchar2),
+                                new OracleParameter("v_square", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
             parms[0].Value = ht_id;
             parms[1].Value = name;
             parms[2].Value = price;
             parms[3].Value = status;
+            parms[4].Value = _type;
+            parms[5].Value = number_bed;
+            parms[6].Value = square;
 
             return getDataFromProcedure(str, "", parms);
         }
 
 
+        public static DataSet ROOMS_FILTER_LIST(string _id_homestay,string  _checkin,string _checkout,string _room_type)
+        {
 
+            string str;
+            str = "";
+            str = "rooms_pkg.rooms_get_list_filter";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_homestays_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_checkin_date", OracleDbType.Varchar2),
+                                new OracleParameter("v_checkout_date", OracleDbType.Varchar2),
+                                new OracleParameter("v_room_type", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = _id_homestay;
+            parms[1].Value = _checkin;
+            parms[2].Value = _checkout;
+            parms[3].Value = _room_type;
+
+            return getDataFromProcedure(str, "", parms);
+        }
 
         //FOOD
         public static DataSet FOODS_GET_LIST(string id, string users_id, string type)
@@ -607,8 +644,10 @@ namespace ResfullApi.Models
             return getDataFromProcedure(str, "", parms);
         }
 
+
+
         //BILL
-        public static DataSet BILLS_GET_LIST(string bills_id, string homestay_id, string type) 
+        public static DataSet BILLS_GET_LIST(string bills_id, string homestay_id,string user_id, string type) 
         {
 
             string str;
@@ -619,78 +658,319 @@ namespace ResfullApi.Models
                             {
                                 new OracleParameter("v_bills_id", OracleDbType.Varchar2),
                                 new OracleParameter("v_homestays_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_user_id", OracleDbType.Varchar2),
                                 new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
             parms[0].Value = bills_id;
             parms[1].Value = homestay_id;
-            parms[2].Value = type;
+            parms[2].Value = user_id;
+            parms[3].Value = type;
 
             return getDataFromProcedure(str, "", parms);
         }
-        public static DataSet BILLS_UPDATE(string id, string name, string price, string userID, string type)
+        public static DataSet BILLS_UPDATE(string bill_id, string customer_card_id, string user_id, string ht_id, string type)
         {
 
             string str;
             str = "";
-            str = "services_pkg.services_update";
+            str = "bills_pkg.bills_update";
             OracleParameter[] parms;
             parms = new OracleParameter[]
                             {
-                                new OracleParameter("v_services_id", OracleDbType.Varchar2),
-                                new OracleParameter("v_services_name", OracleDbType.NVarchar2),
-                                new OracleParameter("v_price", OracleDbType.Varchar2),
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_customers_card_id", OracleDbType.Varchar2),
                                 new OracleParameter("v_users_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_homestays_id", OracleDbType.Varchar2),
                                 new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
-            parms[0].Value = id;
-            parms[1].Value = name;
-            parms[2].Value = price;
-            parms[3].Value = userID;
+            parms[0].Value = bill_id;
+            parms[1].Value = customer_card_id;
+            parms[2].Value = user_id;
+            parms[3].Value = ht_id;
             parms[4].Value = type;
 
             return getDataFromProcedure(str, "", parms);
         }
 
-        public static DataSet BILLS_INSERT(string name, string price, string userID)
+        public static DataSet BILLS_INSERT(string v_customers_card_id, string v_create_by, string v_id_homstay)
         {
 
             string str;
             str = "";
-            str = "services_pkg.services_insert";
+            str = "bills_pkg.bills_insert";
             OracleParameter[] parms;
             parms = new OracleParameter[]
                             {
-                                new OracleParameter("v_services_name", OracleDbType.NVarchar2),
-                                new OracleParameter("v_price", OracleDbType.Varchar2),
-                                new OracleParameter("v_users_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_customers_card_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_create_by", OracleDbType.Varchar2),
+                                new OracleParameter("v_id_homstay", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
-            parms[0].Value = name;
-            parms[1].Value = price;
-            parms[2].Value = userID;
+            parms[0].Value = v_customers_card_id;
+            parms[1].Value = v_create_by;
+            parms[2].Value = v_id_homstay;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+        public static DataSet BILLS_ROOMS_INSERT(string bill_id,string v_rooms_id, string v_checkin_date, string v_checkout_date)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_rooms_insert";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                
+                                new OracleParameter("v_bill_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_rooms_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_checkin_date", OracleDbType.Varchar2),
+                                new OracleParameter("v_checkout_date", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+
+            parms[0].Value = bill_id;
+            parms[1].Value = v_rooms_id;
+            parms[2].Value = v_checkin_date;
+            parms[3].Value = v_checkout_date;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+        public static DataSet BILLS_ROOMS_GET_LIST(string v_bills_id)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_rooms_get_list";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = v_bills_id;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+
+        public static DataSet BILLS_FOODS_INSERT(string bill_id,string v_foods_id, string v_quantity)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_foods_insert";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+
+                                new OracleParameter("v_bill_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_foods_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_quantity", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = bill_id;
+            parms[1].Value = v_foods_id;
+            parms[2].Value = v_quantity;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+        public static DataSet BILLS_FOODS_GET_LIST(string v_bills_id)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_foods_get_list";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = v_bills_id;
 
             return getDataFromProcedure(str, "", parms);
         }
 
 
+        public static DataSet BILLS_SERVICES_INSERT(string bill_id, string v_services_id, string v_quantity)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_services_insert";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_bill_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_services_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_quantity", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+
+            parms[0].Value = bill_id;
+            parms[1].Value = v_services_id;
+            parms[2].Value = v_quantity;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+        public static DataSet BILLS_SERVICES_GET_LIST(string v_bills_id)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_services_get_list";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = v_bills_id;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+
+        public static DataSet BILLS_RFS_DELETE(string v_bills_id)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_rfs_delete";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = v_bills_id;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+
+        public static DataSet BILLS_ROOMS_UPDATE(string bill_id,string v_rooms_id, string v_checkin_date, string v_checkout_date)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_rooms_update";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_rooms_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_checkin_date", OracleDbType.Varchar2),
+                                new OracleParameter("v_checkout_date", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = bill_id;
+            parms[1].Value = v_rooms_id;
+            parms[2].Value = v_checkin_date;
+            parms[3].Value = v_checkout_date;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+
+        public static DataSet BILLS_FOODS_UPDATE(string bill_id, string v_foods_id, string v_quantity)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_foods_update";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_foods_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_quantity", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = bill_id;
+            parms[1].Value = v_foods_id;
+            parms[2].Value = v_quantity;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+
+        public static DataSet BILLS_SERVICES_UPDATE(string bill_id, string v_services_id, string v_quantity)
+        {
+
+            string str;
+            str = "";
+            str = "bills_pkg.bills_services_update";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_services_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_quantity", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+
+            parms[0].Value = bill_id;
+            parms[1].Value = v_services_id;
+            parms[2].Value = v_quantity;
+
+            return getDataFromProcedure(str, "", parms);
+        }
 
 
+        public static DataSet BILLS_PAY(string bill_id,string name)
+        {
 
+            string str;
+            str = "";
+            str = "bills_pkg.bills_pay";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_user_full_name", OracleDbType.NVarchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
 
+            parms[0].Value = bill_id;
+            parms[1].Value = name;
 
+            return getDataFromProcedure(str, "", parms);
+        }
 
+        // Lấy top 5 BXH
+        public static DataSet GET_TOP_FOOD(string user_id)
+        {
 
+            string str;
+            str = "";
+            str = "homestays_pkg.GET_TOP_FOOD";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_user_id", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
 
+            parms[0].Value = user_id;
 
+            return getDataFromProcedure(str, "", parms);
+        }
+        public static DataSet GET_TOP_DRINK(string user_id)
+        {
 
+            string str;
+            str = "";
+            str = "homestays_pkg.GET_TOP_DRINK";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_user_id", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
 
+            parms[0].Value = user_id;
 
-
-
-
-
+            return getDataFromProcedure(str, "", parms);
+        }
 
 
 

@@ -160,7 +160,9 @@ namespace HomeStay_MVC.Controllers
             }
             else
             {
-                userID = HttpContext.Session.GetString("ID");
+                if (_role == "admin") userID = "-1";
+                else
+                    userID = HttpContext.Session.GetString("ID");
             }
             DataSet ds = DataAccess.CUSTOMERS_GET_LIST(id, userID, type);
             if (ds.Tables[0].Rows.Count > 0)
@@ -174,6 +176,8 @@ namespace HomeStay_MVC.Controllers
                 _obj.CUSTOMERS_ADDRESS = dr["CUSTOMERS_ADDRESS"].ToString();
                 _obj.USERS_NAME = dr["NAME"].ToString();
                 _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+                _obj.USERS_ID = dr["USERS_ID"].ToString();
+                if(_obj.USERS_ID != userID && _role != "admin") return RedirectToAction("Index", "Customers");
                 try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
                 catch { }
                 try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
@@ -204,8 +208,7 @@ namespace HomeStay_MVC.Controllers
             _obj.errMsgs = "unknow!";
             try
             {
-                var userID = HttpContext.Session.GetString("ID");
-                DataSet ds = DataAccess.CUSTOMERS_UPDATE(id,model.CUSTOMERS_CARD_NUMBER,model.CUSTOMERS_NAME,model.CUSTOMERS_PHONE,model.CUSTOMERS_ADDRESS,userID,"1");
+                DataSet ds = DataAccess.CUSTOMERS_UPDATE(id,model.CUSTOMERS_CARD_NUMBER,model.CUSTOMERS_NAME,model.CUSTOMERS_PHONE,model.CUSTOMERS_ADDRESS,model.USERS_ID,"1");
                 string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                 string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
                 _obj.errCode = errrCode;
@@ -243,7 +246,9 @@ namespace HomeStay_MVC.Controllers
             string _role = HttpContext.Session.GetString("Role");
             if (_role != "manager")
             {
-                var userID = HttpContext.Session.GetString("ID");
+                var userID = "";
+                if (_role == "admin") userID = "-1";
+                else  userID = HttpContext.Session.GetString("ID");
                 DataSet ds = DataAccess.CUSTOMERS_GET_LIST(id, userID, "1");
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -257,6 +262,9 @@ namespace HomeStay_MVC.Controllers
                     _obj.CUSTOMERS_ADDRESS = dr["CUSTOMERS_ADDRESS"].ToString();
                     _obj.USERS_NAME = dr["NAME"].ToString();
                     _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+                    _obj.USERS_ID = dr["USERS_ID"].ToString();
+                    if (_obj.USERS_ID != userID && _role != "admin") return RedirectToAction("Index", "Customers");
+
                     try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
                     catch { }
                     try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
@@ -283,8 +291,8 @@ namespace HomeStay_MVC.Controllers
                 ViewBag.Message = "Mã PIN không chính xác.";
                 return View(model);
             }
-            var userID = HttpContext.Session.GetString("ID");
-            var ds = DataAccess.CUSTOMERS_UPDATE(id,"","","","", userID, "2");
+            
+            var ds = DataAccess.CUSTOMERS_UPDATE(id,"","","","", "", "2");
             var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
 
             if (errCode == "0")

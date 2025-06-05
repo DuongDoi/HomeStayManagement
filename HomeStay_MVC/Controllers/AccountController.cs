@@ -301,11 +301,14 @@ namespace HomeStay_MVC.Controllers
                 return RedirectToAction("Index", "Login");
             }
             string _role = HttpContext.Session.GetString("Role");
+
             if (_role == "admin" || _role == "owner")
             {
+                var type = "1";
                 var model = new RegisterModel();
                 if (_role == "admin")
                 {
+                    type = "0";
                     model.role = "owner";
                     model.RoleOptions = new List<SelectListItem>
                     {
@@ -323,7 +326,6 @@ namespace HomeStay_MVC.Controllers
                     };
                 }
                 var userID = HttpContext.Session.GetString("ID");
-                var type = "1";
                 var ht_id = "-1";
                 DataSet ds = DataAccess.HOMESTAYS_GET_LIST(ht_id, userID, type);
                 model.HomeStayOptions = new List<SelectListItem>();
@@ -365,6 +367,7 @@ namespace HomeStay_MVC.Controllers
                     {
                         var user = HttpContext.Session.GetString("User");
                         if (model.role != "manager") model.HOMESTAYS_ID = "";
+                        if (model.role == "owner") user = model.Users;
                         DataSet ds = DataAccess.USERS_INSERT(model.Users, pass, model.Phone, model.Email, model.Name,model.role,model.HOMESTAYS_ID,user);
                         string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                         string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();

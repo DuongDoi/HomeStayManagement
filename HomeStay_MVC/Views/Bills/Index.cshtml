@@ -3,13 +3,48 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Quản lý hóa đơn";
+    string bill_status = "Chưa thanh toán";
+    var _role = Context.Session.GetString("Role");
 }
 
-<h2 class="text-center mt-4">Quản lý hóa đơn</h2>
+<h2 class="text-center mt-4" >Quản lý hóa đơn</h2>
+<div style="display: flex; justify-content: space-between; align-items: flex-start;">
 
-<p style="text-align:right; margin-right:20px;">
-    <a class="btn btn-success" asp-action="Add">Tạo hóa đơn mới</a>
-</p>
+    
+    <div style="padding-left: 30px;">
+        
+        <table  id="homestay-table">
+            <thead >
+                <tr>
+                    <th>Chọn cơ sở</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select id="homestay-select" name="HomestayId">
+                            <option value="">-- Chọn cơ sở --</option>
+                            @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </td>
+                    <td>
+                        <a asp-action="Index" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    
+    <div style="padding-right: 30px; align-self: center;">
+        <a class="btn btn-success" asp-action="Add">Tạo hóa đơn mới</a>
+    </div>
+
+</div>
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center">
@@ -22,7 +57,7 @@
                 <th>Hành động</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="bill_body">
             @foreach (var bill in Model)
             {
                 <tr>
@@ -40,8 +75,15 @@
                     </td>
                     <td>
                         <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@bill.ID">Chi tiết</a>
-                        <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@bill.ID">Sửa</a>
-                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@bill.ID">Xóa</a>
+                        @if(bill.BILLS_STATUS == bill_status)
+                        {
+                            <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@bill.ID">Sửa</a>
+                        }
+                        @if (_role != "manager")
+                        {
+                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@bill.ID">Xóa</a>
+                        }
+                        
                     </td>
                 </tr>
             }
@@ -59,4 +101,63 @@
             </text>
         }
     </script>
+
+
+     <script>
+        const billBody = document.getElementById("bill_body");
+        const billStatusUnpaid = "Chưa thanh toán"; 
+        const userRole = "@_role"; 
+        document.getElementById("homestay-select").addEventListener("change", function () {
+            const homestayId = this.value;
+            if (!homestayId) return;
+
+            fetch(`/Bills/GetBillsByHomestay?homestayId=${homestayId}`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data);
+                    billBody.innerHTML = ""; 
+
+                    if (data.length === 0) {
+                        billBody.innerHTML = `<tr><td colspan="5">Không có hóa đơn nào.</td></tr>`;
+                        return;
+                    }
+
+                    data.forEach(bill => {
+                        const tr = document.createElement("tr");
+
+                        const createDate = bill.creatE_AT
+                        ? new Date(bill.creatE_AT).toLocaleDateString("vi-VN")
+                        : "";
+
+                        let html = `
+                            <td>${bill.id}</td>
+                            <td>${bill.customerS_NAME}</td>
+                            <td>${bill.billS_STATUS}</td>
+                            <td>${createDate}</td>
+                            <td>
+                                <a href="/Bills/Details/${bill.id}" class="btn btn-sm btn-info">Chi tiết</a>
+                        `;
+
+                        if (bill.billS_STATUS === billStatusUnpaid) {
+                            html += `<a href="/Bills/Edit/${bill.id}" class="btn btn-sm btn-primary">Sửa</a>`;
+                        }
+
+                        if (userRole !== "manager") {
+                            html += `<a href="/Bills/Delete/${bill.id}" class="btn btn-sm btn-danger">Xóa</a>`;
+                        }
+
+                        html += `</td>`;
+                        tr.innerHTML = html;
+                        billBody.appendChild(tr);
+                    });
+                })
+                .catch(error => {
+                    console.error("Lỗi khi tải hóa đơn:", error);
+                    billBody.innerHTML = `<tr><td colspan="5">Đã xảy ra lỗi khi tải hóa đơn.</td></tr>`;
+                });
+        });
+    </script>
+
+
+
 }
