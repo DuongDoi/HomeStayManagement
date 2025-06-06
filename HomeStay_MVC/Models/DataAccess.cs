@@ -472,7 +472,7 @@ namespace ResfullApi.Models
         }
 
 
-        public static DataSet ROOMS_FILTER_LIST(string _id_homestay,string  _checkin,string _checkout,string _room_type)
+        public static DataSet ROOMS_FILTER_LIST(string _id_homestay,string  _checkin,string _checkout,string _room_type,string _status_value)
         {
 
             string str;
@@ -485,12 +485,39 @@ namespace ResfullApi.Models
                                 new OracleParameter("v_checkin_date", OracleDbType.Varchar2),
                                 new OracleParameter("v_checkout_date", OracleDbType.Varchar2),
                                 new OracleParameter("v_room_type", OracleDbType.Varchar2),
+                                new OracleParameter("v_status_value", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
             parms[0].Value = _id_homestay;
             parms[1].Value = _checkin;
             parms[2].Value = _checkout;
             parms[3].Value = _room_type;
+            parms[4].Value = _status_value;
+
+
+            return getDataFromProcedure(str, "", parms);
+        }
+
+        public static DataSet CHECK_ROOM_IN_USE(string bill_id,string RoomId, string CheckInDate,string CheckOutDate)
+        {
+
+            string str;
+            str = "";
+            str = "rooms_pkg.check_room_in_use";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_room_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_checkin_date", OracleDbType.Varchar2),
+                                new OracleParameter("v_checkout_date", OracleDbType.Varchar2),
+                                new OracleParameter("v_bill_id", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = RoomId;
+            parms[1].Value = CheckInDate;
+            parms[2].Value = CheckOutDate;
+            parms[3].Value = bill_id;
+
 
             return getDataFromProcedure(str, "", parms);
         }
@@ -647,7 +674,7 @@ namespace ResfullApi.Models
 
 
         //BILL
-        public static DataSet BILLS_GET_LIST(string bills_id, string homestay_id,string user_id, string type) 
+        public static DataSet BILLS_GET_LIST(string bills_id, string homestay_id,string user_id,string v_bill_status, string type) 
         {
 
             string str;
@@ -659,13 +686,15 @@ namespace ResfullApi.Models
                                 new OracleParameter("v_bills_id", OracleDbType.Varchar2),
                                 new OracleParameter("v_homestays_id", OracleDbType.Varchar2),
                                 new OracleParameter("v_user_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_bill_status", OracleDbType.Varchar2),
                                 new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
             parms[0].Value = bills_id;
             parms[1].Value = homestay_id;
             parms[2].Value = user_id;
-            parms[3].Value = type;
+            parms[3].Value = v_bill_status;
+            parms[4].Value = type;
 
             return getDataFromProcedure(str, "", parms);
         }

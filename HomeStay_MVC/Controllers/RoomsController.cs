@@ -120,7 +120,7 @@ namespace HomeStay_MVC.Controllers
 
 
         [HttpGet]
-        public IActionResult Filter(int? HomestayId,DateTime? checkin_date, DateTime? checkout_date, int? TYPE_VALUE)
+        public IActionResult Filter(int? HomestayId,DateTime? checkin_date, DateTime? checkout_date, int? TYPE_VALUE, int? STATUS_VALUE)
         {
             if (!CheckAuthToken())
             {
@@ -174,9 +174,10 @@ namespace HomeStay_MVC.Controllers
             string _checkin = checkin_date.HasValue ? checkin_date.Value.ToString("yyyy-MM-dd") : "";
             string _checkout = checkout_date.HasValue ? checkout_date.Value.ToString("yyyy-MM-dd") : "";
             string _room_type = (TYPE_VALUE.HasValue && TYPE_VALUE.Value != 0) ? TYPE_VALUE.Value.ToString() : "-1";
+            string _status_value = STATUS_VALUE.HasValue ? STATUS_VALUE.Value.ToString() : "";
             if (_role == "manager") _id_homestay = ht_id;
             
-            DataSet ds = DataAccess.ROOMS_FILTER_LIST(_id_homestay, _checkin, _checkout, _room_type);
+            DataSet ds = DataAccess.ROOMS_FILTER_LIST(_id_homestay, _checkin, _checkout, _room_type,_status_value);
 
             List<Rooms> rooms = new List<Rooms>();
             foreach (DataRow dr in ds.Tables[0].Rows)

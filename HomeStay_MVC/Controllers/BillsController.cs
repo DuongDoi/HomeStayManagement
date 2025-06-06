@@ -21,6 +21,7 @@ namespace HomeStay_MVC.Controllers
             string user_id = "-1";
             string bill_id = "-1";
             string ht_id = "-1";
+            string bill_status = "-1";
             string v_type = "1";
 
             string _role = HttpContext.Session.GetString("Role");
@@ -43,6 +44,7 @@ namespace HomeStay_MVC.Controllers
                         DataRow dr1 = ds1.Tables[0].Rows[0];
                         user_id = dr1["ID"].ToString();
                         ht_id = HttpContext.Session.GetString("Homestays_Id");
+                        bill_status = "UNPAID";
                     }
                     else return RedirectToAction("Index", "Login");
                 }
@@ -60,7 +62,7 @@ namespace HomeStay_MVC.Controllers
             ViewBag.HomestayList = homestayList;
 
 
-            DataSet ds = DataAccess.BILLS_GET_LIST(bill_id, ht_id,user_id, v_type);
+            DataSet ds = DataAccess.BILLS_GET_LIST(bill_id, ht_id,user_id,bill_status, v_type);
             List<Bills> bills = new List<Bills>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
@@ -93,8 +95,11 @@ namespace HomeStay_MVC.Controllers
         public IActionResult GetBillsByHomestay(string homestayId)
         {
 
-
-            DataSet dsr = DataAccess.BILLS_GET_LIST("-1",homestayId, "-1", "1");
+            string _role = HttpContext.Session.GetString("Role");
+            var bill_status = "";
+            if (_role != "manager") bill_status = "-1";
+            else bill_status = "UNPAID";
+                DataSet dsr = DataAccess.BILLS_GET_LIST("-1", homestayId, "-1",bill_status, "1");
 
             var bills = new List<object>();
             foreach (DataRow drr in dsr.Tables[0].Rows)
@@ -213,6 +218,13 @@ namespace HomeStay_MVC.Controllers
 
             try
             {
+                foreach (var room in billModel.Rooms)
+                {
+                    var dsRoom = DataAccess.CHECK_ROOM_IN_USE("-1", room.RoomId, room.CheckInDate.ToString("yyyy-MM-dd"), room.CheckOutDate.ToString("yyyy-MM-dd"));
+                    var errCode = dsRoom.Tables[0].Rows[0]["errCode"].ToString();
+                    if (errCode != "0")
+                        return ReturnWithError(dsRoom.Tables[0].Rows[0]["errMsg"].ToString());
+                }
                 // Tạo hóa đơn
                 var ds = DataAccess.BILLS_INSERT(customerCardId, userId, homestayId);
                 response.errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
@@ -285,6 +297,13 @@ namespace HomeStay_MVC.Controllers
 
             try
             {
+                foreach (var room in billModel.Rooms)
+                {
+                    var dsRoom = DataAccess.CHECK_ROOM_IN_USE(id, room.RoomId, room.CheckInDate.ToString("yyyy-MM-dd"), room.CheckOutDate.ToString("yyyy-MM-dd"));
+                    var errCode = dsRoom.Tables[0].Rows[0]["errCode"].ToString();
+                    if (errCode != "0")
+                        return ReturnWithError(dsRoom.Tables[0].Rows[0]["errMsg"].ToString(), id);
+                }
                 // Cập nhật hóa đơn gốc
                 var ds = DataAccess.BILLS_UPDATE(id,customerCardId, userId, homestayId,"1");
                 response.errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
@@ -492,7 +511,7 @@ namespace HomeStay_MVC.Controllers
             string bill_id = id;
             string ht_id = "-1";
             string v_type = "0";
-
+            string bill_status = "-1";
             string _role = HttpContext.Session.GetString("Role");
             if (_role == "admin")
             {
@@ -515,6 +534,7 @@ namespace HomeStay_MVC.Controllers
                         DataRow dr1 = ds1.Tables[0].Rows[0];
                         user_id = dr1["ID"].ToString();
                         ht_id = HttpContext.Session.GetString("Homestays_Id");
+                        bill_status = "UNPAID";
                         v_type = "1";
                     }
                     else return null;
@@ -526,7 +546,7 @@ namespace HomeStay_MVC.Controllers
             model.Services = new List<ServiceDetail>();
             string selectedHomestayId = "";
             string selectedCustomer = "";
-            var dsht = DataAccess.BILLS_GET_LIST(bill_id, "-1", "-1", "1");
+            var dsht = DataAccess.BILLS_GET_LIST(bill_id, "-1", "-1",bill_status, "1");
             if (dsht.Tables[0].Rows.Count > 0)
             {
                 DataRow drht = dsht.Tables[0].Rows[0];
@@ -689,7 +709,7 @@ namespace HomeStay_MVC.Controllers
             {
                 var user_id = "-1";
                 if (_role == "owner") user_id = HttpContext.Session.GetString("ID");
-                DataSet ds = DataAccess.BILLS_GET_LIST(id,"-1", user_id, "1");
+                DataSet ds = DataAccess.BILLS_GET_LIST(id,"-1", user_id,"-1", "1");
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
@@ -773,7 +793,7 @@ namespace HomeStay_MVC.Controllers
             model.Rooms = new List<RoomDetail>();
             model.Foods = new List<FoodDetail>();
             model.Services = new List<ServiceDetail>();
-            var dsht = DataAccess.BILLS_GET_LIST(bill_id, "-1", "-1", "1");
+            var dsht = DataAccess.BILLS_GET_LIST(bill_id, "-1", "-1","-1", "1");
             if (dsht.Tables[0].Rows.Count > 0)
             {
                 DataRow drht = dsht.Tables[0].Rows[0];
@@ -880,5 +900,84 @@ namespace HomeStay_MVC.Controllers
             }
         }
 
+
+
+        [HttpGet]
+        public IActionResult Filter(int? HomestayId, int? BILL_TYPE_VALUE)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            string _role = HttpContext.Session.GetString("Role");
+            string userID = "-1";
+            string ht_id = "-1";
+            string bill_id = "-1";
+            string v_type = "1";
+
+            if (_role == "admin")
+            {
+            }
+            else if (_role == "owner")
+            {
+                userID = HttpContext.Session.GetString("ID");
+            }
+            else
+            {
+                DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                if (ds1.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr1 = ds1.Tables[0].Rows[0];
+                    userID = dr1["ID"].ToString();
+                    ht_id = HttpContext.Session.GetString("Homestays_Id");
+                }
+                else return RedirectToAction("Index", "Login");
+            }
+            // Lấy danh sách homestay để hiển thị lại trong view
+            DataSet dsHomestays = DataAccess.HOMESTAYS_GET_LIST(ht_id, userID, "1");
+            List<SelectListItem> homestayList = new List<SelectListItem>();
+            foreach (DataRow dr in dsHomestays.Tables[0].Rows)
+            {
+                homestayList.Add(new SelectListItem
+                {
+                    Value = dr["ID"].ToString(),
+                    Text = dr["HOMESTAYS_NAME"].ToString()
+                });
+            }
+            ViewBag.HomestayList = homestayList;
+
+            // Format tham số lọc
+            string _id_homestay = (HomestayId.HasValue && HomestayId.Value != 0) ? HomestayId.Value.ToString() : "-1";
+            string bill_status = (BILL_TYPE_VALUE.HasValue && BILL_TYPE_VALUE.Value != 0) ? "PAID" : "UNPAID";
+            if (_role == "manager") _id_homestay = ht_id;
+
+            DataSet ds = DataAccess.BILLS_GET_LIST(bill_id, ht_id, userID, bill_status, v_type);
+            List<Bills> bills = new List<Bills>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                Bills _obj = new Bills();
+                _obj.ID = dr["ID"].ToString();
+                var _status = dr["BILLS_STATUS"].ToString();
+                if (_status == "PAID") _obj.BILLS_STATUS = "Đã thanh toán";
+                else _obj.BILLS_STATUS = "Chưa thanh toán";
+                _obj.TOTAL_MONEY = int.TryParse(dr["TOTAL_MONEY"]?.ToString(), out int value) ? value : 0;
+                _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+                _obj.UPDATE_BY = dr["UPDATE_BY"].ToString();
+                _obj.CUSTOMERS_NAME = dr["CUSTOMERS_NAME"].ToString();
+                _obj.ID_HOMESTAYS = dr["ID_HOMESTAYS"].ToString();
+                _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                catch { }
+                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                catch { }
+
+                bills.Add(_obj);
+
+            }
+
+            return View("Index", bills);
+        }
     }
 }

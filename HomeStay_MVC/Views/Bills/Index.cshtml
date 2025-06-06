@@ -8,44 +8,46 @@
 }
 
 <h2 class="text-center mt-4" >Quản lý hóa đơn</h2>
-<div style="display: flex; justify-content: space-between; align-items: flex-start;">
 
-    
-    <div style="padding-left: 30px;">
-        
-        <table  id="homestay-table">
-            <thead >
-                <tr>
-                    <th>Chọn cơ sở</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <select id="homestay-select" name="HomestayId">
-                            <option value="">-- Chọn cơ sở --</option>
-                            @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
-                            {
-                                <option value="@item.Value">@item.Text</option>
-                            }
-                        </select>
-                    </td>
-                    <td>
-                        <a asp-action="Index" class="btn btn-sm btn-danger">Xóa</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<form id="filter-form" method="get" action="/Bills/Filter">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; padding: 20px 30px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="display: flex; flex-direction: column;">
+                <label for="homestay-select">Chọn cơ sở</label>
+                <select id="homestay-select" name="HomestayId" class="form-control" required>
+                    <option value="0">-- Chọn cơ sở --</option>
+                    @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
+                    {
+                        
+                            <option value="@item.Value">@item.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;">            
+            <div style="display: flex; flex-direction: column;">
+                <label for="type-bill-select">Loại phòng</label>
+                <select id="type-bill-select" name="BILL_TYPE_VALUE" class="form-control" required>
+                    <option value="">-- Chọn loại hóa đơn --</option>
+                    <option value="0">Chưa thanh toán</option>
+                    <option value="1">Đã thanh toán</option>
+                </select>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Lọc hóa đơn</label>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Lọc hóa đơn</button>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Xóa lọc</label>
+                <a asp-action="Index" class="btn btn-danger">Xóa lọc</a>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                    <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> Tạo hóa đơn</a>
+            </div>
+        </div>
     </div>
-
-    
-    <div style="padding-right: 30px; align-self: center;">
-        <a class="btn btn-success" asp-action="Add">Tạo hóa đơn mới</a>
-    </div>
-
-</div>
-
+</form>
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center">
         <thead class="table-dark">
