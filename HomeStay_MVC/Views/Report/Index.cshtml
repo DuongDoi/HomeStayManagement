@@ -1,0 +1,149 @@
+﻿@model IEnumerable<HomeStay_MVC.Models.ReportModel>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Quản lý thu chi";
+    var role = Context.Session.GetString("Role");
+    var ht_id = Context.Session.GetString("Homestays_Id");
+}
+
+<h2 class="text-center mt-4">Quản lý thu chi</h2>
+<form id="filter-form" method="get" action="/Report/Filter">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; padding: 20px 30px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <div style="display: flex; flex-direction: column;">
+                <label for="homestay-select">Chọn cơ sở</label>
+                <select id="homestay-select" name="HomestayId" class="form-control" requied>
+                    <option value="0">-- Chọn cơ sở --</option>
+                    @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
+                    {
+
+                        if (item.Value == ht_id || item.Value == ViewBag.id_homestay)
+                        {
+                            <option value="@item.Value" selected>@item.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div style="display: flex; flex-direction: column;">
+                <label for="start_date">Ngày bắt đầu</label>
+                <input type="date" name="start_date" id="start_date" class="form-control" value="@ViewBag.start_date" required />
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <label for="end_date">Ngày kết thúc</label>
+                <input type="date" name="end_date" id="end_date" class="form-control" value="@ViewBag.end_date" required />
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <label for="type-room-select">Loại báo cáo</label>
+                <select id="type-room-select" name="TYPE_VALUE" class="form-control">
+                    <option value="">-- Chọn loại báo cáo --</option>
+                    @if (ViewBag.report_type == "Thu")
+                    {
+                        <option value="1" selected>Thu</option>
+                        <option value="2">Chi</option>
+                    }
+                    else
+                    {
+                        if (ViewBag.report_type == "Chi")
+                        {
+                            <option value="1">Thu</option>
+                            <option value="2" selected>Chi</option>
+                        }
+                        else
+                        {
+                            <option value="1">Thu</option>
+                            <option value="2">Chi</option>
+                        }
+
+                    }
+
+                </select>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Lọc</label>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Lọc</button>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Xóa lọc</label>
+                <a asp-action="Index" class="btn btn-danger">Xóa lọc</a>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> Thêm mới</a>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Ngày</th>
+                <th>Tổng</th>
+                <th>Loại</th>
+                <th>Danh mục</th>
+                <th>Mô tả</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var report in Model)
+            {
+
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => report.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => report.CREATE_AT)
+                    </td>
+                    <td>
+                        @String.Format("{0:N0}",report.AMOUNT) VND
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => report.TYPE)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => report.CATEGORY)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => report.DESCRIPT)
+                    </td>
+
+                    <td style="display: flex; gap: 15px; justify-content:center;align-items:center;">
+                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@report.ID" title="Xem chi tiết"><i class="fa-solid fa-circle-info"></i></a>
+                        @if(report.TYPE == "Thu" & report.BILLS_ID != "")
+                        {
+                            <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@report.ID" title="Sửa thông tin"><i class="fa-solid fa-pen-to-square"></i></a>
+                            if (role != "manager")
+                            {
+                                <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@report.ID" title="Xóa"><i class="fa-solid fa-trash-can"></i></a>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                                Swal.fire('Thành công', '@TempData["Success"]', 'success');
+            </text>
+        }
+    </script>
+}

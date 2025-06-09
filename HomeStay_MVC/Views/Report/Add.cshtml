@@ -1,0 +1,36 @@
+﻿@model HomeStay_MVC.Models.FOODS
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Thêm món mới";
+}
+
+<h2 class="text-center mt-4">Thêm món mới</h2>
+<div style="margin-left:50px; margin-top: 50px;">
+    @using (Html.BeginForm("Add", "Foods", FormMethod.Post))
+    {
+        <div style="display: flex; flex-direction:row;">
+            <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+                <div class="form-group">
+                    <label for="SERVICES_NAME">Tên món</label>
+                    @Html.TextBoxFor(m => m.FOODS_NAME, new { @class = "form-control", @id = "SERVICES_NAME", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="FOODS_PRICE">Giá món</label>
+                    @Html.TextBoxFor(m => m.FOODS_PRICE, new { type = "number", @class = "form-control", @id = "FOODS_PRICE", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="FOODS_TYPE">Phân loại</label>
+                    @Html.DropDownListFor(m => m.FOODS_TYPE, Model.TypeOptions, "-- Chọn loại món --", new { @class = "form-control", @id = "FOODS_TYPE", required = "required" })
+                </div>
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Message</div>
+                }
+                <p style="text-align:right; margin-right:40px; margin-top: 50px">
+                    <button type="submit" class="btn btn-success">Thêm</button>
+                    <a href="@Url.Action("Index", "Foods")" class="btn btn-danger">Hủy</a>
+                </p>
+            </div>
+        </div>
+    }
+</div>

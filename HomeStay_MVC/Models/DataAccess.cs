@@ -965,41 +965,57 @@ namespace ResfullApi.Models
             return getDataFromProcedure(str, "", parms);
         }
 
-        // Lấy top 5 BXH
-        public static DataSet GET_TOP_FOOD(string user_id)
+        // Lấy top BXH
+        public static DataSet GET_TOP(string user_id,string type)
         {
 
             string str;
             str = "";
-            str = "homestays_pkg.GET_TOP_FOOD";
+            str = "homestays_pkg.GET_TOP";
             OracleParameter[] parms;
             parms = new OracleParameter[]
                             {
                                 new OracleParameter("v_user_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
 
             parms[0].Value = user_id;
+            parms[1].Value = type;
 
             return getDataFromProcedure(str, "", parms);
         }
-        public static DataSet GET_TOP_DRINK(string user_id)
-        {
 
+        // Báo cáo
+        public static DataSet REPORT_GET_LIST(string id, string user_id, string homestay_id, string start_date, string end_date, string report_type, string type)
+        {
             string str;
             str = "";
-            str = "homestays_pkg.GET_TOP_DRINK";
+            str = "report_pkg.report_get_list";
             OracleParameter[] parms;
             parms = new OracleParameter[]
                             {
+                                new OracleParameter("v_id", OracleDbType.Varchar2),
                                 new OracleParameter("v_user_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_homestays_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_start_date", OracleDbType.Varchar2),
+                                new OracleParameter("v_end_date", OracleDbType.Varchar2),
+                                new OracleParameter("v_report_type", OracleDbType.Varchar2),
+                                new OracleParameter("v_type", OracleDbType.Varchar2),
                                 new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
             };
 
-            parms[0].Value = user_id;
+            parms[0].Value = id;
+            parms[1].Value = user_id;
+            parms[2].Value = homestay_id;
+            parms[3].Value = start_date;
+            parms[4].Value = end_date;
+            parms[5].Value = report_type;
+            parms[6].Value = type;
 
             return getDataFromProcedure(str, "", parms);
         }
+        
 
 
 

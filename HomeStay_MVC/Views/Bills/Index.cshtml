@@ -27,7 +27,7 @@
 
         <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;">            
             <div style="display: flex; flex-direction: column;">
-                <label for="type-bill-select">Loại phòng</label>
+                <label for="type-bill-select">Loại hóa đơn</label>
                 <select id="type-bill-select" name="BILL_TYPE_VALUE" class="form-control" required>
                     <option value="">-- Chọn loại hóa đơn --</option>
                     <option value="0">Chưa thanh toán</option>
@@ -75,15 +75,15 @@
                     <td>
                         @Html.DisplayFor(modelItem => bill.CREATE_AT)
                     </td>
-                    <td>
-                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@bill.ID">Chi tiết</a>
+                    <td style="display: flex; gap: 15px; justify-content:center;align-items:center;">
+                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@bill.ID" title="Xem chi tiết/ Thanh toán"><i class="fa-solid fa-circle-info"></i></a>
                         @if(bill.BILLS_STATUS == bill_status)
                         {
-                            <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@bill.ID">Sửa</a>
+                            <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@bill.ID" title="Sửa thông tin"><i class="fa-solid fa-pen-to-square"></i></a>
                         }
                         @if (_role != "manager")
                         {
-                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@bill.ID">Xóa</a>
+                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@bill.ID" title="Xóa"><i class="fa-solid fa-trash-can"></i></a>
                         }
                         
                     </td>
@@ -105,60 +105,60 @@
     </script>
 
 
-     <script>
-        const billBody = document.getElementById("bill_body");
-        const billStatusUnpaid = "Chưa thanh toán"; 
-        const userRole = "@_role"; 
-        document.getElementById("homestay-select").addEventListener("change", function () {
-            const homestayId = this.value;
-            if (!homestayId) return;
+    @*  <script> *@
+    @*     const billBody = document.getElementById("bill_body"); *@
+    @*     const billStatusUnpaid = "Chưa thanh toán";  *@
+    @*     const userRole = "@_role";  *@
+    @*     document.getElementById("homestay-select").addEventListener("change", function () { *@
+    @*         const homestayId = this.value; *@
+    @*         if (!homestayId) return; *@
 
-            fetch(`/Bills/GetBillsByHomestay?homestayId=${homestayId}`)
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    billBody.innerHTML = ""; 
+    @*         fetch(`/Bills/GetBillsByHomestay?homestayId=${homestayId}`) *@
+    @*             .then(res => res.json()) *@
+    @*             .then(data => { *@
+    @*                 console.log(data); *@
+    @*                 billBody.innerHTML = "";  *@
 
-                    if (data.length === 0) {
-                        billBody.innerHTML = `<tr><td colspan="5">Không có hóa đơn nào.</td></tr>`;
-                        return;
-                    }
+    @*                 if (data.length === 0) { *@
+    @*                     billBody.innerHTML = `<tr><td colspan="5">Không có hóa đơn nào.</td></tr>`; *@
+    @*                     return; *@
+    @*                 } *@
 
-                    data.forEach(bill => {
-                        const tr = document.createElement("tr");
+    @*                 data.forEach(bill => { *@
+    @*                     const tr = document.createElement("tr"); *@
 
-                        const createDate = bill.creatE_AT
-                        ? new Date(bill.creatE_AT).toLocaleDateString("vi-VN")
-                        : "";
+    @*                     const createDate = bill.creatE_AT *@
+    @*                     ? new Date(bill.creatE_AT).toLocaleDateString("vi-VN") *@
+    @*                     : ""; *@
 
-                        let html = `
-                            <td>${bill.id}</td>
-                            <td>${bill.customerS_NAME}</td>
-                            <td>${bill.billS_STATUS}</td>
-                            <td>${createDate}</td>
-                            <td>
-                                <a href="/Bills/Details/${bill.id}" class="btn btn-sm btn-info">Chi tiết</a>
-                        `;
+    @*                     let html = ` *@
+    @*                         <td>${bill.id}</td> *@
+    @*                         <td>${bill.customerS_NAME}</td> *@
+    @*                         <td>${bill.billS_STATUS}</td> *@
+    @*                         <td>${createDate}</td> *@
+    @*                         <td> *@
+    @*                             <a href="/Bills/Details/${bill.id}" class="btn btn-sm btn-info">Chi tiết</a> *@
+    @*                     `; *@
 
-                        if (bill.billS_STATUS === billStatusUnpaid) {
-                            html += `<a href="/Bills/Edit/${bill.id}" class="btn btn-sm btn-primary">Sửa</a>`;
-                        }
+    @*                     if (bill.billS_STATUS === billStatusUnpaid) { *@
+    @*                         html += `<a href="/Bills/Edit/${bill.id}" class="btn btn-sm btn-primary">Sửa</a>`; *@
+    @*                     } *@
 
-                        if (userRole !== "manager") {
-                            html += `<a href="/Bills/Delete/${bill.id}" class="btn btn-sm btn-danger">Xóa</a>`;
-                        }
+    @*                     if (userRole !== "manager") { *@
+    @*                         html += `<a href="/Bills/Delete/${bill.id}" class="btn btn-sm btn-danger">Xóa</a>`; *@
+    @*                     } *@
 
-                        html += `</td>`;
-                        tr.innerHTML = html;
-                        billBody.appendChild(tr);
-                    });
-                })
-                .catch(error => {
-                    console.error("Lỗi khi tải hóa đơn:", error);
-                    billBody.innerHTML = `<tr><td colspan="5">Đã xảy ra lỗi khi tải hóa đơn.</td></tr>`;
-                });
-        });
-    </script>
+    @*                     html += `</td>`; *@
+    @*                     tr.innerHTML = html; *@
+    @*                     billBody.appendChild(tr); *@
+    @*                 }); *@
+    @*             }) *@
+    @*             .catch(error => { *@
+    @*                 console.error("Lỗi khi tải hóa đơn:", error); *@
+    @*                 billBody.innerHTML = `<tr><td colspan="5">Đã xảy ra lỗi khi tải hóa đơn.</td></tr>`; *@
+    @*             }); *@
+    @*     }); *@
+    @* </script> *@
 
 
 

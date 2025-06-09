@@ -35,6 +35,7 @@ namespace HomeStay_MVC.Controllers
                 {
                      
                     user_id = HttpContext.Session.GetString("ID");
+                    bill_status = "UNPAID";
                 }
                 else
                 {
@@ -218,6 +219,7 @@ namespace HomeStay_MVC.Controllers
 
             try
             {
+                
                 foreach (var room in billModel.Rooms)
                 {
                     var dsRoom = DataAccess.CHECK_ROOM_IN_USE("-1", room.RoomId, room.CheckInDate.ToString("yyyy-MM-dd"), room.CheckOutDate.ToString("yyyy-MM-dd"));
@@ -280,14 +282,13 @@ namespace HomeStay_MVC.Controllers
             var id = ID;
             if (!ModelState.IsValid)
             {
-                ViewBag.Message = "Dữ liệu không hợp lệ.";
-                billModel = get_infor(id);
-                return View(billModel);
+                var Message = "Dữ liệu không hợp lệ.";
+                return ReturnWithError(Message,id);
             }
             if (!checkPIN(billModel.Save_code))
             {
-                ViewBag.Message = "Sai mã PIN";
-                return View(billModel);
+                var Message = "Sai mã PIN";
+                return ReturnWithError(Message, id);
             }
             var homestayId = billModel.ID_HOMESTAYS;
             var userId = HttpContext.Session.GetString("ID");
@@ -297,6 +298,18 @@ namespace HomeStay_MVC.Controllers
 
             try
             {
+
+                for (int i = 0; i < billModel.Rooms.Count; i++)
+                {
+                    for (int j = i + 1; j < billModel.Rooms.Count; j++)
+                    {
+                        if (billModel.Rooms[i].RoomId == billModel.Rooms[j].RoomId)
+                        {
+                            return ReturnWithError("Phát hiện trùng phòng: " + billModel.Rooms[i].RoomId, id);
+                        }
+                    }
+                }
+
                 foreach (var room in billModel.Rooms)
                 {
                     var dsRoom = DataAccess.CHECK_ROOM_IN_USE(id, room.RoomId, room.CheckInDate.ToString("yyyy-MM-dd"), room.CheckOutDate.ToString("yyyy-MM-dd"));
@@ -953,7 +966,7 @@ namespace HomeStay_MVC.Controllers
             string bill_status = (BILL_TYPE_VALUE.HasValue && BILL_TYPE_VALUE.Value != 0) ? "PAID" : "UNPAID";
             if (_role == "manager") _id_homestay = ht_id;
 
-            DataSet ds = DataAccess.BILLS_GET_LIST(bill_id, ht_id, userID, bill_status, v_type);
+            DataSet ds = DataAccess.BILLS_GET_LIST(bill_id, _id_homestay, userID, bill_status, v_type);
             List<Bills> bills = new List<Bills>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {

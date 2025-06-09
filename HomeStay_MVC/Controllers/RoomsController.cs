@@ -176,6 +176,11 @@ namespace HomeStay_MVC.Controllers
             string _room_type = (TYPE_VALUE.HasValue && TYPE_VALUE.Value != 0) ? TYPE_VALUE.Value.ToString() : "-1";
             string _status_value = STATUS_VALUE.HasValue ? STATUS_VALUE.Value.ToString() : "";
             if (_role == "manager") _id_homestay = ht_id;
+            ViewBag.id_homestay = _id_homestay;
+            ViewBag.check_in = _checkin;
+            ViewBag.check_out = _checkout;
+            ViewBag.room_type = _room_type;
+            ViewBag.status_value = _status_value;
             
             DataSet ds = DataAccess.ROOMS_FILTER_LIST(_id_homestay, _checkin, _checkout, _room_type,_status_value);
 
@@ -242,6 +247,15 @@ namespace HomeStay_MVC.Controllers
                 if (_status == "Available") _obj.ROOMS_STATUS = "Hoạt động";
                 else _obj.ROOMS_STATUS = "Đang sửa chữa";
 
+                _obj.NUMBER_BED = dr["NUMBER_BED"].ToString();
+                // Type
+                string _type = dr["TYPE"].ToString();
+                _obj.TYPE = _type switch
+                {
+                    "1" => "Phòng đơn",
+                    "2" => "Phòng đôi",
+                    _ => "Phòng nhiều người"
+                };
 
                 _obj.HOMESTAYS_ID = dr["HOMESTAYS_ID"].ToString();
                 string _avatar_name = dr["AVATAR_PATH"].ToString();

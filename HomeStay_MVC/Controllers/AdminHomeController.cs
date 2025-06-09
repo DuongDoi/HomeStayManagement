@@ -42,7 +42,7 @@ namespace HomeStay_MVC.Controllers
                     else return RedirectToAction("Index", "Login");
                 }
             }
-            DataSet dsf = DataAccess.GET_TOP_FOOD(user_id);
+            DataSet dsf = DataAccess.GET_TOP(user_id,"1");
             List<TopItemViewModel> topFoods = new List<TopItemViewModel>();
             if (dsf != null && dsf.Tables.Count > 0)
             {
@@ -70,7 +70,7 @@ namespace HomeStay_MVC.Controllers
 
             ViewBag.TopFoods = topFoods;
 
-            DataSet ddf = DataAccess.GET_TOP_DRINK(user_id);
+            DataSet ddf = DataAccess.GET_TOP(user_id,"2");
             List<TopItemViewModel> topDrinks = new List<TopItemViewModel>();
             if (ddf != null && ddf.Tables.Count > 0)
             {
@@ -97,6 +97,33 @@ namespace HomeStay_MVC.Controllers
             }
 
             ViewBag.TopDrinks = topDrinks;
+            DataSet dds = DataAccess.GET_TOP(user_id, "3");
+            List<TopItemViewModel> topServices = new List<TopItemViewModel>();
+            if (dds != null && dds.Tables.Count > 0)
+            {
+                foreach (DataRow row in dds.Tables[0].Rows)
+                {
+                    var _USERS_ID = row["USERS_ID"].ToString();
+                    string _AVATAR_PATH;
+                    string _avatar_name = row["AVATAR_PATH"].ToString();
+                    if (!string.IsNullOrWhiteSpace(_avatar_name))
+                    {
+
+                        _AVATAR_PATH = $"{_USERS_ID}/{_avatar_name}";
+                    }
+                    else { _AVATAR_PATH = "no_image.png"; }
+                    topServices.Add(new TopItemViewModel
+                    {
+                        Id = Convert.ToInt32(row["ID"]),
+                        Name = row["SERVICES_NAME"].ToString(),
+                        Price = Convert.ToInt32(row["SERVICES_PRICE"]),
+                        Avatar = _AVATAR_PATH,
+                        UsedCount = Convert.ToInt32(row["TOTAL_USED"])
+                    });
+                }
+            }
+
+            ViewBag.topServices = topServices;
 
             return View();
         }

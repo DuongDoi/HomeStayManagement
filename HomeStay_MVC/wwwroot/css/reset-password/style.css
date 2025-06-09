@@ -14,7 +14,7 @@
 body, html {
   margin: 0;
   padding: 0;
-  background: url('../../Assets/img/12067358_4882066.jpg') center/cover no-repeat fixed;
+/*  background: url('../../Assets/img/12067358_4882066.jpg') center/cover no-repeat fixed;*/
   height: 100vh;
 }
 
@@ -28,11 +28,9 @@ body, html {
 .form-wrapper {
   display: flex;
   background-color: #ffffff;
-  border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  width: 90%;
-  max-width: 1200px;
+  width: 100%;
 }
 
 .form-left {
@@ -41,7 +39,6 @@ body, html {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
 }
 
 .form-left img {

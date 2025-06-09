@@ -17,7 +17,7 @@
                     <option value="0">-- Chọn cơ sở --</option>
                     @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
                     {
-                        if(item.Value == ht_id)
+                        if (item.Value == ht_id || item.Value == ViewBag.id_homestay)
                         {
                             <option value="@item.Value" selected>@item.Text</option>
                         }
@@ -25,41 +25,84 @@
                         {
                             <option value="@item.Value">@item.Text</option>
                         }
-                       
-                }
-            </select>
+                    }
+                </select>
+            </div>
         </div>
-    </div>
-    
+
         <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;">
             <div style="display: flex; flex-direction: column;">
                 <label for="checkin_date">Ngày nhận phòng</label>
-                <input type="date" name="checkin_date" id="checkin_date" class="form-control" required />
+                <input type="date" name="checkin_date" id="checkin_date" class="form-control"  value="@ViewBag.check_in" required />
             </div>
             <div style="display: flex; flex-direction: column;">
                 <label for="checkout_date">Ngày trả phòng</label>
-                <input type="date" name="checkout_date" id="checkout_date" class="form-control" required />
+                <input type="date" name="checkout_date" id="checkout_date" class="form-control" value="@ViewBag.check_out" required />
             </div>
             <div style="display: flex; flex-direction: column;">
                 <label for="type-room-select">Loại phòng</label>
                 <select id="type-room-select" name="TYPE_VALUE" class="form-control" >
                     <option value="0">-- Chọn loại phòng --</option>
-                    <option value="1">Phòng đơn</option>
-                    <option value="2">Phòng đôi</option>
-                    <option value="3">Phòng nhiều người</option>
+                    @if (ViewBag.room_type == "1")
+                    {
+                        <option value="1" selected>Phòng đơn</option>
+                        <option value="2">Phòng đôi</option>
+                        <option value="3">Phòng nhiều người</option>
+                    }
+                    else
+                    {
+                        if (ViewBag.room_type == "2")
+                        {
+                            <option value="1">Phòng đơn</option>
+                            <option value="2" selected>Phòng đôi</option>
+                            <option value="3">Phòng nhiều người</option>
+                        }
+                        else
+                        {
+                            if (ViewBag.room_type == "3")
+                            {
+                                <option value="1">Phòng đơn</option>
+                                <option value="2">Phòng đôi</option>
+                                <option value="3" selected>Phòng nhiều người</option>
+                            }
+                            else
+                            {
+                                <option value="1">Phòng đơn</option>
+                                <option value="2">Phòng đôi</option>
+                                <option value="3">Phòng nhiều người</option>
+                            }
+                        }
+                    }
+
                 </select>
             </div>
             <div style="display: flex; flex-direction: column;">
                 <label for="status-room-select">Trạng thái phòng</label>
                 <select id="status-room-select" name="STATUS_VALUE" class="form-control" required>
                     <option value="">-- Chọn trạng thái --</option>
-                    <option value="1">Còn trống</option>
-                    <option value="2">Đang được sử dụng</option>
+                    @if (ViewBag.status_value == "1")
+                    {
+                        <option value="1" selected>Còn trống</option>
+                        <option value="2">Đang được sử dụng</option>
+                    }
+                    else
+                    {
+                        if (ViewBag.status_value == "2")
+                        {
+                            <option value="1">Còn trống</option>
+                            <option value="2" selected>Đang được sử dụng</option>
+                        }
+                        else
+                        {
+                            <option value="1">Còn trống</option>
+                            <option value="2">Đang được sử dụng</option>
+                        }
+                    }
                 </select>
             </div>
             <div style="display: flex; flex-direction: column; justify-content: flex-end;">
                 <label style="visibility: hidden;">Lọc phòng</label> 
-                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Lọc phòng</button>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Tìm phòng trống</button>
             </div>
             <div style="display: flex; flex-direction: column; justify-content: flex-end;">
                 <label style="visibility: hidden;">Xóa lọc</label>
@@ -147,63 +190,62 @@
         }
     </script>
 
-    <script>
-        const roomBody = document.getElementById("room_body");
-        const userRole = "@role";
-        document.getElementById("homestay-select").addEventListener("change", function () {
-            const homestayId = this.value;
-            if (!homestayId) return;
+    @* <script> *@
+    @*     const roomBody = document.getElementById("room_body"); *@
+    @*     const userRole = "@role"; *@
+    @*     document.getElementById("homestay-select").addEventListener("change", function () { *@
+    @*         const homestayId = this.value; *@
+    @*         if (!homestayId) return; *@
 
-            fetch(`/Rooms/GetRoomsByHomestay?homestayId=${homestayId}`)
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data);
-                    roomBody.innerHTML = "";
+    @*         fetch(`/Rooms/GetRoomsByHomestay?homestayId=${homestayId}`) *@
+    @*             .then(res => res.json()) *@
+    @*             .then(data => { *@
+    @*                 console.log(data); *@
+    @*                 roomBody.innerHTML = ""; *@
 
-                    if (data.length === 0) {
-                        roomBody.innerHTML = `<tr><td colspan="7">Không có phòng nào.</td></tr>`;
-                        return;
-                    }
+    @*                 if (data.length === 0) { *@
+    @*                     roomBody.innerHTML = `<tr><td colspan="7">Không có phòng nào.</td></tr>`; *@
+    @*                     return; *@
+    @*                 } *@
 
-                    data.forEach(room => {
-                        const tr = document.createElement("tr");
+    @*                 data.forEach(room => { *@
+    @*                     const tr = document.createElement("tr"); *@
 
-                            const createDate = room.creatE_AT
-                                ? new Date(room.creatE_AT).toLocaleDateString("vi-VN")
-                                : "";
+                            
 
-                            const avatarUrl = `/uploads/AvatarRoom/${room.avataR_PATH}`;
+    @*                         const avatarUrl = `/uploads/AvatarRoom/${room.avataR_PATH}`; *@
 
-                                let html = `
-                                    <td>
-                                        <img src="${avatarUrl}" alt="Avatar"
-                                             style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
-                                    </td>
-                                    <td>${room.homestayS_NAME ?? ""}</td>
-                                    <td>${room.roomS_NAME ?? ""}</td>
-                                    <td>${room.roomS_PRICE ?? ""}</td>
-                                    <td>${room.roomS_STATUS ?? ""}</td>
-                                `;
+    @*                             let html = ` *@
+    @*                                 <td> *@
+    @*                                     <img src="${avatarUrl}" alt="Avatar" *@
+    @*                                          style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" /> *@
+    @*                                 </td> *@
+    @*                                 <td>${room.homestayS_NAME ?? ""}</td> *@
+    @*                                 <td>${room.roomS_NAME ?? ""}</td> *@
+    @*                                 <td>${(int.Parse(room.roomS_PRICE).ToString("N0") VND) ?? ""}</td> *@
+    @*                                 <td>${room.type ?? ""}</td> *@
+    @*                                 <td>${room.numbeR_BED}</td> *@
+    @*                             `; *@
 
-                                if (userRole !== "manager") {
-                                    html += `
-                                        <td>${createDate}</td>
-                                        <td>
-                                            <a href="/Rooms/Details/${room.id}" class="btn btn-sm btn-info">Chi tiết</a>
-                                            <a href="/Rooms/Edit/${room.id}" class="btn btn-sm btn-primary">Sửa</a>
-                                            <a href="/Rooms/Delete/${room.id}" class="btn btn-sm btn-danger">Xóa</a>
-                                        </td>
-                                    `;
-                                }
+    @*                             if (userRole !== "manager") { *@
+    @*                                 html += ` *@
+                                        
+    @*                                     <td> *@
+    @*                                         <a href="/Rooms/Details/${room.id}" class="btn btn-sm btn-info" title="Xem chi tiết"><i class="fa-solid fa-circle-info">  </i></a> *@
+    @*                                         <a href="/Rooms/Edit/${room.id}" class="btn btn-sm btn-primary" title="Sửa thông tin"><i class="fa-solid fa-pen-to-square">  </i></a> *@
+    @*                                         <a href="/Rooms/Delete/${room.id}" class="btn btn-sm btn-danger" title="Xóa"><i class="fa-solid fa-trash-can">  </i></a> *@
+    @*                                     </td> *@
+    @*                                 `; *@
+    @*                             } *@
 
-                                tr.innerHTML = html;
-                                roomBody.appendChild(tr);
-                            });
-                })
-                .catch(error => {
-                    console.error("Lỗi khi tải phòng:", error);
-                    billBody.innerHTML = `<tr><td colspan="5">Đã xảy ra lỗi khi tải phòng.</td></tr>`;
-                });
-        });
-    </script>
+    @*                             tr.innerHTML = html; *@
+    @*                             roomBody.appendChild(tr); *@
+    @*                         }); *@
+    @*             }) *@
+    @*             .catch(error => { *@
+    @*                 console.error("Lỗi khi tải phòng:", error); *@
+    @*                 billBody.innerHTML = `<tr><td colspan="5">Đã xảy ra lỗi khi tải phòng.</td></tr>`; *@
+    @*             }); *@
+    @*     }); *@
+    @* </script> *@
 }

@@ -19,52 +19,119 @@
         }
     </script>
 }
-<div style="margin: 30px;">
-    <h2 style="margin:10px;">Top món ăn hàng đầu</h2>
-    <div style="display: flex; overflow-x: auto; gap: 16px; padding: 10px; scroll-snap-type: x mandatory;">
-        @if (ViewBag.TopFoods != null)
-        {
-            foreach (var food in ViewBag.TopFoods)
-            {
-                <div style="flex: 0 0 auto; width: 200px; border: 1px solid #ccc; border-radius: 12px; padding: 10px; text-align: center; background-color: #fff; scroll-snap-align: start; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-                    <img src="@Url.Content($"~/uploads/AvatarFoodDrink/{food.Avatar}")"
-                         alt="@food.Name"
-                         style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
-                    <div style="margin-top: 10px;">
-                        <h5 style="margin: 10px 0 5px; font-size: 16px;">@food.Name</h5>
-                        <p style="color: #ff5722; font-weight: bold; margin: 0;">Giá: @String.Format("{0:N0}", food.Price) VND</p>
-                    </div>
-                </div>
-            }
-        }
-        else
-        {
-            <p>Không có dữ liệu.</p>
-        }
+<div style="position: relative; width: 100%; min-height: 100vh;">
+    <!-- Hình nền mờ -->
+    <div style="
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background-image: url('@Url.Content("~/Assets/img/background_home.jpg")');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        opacity: 0.6;
+        z-index: 1;">
     </div>
 
-    <h2 style="margin:10px;">Top đồ uống hàng đầu</h2>
-    <div style="display: flex; overflow-x: auto; gap: 16px; padding: 10px; scroll-snap-type: x mandatory;">
-        @if (ViewBag.TopDrinks != null)
+    <!-- Nội dung chính -->
+    <div style="position: relative; z-index: 2; padding: 30px;">
+            @if (ViewBag.TopFoods != null)
         {
-            foreach (var food in ViewBag.TopDrinks)
-            {
-                <div style="flex: 0 0 auto; width: 200px; border: 1px solid #ccc; border-radius: 12px; padding: 10px; text-align: center; background-color: #fff; scroll-snap-align: start; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-                    <img src="@Url.Content($"~/uploads/AvatarFoodDrink/{food.Avatar}")"
-                         alt="@food.Name"
-                         style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
-                    <div style="margin-top: 10px;">
-                        <h5 style="margin: 10px 0 5px; font-size: 16px;">@food.Name</h5>
-                        <p style="color: #cc4321; font-weight: bold; margin: 0;">Giá: @String.Format("{0:N0}", food.Price) VND</p>
+            <h2 style="margin: 10px;
+                background: linear-gradient(to right, #e0f7fa, #ffffff);
+                padding: 10px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+                Top món ăn hàng đầu
+            </h2>
+            <div style="display: flex; overflow-x: auto; gap: 16px; padding: 10px; scroll-snap-type: x mandatory;">
+                @foreach (var food in ViewBag.TopFoods)
+                {
+                    <div style="flex: 0 0 auto; width: 200px; border: 1px solid #ccc; border-radius: 12px; padding: 10px; text-align: center; background-color: #fff; scroll-snap-align: start; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        <img src="@Url.Content($"~/uploads/AvatarFoodDrink/{food.Avatar}")"
+                             alt="@food.Name"
+                             style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
+                        <div style="margin-top: 10px;">
+                            <h5 style="margin: 10px 0 5px; font-size: 16px;">@food.Name</h5>
+                            <p style="color: #ff5722; font-weight: bold; margin: 0;">Giá: @String.Format("{0:N0}", food.Price) VND</p>
+                        </div>
                     </div>
-                </div>
+                }
+            </div>
             }
-        }
-        else
-        {
-            <p>Không có dữ liệu.</p>
-        }
-    </div>
-    <h2>Top dịch vụ hàng đầu</h2>
 
+            @if (ViewBag.TopDrinks != null)
+            {
+            <h2 style="margin:10px;
+                background: linear-gradient(to right, #e0f7fa, #ffffff);
+                padding: 10px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+                Top đồ uống hàng đầu
+            </h2>
+            <div style="display: flex; overflow-x: auto; gap: 16px; padding: 10px; scroll-snap-type: x mandatory;">
+                @foreach (var food in ViewBag.TopDrinks)
+                {
+                    <div style="flex: 0 0 auto; width: 200px; border: 1px solid #ccc; border-radius: 12px; padding: 10px; text-align: center; background-color: #fff; scroll-snap-align: start; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        <img src="@Url.Content($"~/uploads/AvatarFoodDrink/{food.Avatar}")"
+                             alt="@food.Name"
+                             style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
+                        <div style="margin-top: 10px;">
+                            <h5 style="margin: 10px 0 5px; font-size: 16px;">@food.Name</h5>
+                            <p style="color: #cc4321; font-weight: bold; margin: 0;">Giá: @String.Format("{0:N0}", food.Price) VND</p>
+                        </div>
+                    </div>
+                }
+            </div>
+            }
+
+        
+            @if (ViewBag.topServices != null)
+            {
+            <h2 style="margin:10px;
+                background: linear-gradient(to right, #e0f7fa, #ffffff);
+                padding: 10px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+                text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">
+                Top dịch vụ hàng đầu
+            </h2>
+            <div style="display: flex; overflow-x: auto; gap: 16px; padding: 10px; scroll-snap-type: x mandatory;">
+                @foreach (var service in ViewBag.topServices)
+                {
+                    <div style="flex: 0 0 auto; width: 200px; border: 1px solid #ccc; border-radius: 12px; padding: 10px; text-align: center; background-color: #fff; scroll-snap-align: start; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        <img src="@Url.Content($"~/uploads/AvatarServices/{service.Avatar}")"
+                             alt="@service.Name"
+                             style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
+                        <div style="margin-top: 10px;">
+                            <h5 style="margin: 10px 0 5px; font-size: 16px;">@service.Name</h5>
+                            <p style="color: #cc4321; font-weight: bold; margin: 0;">Giá: @String.Format("{0:N0}", service.Price) VND</p>
+                        </div>
+                    </div>
+                }
+            </div>
+            }
+        <div id="about-us" style="margin-top: 40px; padding: 20px; background-color: rgba(255, 255, 255, 0.85); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); ">
+            <h2>Hệ thống quản lý Homestay</h2>
+            <p>
+                Hệ thống của chúng tôi được xây dựng nhằm cung cấp một nền tảng quản lý toàn diện, hiệu quả và tiện lợi cho khách hàng.
+                Với giao diện thân thiện và tính năng đa dạng, hệ thống giúp bạn dễ dàng quản lý thông tin, dịch vụ, món ăn và đồ uống một cách chính xác và nhanh chóng.
+            </p>
+            <p>
+                Chúng tôi cam kết không ngừng nâng cao chất lượng và cập nhật công nghệ mới để mang đến trải nghiệm tốt nhất cho người dùng.
+                Cảm ơn bạn đã tin tưởng và sử dụng hệ thống của chúng tôi!
+            </p>
+
+            <h3>Thông tin liên hệ</h3>
+            <ul style="list-style: none; padding-left: 0; font-size: 16px;">
+                <li><strong>Hotline:</strong> <a href="tel:0397360167" >0397 360 167</a></li>
+                <li><strong>Email:</strong> <a href="homestaymanagement.work@gmail.com">homestaymanagement.work@gmail.com</a></li>
+                <li><strong>Địa chỉ:</strong> Số 4, Ngõ 44/148 Trần Thái Tông, Cầu Giấy, Hà Nội</li>
+                <li><strong>Mọi ý kiến đóng góp vui lòng gửi về:</strong> <a href="homestaymanagement.feedback@gmail.com">homestaymanagement.feedback@gmail.com<</li>
+            </ul>
+        </div>
+    </div>
 </div>
+

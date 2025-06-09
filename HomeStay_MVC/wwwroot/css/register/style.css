@@ -12,10 +12,10 @@
 }
 
 body, html {
-  margin: 0;
-  padding: 0;
-  background: url('../../Assets/img/12067358_4882066.jpg') center/cover no-repeat fixed;
-  height: 100vh;
+    margin: 0;
+    padding: 0;
+/*    background: url('/Assets/img/background_home.jpg') center/cover no-repeat fixed;*/
+    height: 100vh;
 }
 
 .container {
@@ -31,8 +31,7 @@ body, html {
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   overflow: hidden;
-  width: 90%;
-  max-width: 1200px;
+  width: 100%;
 }
 
 .form-left {

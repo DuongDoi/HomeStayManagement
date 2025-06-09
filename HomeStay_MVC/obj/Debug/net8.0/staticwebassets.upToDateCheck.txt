@@ -1114,6 +1114,7 @@ wwwroot\Assets\demo\chart-bar-demo.js
 wwwroot\Assets\demo\chart-pie-demo.js
 wwwroot\Assets\demo\datatables-demo.js
 wwwroot\Assets\img\12067358_4882066.jpg
+wwwroot\Assets\img\background_home.jpg
 wwwroot\Assets\img\error-404-monochrome.svg
 wwwroot\Assets\img\eye_off.svg
 wwwroot\Assets\img\eye_on.svg

@@ -4481,6 +4481,10 @@
       "PackagePath": "staticwebassets\\Assets\\img\\Homestay_logo_no_bg.png"
     },
     {
+      "Id": "D:\\DATN\\test\\HomeStay_MVC\\HomeStay_MVC\\wwwroot\\Assets\\img\\background_home.jpg",
+      "PackagePath": "staticwebassets\\Assets\\img\\background_home.jpg"
+    },
+    {
       "Id": "D:\\DATN\\test\\HomeStay_MVC\\HomeStay_MVC\\wwwroot\\Assets\\img\\error-404-monochrome.svg",
       "PackagePath": "staticwebassets\\Assets\\img\\error-404-monochrome.svg"
     },

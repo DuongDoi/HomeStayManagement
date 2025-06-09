@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using ResfullApi.Models;
 using HomeStay_MVC.Models;
 using System.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HomeStay_MVC.Controllers
 {
@@ -374,8 +375,67 @@ namespace HomeStay_MVC.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult Filter(string search_value, int? OPTION_VALUE)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
 
 
+            string _role = HttpContext.Session.GetString("Role");
+            string userID = "-1";
+            string ht_id = "-1";
+            string v_type = "1";
+
+            if (_role == "admin")
+            {
+            }
+            else if (_role == "owner")
+            {
+                userID = HttpContext.Session.GetString("ID");
+            }
+            else
+            {
+                DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                if (ds1.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr1 = ds1.Tables[0].Rows[0];
+                    userID = dr1["ID"].ToString();
+                    ht_id = HttpContext.Session.GetString("Homestays_Id");
+                }
+                else return RedirectToAction("Index", "Login");
+            }
+
+
+            // Format tham số lọc
+            string _search_value = search_value;
+            string option_value = (OPTION_VALUE.HasValue && OPTION_VALUE.Value != 0) ? "3" : "4";
+
+            DataSet ds = DataAccess.CUSTOMERS_GET_LIST(_search_value, userID, option_value);
+            List<Customers> customers = new List<Customers>();
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                Customers _obj = new Customers();
+                _obj.ID = dr["ID"].ToString();
+                _obj.CUSTOMERS_CARD_NUMBER = dr["CUSTOMERS_CARD_NUMBER"].ToString();
+                _obj.CUSTOMERS_NAME = dr["CUSTOMERS_NAME"].ToString();
+                _obj.CUSTOMERS_PHONE = dr["CUSTOMERS_PHONE"].ToString();
+                _obj.CUSTOMERS_ADDRESS = dr["CUSTOMERS_ADDRESS"].ToString();
+                _obj.USERS_NAME = dr["NAME"].ToString();
+                _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                catch { }
+                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                catch { }
+
+                customers.Add(_obj);
+
+            }
+
+            return View("Index", customers);
+        }
 
 
 

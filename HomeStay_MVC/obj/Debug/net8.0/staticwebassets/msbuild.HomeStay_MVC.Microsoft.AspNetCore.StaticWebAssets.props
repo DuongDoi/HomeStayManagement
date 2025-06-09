@@ -20082,11 +20082,29 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>6be7xf7igr</Fingerprint>
-      <Integrity>MpGYNQIb1ek0ji8whqAIp5Y6EX63sEK5kgYoXh3yP9g=</Integrity>
+      <Fingerprint>y5uthbdhy6</Fingerprint>
+      <Integrity>CvVxIdgbJIPsBDvGsPZdGbArcNpRvrEST2Ey75Gur80=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Assets\img\12067358_4882066.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Assets\img\background_home.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>HomeStay_MVC</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/HomeStay_MVC</BasePath>
+      <RelativePath>Assets/img/background_home.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>y5uthbdhy6</Fingerprint>
+      <Integrity>CvVxIdgbJIPsBDvGsPZdGbArcNpRvrEST2Ey75Gur80=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Assets\img\background_home.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Assets\img\error-404-monochrome.svg'))">
       <SourceType>Package</SourceType>
@@ -20226,8 +20244,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>daundiaxjd</Fingerprint>
-      <Integrity>63Fu5N6P3dHlfbQeUTPCpPeHDEz3U2NETB++Wab5jxQ=</Integrity>
+      <Fingerprint>otsa9v67of</Fingerprint>
+      <Integrity>bFX6TNAsUZMkbTnKhumWVUYJmkSYNIxJoqV7FqTabrw=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\login\style.css'))</OriginalItemSpec>
@@ -20244,8 +20262,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>gxjvegnir0</Fingerprint>
-      <Integrity>pHStTZ9M0C1+8Yga3MEd5xSCwI+ZFXoKcppmo31thyM=</Integrity>
+      <Fingerprint>4ucu7molps</Fingerprint>
+      <Integrity>hCTP9+iAw4jHltGCUb5k4iVaSnmunzazr4OBTyCNvvE=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\register\style.css'))</OriginalItemSpec>
@@ -20262,8 +20280,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>fg02ea15jt</Fingerprint>
-      <Integrity>MQuQUNDc3Yv/3SVoVS92MABs0N/mrbtz94U9NDWvA1M=</Integrity>
+      <Fingerprint>fssuy0qwqt</Fingerprint>
+      <Integrity>P++a8RTXtUwpKr2WEukaSN1IYPHv7QVP0WboqcnkNeE=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\reset-password\style.css'))</OriginalItemSpec>
@@ -20298,8 +20316,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>feyeb54zga</Fingerprint>
-      <Integrity>WTuP6M9ktfjXIFxhAB0s3vBOpctj3oRrea4eAMFNYys=</Integrity>
+      <Fingerprint>inzildr7i5</Fingerprint>
+      <Integrity>AoKtje1fLPOaKVGZU6nui1jAwVkND2BZXLTLPjxAyqE=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\styles.css'))</OriginalItemSpec>

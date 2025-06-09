@@ -44,10 +44,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => homestay.CREATE_AT)
                     </td>
-                    <td>
-                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID">Chi tiết</a>
-                        <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID">Sửa</a>
-                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID">Xóa</a>
+                    <td style="display: flex; gap: 15px; justify-content:center;align-items:center;">
+                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID" title="Xem chi tiết"><i class="fa-solid fa-circle-info"></i></a>
+                        <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID" title="Sửa thông tin"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID" title="Xóa"><i class="fa-solid fa-trash-can"></i></a>
                     </td>
                 </tr>
             }

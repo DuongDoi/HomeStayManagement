@@ -47,12 +47,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => account.Role)
                     </td>
-                    <td>
-                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-username="@account.Users">Chi tiết</a>
-                        <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-username="@account.Users">Sửa</a>
+                    <td style="display: flex; gap: 15px; justify-content:center;align-items:center;">
+                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-username="@account.Users" title="Xem chi tiết"><i class="fa-solid fa-circle-info"></i></a>
+                        <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-username="@account.Users" title="Sửa thông tin"><i class="fa-solid fa-pen-to-square"></i></a>
                         @if (username != account.Users && account.Users!="admin")
                         {
-                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-username="@account.Users">Xóa</a>
+                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-username="@account.Users" title="Xóa"><i class="fa-solid fa-trash-can"></i></a>
                         }
                     </td>
                 </tr>

@@ -1,0 +1,41 @@
+﻿@model HomeStay_MVC.Models.FOODS
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Xóa món";
+}
+<h2 class="text-center mt-4">Xóa món</h2>
+<div style="margin-left:50px; margin-top: 50px;">
+    @using (Html.BeginForm("Delete", "Foods", new { id = Model.ID }, FormMethod.Post))
+    {
+        <div style="display: flex; flex-direction:row;">
+            <div style="flex:1;margin-left: 30px;margin-right: 30px;">
+                @Html.HiddenFor(m => m.ID)
+                <div class="form-group">
+                    <label for="Save_Code">Mã Pin</label>
+                    @Html.PasswordFor(m => m.Save_code, new { @class = "form-control", @id = "Save_Code", @required = "required" })
+                </div>
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Message</div>
+                }
+
+                <p style="text-align:right; margin-right:40px; margin-top: 50px">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa món này?')">Xác nhận</button>
+                    <a href="@Url.Action("Index", "Foods")" class="btn btn-success">Quay lại</a>
+                </p>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                            Swal.fire('Thành công', '@TempData["Success"]', 'success');
+            </text>
+        }
+    </script>
+}

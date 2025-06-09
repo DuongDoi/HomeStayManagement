@@ -321,9 +321,9 @@
                 .catch(() => alert("Lỗi khi tìm kiếm khách hàng!"));
         });
 
-        let roomIndex = @Model.Rooms.Count;
-        let foodIndex = @Model.Foods.Count;
-        let serviceIndex = @Model.Services.Count;
+        let roomIndex = 1;
+        let foodIndex = 1;
+        let serviceIndex = 1;
         const roomOptions = @Html.Raw(Json.Serialize(Model.RoomOptions));
         const foodOptions = @Html.Raw(Json.Serialize(Model.FoodDrinkOptions));
         const serviceOptions = @Html.Raw(Json.Serialize(Model.ServiceOptions));
