@@ -140,6 +140,11 @@
     </div>
     @using (Html.BeginForm("pay", "Bills", new { id = Model.ID }, FormMethod.Post))
     {
+        @Html.TextBoxFor(m => m.ID_HOMESTAYS, new { @class = "form-control", type = "hidden", name = "ID_HOMESTAYS", value = "@Model.ID_HOMESTAYS" })
+        @Html.TextBoxFor(m => m.HOMESTAYS_NAME, new { @class = "form-control", type = "hidden", name = "HOMESTAYS_NAME", value = "@Model.HOMESTAYS_NAME" })
+        @Html.TextBoxFor(m => m.TOTAL_MONEY, new { @class = "form-control", type = "hidden", name = "TOTAL_MONEY", value = "@Model.TOTAL_MONEY" })
+        @Html.TextBoxFor(m => m.CUSTOMERS_NAME, new { @class = "form-control", type = "hidden", name = "CUSTOMERS_NAME", value = "@Model.CUSTOMERS_NAME" })
+        @Html.TextBoxFor(m => m.UPDATE_AT, new { @class = "form-control", type = "hidden", name = "UPDATE_AT", value = "@Model.UPDATE_AT" })
         @Html.TextBoxFor(m => m.ID, new { @class = "form-control", type = "hidden", name = "ID", value = "@Model.ID" })
         @if (ViewBag.Message != null)
         {

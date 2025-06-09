@@ -1015,7 +1015,38 @@ namespace ResfullApi.Models
 
             return getDataFromProcedure(str, "", parms);
         }
-        
+
+        public static DataSet REPORT_INSERT(string v_type_report, string v_categrory, string v_descript, string v_bills_id, string v_create_by, string v_homestays_id, string v_amount,string v_type)
+        {
+            string str;
+            str = "";
+            str = "report_pkg.report_insert";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_type_report", OracleDbType.NVarchar2),
+                                new OracleParameter("v_categrory", OracleDbType.NVarchar2),
+                                new OracleParameter("v_descript", OracleDbType.NVarchar2),
+                                new OracleParameter("v_bills_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_create_by", OracleDbType.Varchar2),
+                                new OracleParameter("v_homestays_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_amount", OracleDbType.Varchar2),
+                                new OracleParameter("v_type", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+
+            parms[0].Value = v_type_report;
+            parms[1].Value = v_categrory;
+            parms[2].Value = v_descript;
+            parms[3].Value = v_bills_id;
+            parms[4].Value = v_create_by;
+            parms[5].Value = v_homestays_id;
+            parms[6].Value = v_amount;
+            parms[7].Value = v_type;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+
 
 
 

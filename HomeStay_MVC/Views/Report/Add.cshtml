@@ -1,26 +1,51 @@
-﻿@model HomeStay_MVC.Models.FOODS
+﻿@model HomeStay_MVC.Models.ReportModel
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Thêm món mới";
+    ViewData["Title"] = "Thêm mới bản ghi báo cáo";
+    var role = Context.Session.GetString("Role");
+    var ht_id = Context.Session.GetString("Homestays_Id");
 }
 
-<h2 class="text-center mt-4">Thêm món mới</h2>
+<h2 class="text-center mt-4">Thêm mới bản ghi báo cáo</h2>
 <div style="margin-left:50px; margin-top: 50px;">
-    @using (Html.BeginForm("Add", "Foods", FormMethod.Post))
+    @using (Html.BeginForm("Add", "Report", FormMethod.Post))
     {
         <div style="display: flex; flex-direction:row;">
             <div style="flex:1;margin-left: 30px;margin-right: 30px;">
                 <div class="form-group">
-                    <label for="SERVICES_NAME">Tên món</label>
-                    @Html.TextBoxFor(m => m.FOODS_NAME, new { @class = "form-control", @id = "SERVICES_NAME", @required = "required" })
+                    <label for="homestay-select">Chọn cơ sở</label>
+                    <select id="homestay-select" name="HOMESTAYS_ID" class="form-control" requied>
+                        <option value="0">-- Chọn cơ sở --</option>
+                        @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
+                        {
+
+                            if (item.Value == ht_id || item.Value == ViewBag.id_homestay)
+                            {
+                                <option value="@item.Value" selected>@item.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+
+                        }
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="FOODS_PRICE">Giá món</label>
-                    @Html.TextBoxFor(m => m.FOODS_PRICE, new { type = "number", @class = "form-control", @id = "FOODS_PRICE", @required = "required" })
+                    <label for="TYPE">Phân loại</label>
+                    @Html.DropDownListFor(m => m.TYPE, Model.TypeOptions, "-- Chọn loại báo cáo --", new { @class = "form-control", @id = "TYPE", required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="FOODS_TYPE">Phân loại</label>
-                    @Html.DropDownListFor(m => m.FOODS_TYPE, Model.TypeOptions, "-- Chọn loại món --", new { @class = "form-control", @id = "FOODS_TYPE", required = "required" })
+                    <label for="CATEGORY">Danh mục</label>
+                    @Html.TextBoxFor(m => m.CATEGORY, new { @class = "form-control", @id = "CATEGORY", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="DESCRIPT">Mô tả</label>
+                    @Html.TextAreaFor(m => m.DESCRIPT, new { @class = "form-control", @id = "DESCRIPT", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="AMOUNT">Giá trị</label>
+                    @Html.TextBoxFor(m => m.AMOUNT, new { type = "number", @class = "form-control", @id = "AMOUNT", @required = "required" })
                 </div>
                 @if (ViewBag.Message != null)
                 {
@@ -28,7 +53,7 @@
                 }
                 <p style="text-align:right; margin-right:40px; margin-top: 50px">
                     <button type="submit" class="btn btn-success">Thêm</button>
-                    <a href="@Url.Action("Index", "Foods")" class="btn btn-danger">Hủy</a>
+                    <a href="@Url.Action("Index", "Report")" class="btn btn-danger">Hủy</a>
                 </p>
             </div>
         </div>

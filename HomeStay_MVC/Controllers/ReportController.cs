@@ -142,7 +142,7 @@ namespace HomeStay_MVC.Controllers
             string _report_type = TYPE_VALUE.HasValue ? ( TYPE_VALUE.Value != 2 ? "Thu" : "Chi") : "-1";
             if (_role == "manager") _id_homestay = ht_id;
 
-            DataSet ds = DataAccess.REPORT_GET_LIST(report_id, user_id, ht_id, _start_date, _end_date, _report_type, "1");
+            DataSet ds = DataAccess.REPORT_GET_LIST(report_id, user_id, _id_homestay, _start_date, _end_date, _report_type, "1");
             List<ReportModel> reports = new List<ReportModel>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
@@ -242,10 +242,98 @@ namespace HomeStay_MVC.Controllers
         }
 
 
+        [HttpGet]
+        public IActionResult Add()
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            string user_id = "-1";
+            string ht_id = "-1";
+            string v_type = "1";
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin")
+            {
 
+            }
+            else
+            {
+                if (_role == "owner")
+                {
+                    user_id = HttpContext.Session.GetString("ID");
+                }
+                else
+                {
+                    DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                    if (ds1.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr1 = ds1.Tables[0].Rows[0];
+                        user_id = dr1["ID"].ToString();
+                        ht_id = HttpContext.Session.GetString("Homestays_Id");
+                    }
+                    else return RedirectToAction("Index", "Login");
+                }
+            }
 
+            DataSet dsHomestays = DataAccess.HOMESTAYS_GET_LIST(ht_id, user_id, v_type);
+            List<SelectListItem> homestayList = new List<SelectListItem>();
+            foreach (DataRow dr in dsHomestays.Tables[0].Rows)
+            {
+                homestayList.Add(new SelectListItem
+                {
+                    Value = dr["ID"].ToString(),
+                    Text = dr["HOMESTAYS_NAME"].ToString()
+                });
+            }
+            ViewBag.HomestayList = homestayList;
 
+            ReportModel model = new ReportModel();
+            model.TypeOptions = new List<SelectListItem>{
+                    new SelectListItem { Text = "Thu", Value = "Thu" },
+                    new SelectListItem { Text = "Chi", Value = "Chi" }
+                };
+            return View(model);
+        }
 
+        [HttpPost]
+        public IActionResult Add(ReportModel model)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            var userID = HttpContext.Session.GetString("ID");
+            ResponseObjs _obj = new ResponseObjs();
+            _obj.errCode = "-1";
+            _obj.errMsgs = "Thêm mới thất bại!";
+            try
+            {
+                DataSet ds = DataAccess.REPORT_INSERT(model.TYPE, model.CATEGORY, model.DESCRIPT,"-1",userID,model.HOMESTAYS_ID,model.AMOUNT.ToString(),"1");
+                string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+                string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
+                _obj.errCode = errrCode;
+                _obj.errMsgs = errrMsg;
+            }
+            catch (HttpRequestException ex)
+            {
+                ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
+            }
+            if (_obj.errCode == "0")
+            {
+                TempData["Success"] = "Thêm mới thành công.";
+                return RedirectToAction("Index", "Report");
+            }
+            else
+            {
+                ViewBag.Message = _obj.errMsgs;
+                return View(model);
+            }
+        }
 
 
 

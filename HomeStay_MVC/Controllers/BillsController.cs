@@ -892,7 +892,7 @@ namespace HomeStay_MVC.Controllers
             return View(model);
         }
         [HttpPost]
-        public  IActionResult pay(string id)
+        public  IActionResult pay(string id,Bills model)
         {
             if (!CheckAuthToken()) return RedirectToAction("Index", "Login");
             var name = HttpContext.Session.GetString("Name");
@@ -906,9 +906,27 @@ namespace HomeStay_MVC.Controllers
             }
             else
             {
-                
+                var type_report = "Thu";
+                var v_category = "Thanh toán hóa đơn";
+                var v_descript = "Thanh toán hóa đơn tại cơ sở: " + model.HOMESTAYS_NAME + ". Khách hàng: " + model.CUSTOMERS_NAME + ". ngày thanh toán: " + System.DateTime.Now.ToString() + ".";
+                var v_bills_id = id;
+                var v_create_by = HttpContext.Session.GetString("ID");
+                var v_homestay_id = model.ID_HOMESTAYS;
+                var v_amount = model.TOTAL_MONEY.ToString();
+                var v_type = "2";
+                var dspay1 = DataAccess.REPORT_INSERT(type_report,v_category,v_descript,v_bills_id,v_create_by,v_homestay_id,v_amount,v_type);
+                var errCode1 = dspay.Tables[0].Rows[0]["errCode"].ToString();
+                var errMsgs1 = dspay.Tables[0].Rows[0]["errMsg"].ToString();
+                if (errCode1 != "0")
+                {
+                    ViewBag.Message = errMsgs;
+                    return View();
+                }
+                else
+                {
                     TempData["Success"] = errMsgs;
                     return RedirectToAction("Index");
+                }
                 
             }
         }
