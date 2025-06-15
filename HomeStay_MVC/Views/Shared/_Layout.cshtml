@@ -103,37 +103,37 @@
                 {
                         <a class="nav-link text-light" asp-controller="HomeStay" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-person-shelter text-info"></i></div>
-                            Quản lý cơ sở
+                            Danh sách cơ sở
                         </a>
-                        <a class="nav-link text-light" asp-controller="Services" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell text-danger"></i></div>
-                            Quản lý dịch vụ
-                        </a>
-                        <a class="nav-link text-light" asp-controller="Foods" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-utensils text-warning"></i></div>
-                            Quản lý đồ ăn & nước uống
-                        </a>
-                        <a class="nav-link text-light" asp-controller="Rooms" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-door-open text-success"></i></div>
-                            Quản lý phòng
-                        </a>
-                        <a class="nav-link text-light" asp-controller="Customers" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-users text-primary"></i></div>
-                            Quản lý khách hàng
-                        </a>
-                        <a class="nav-link text-light" asp-controller="Bills" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar text-light"></i></div>
-                            Quản lý hóa đơn
-                        </a>
-                    }
-                    @if (role == "Quản lí"){
                         <a class="nav-link text-light" asp-controller="Services" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell text-danger"></i></div>
                             Dịch vụ
                         </a>
                         <a class="nav-link text-light" asp-controller="Foods" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-utensils text-warning"></i></div>
-                            Đồ ăn & nước uống
+                            Dồ ăn & nước uống
+                        </a>
+                        <a class="nav-link text-light" asp-controller="Rooms" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-door-open text-success"></i></div>
+                            Danh sách phòng
+                        </a>
+                        <a class="nav-link text-light" asp-controller="Customers" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-users text-primary"></i></div>
+                            Khách hàng
+                        </a>
+                        <a class="nav-link text-light" asp-controller="Bills" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar text-light"></i></div>
+                            Hóa đơn
+                        </a>
+                    }
+                    @if (role == "Quản lí"){
+                        <a class="nav-link text-light" asp-controller="Services" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-concierge-bell text-danger"></i></div>
+                            Các dịch vụ
+                        </a>
+                        <a class="nav-link text-light" asp-controller="Foods" asp-action="Index">
+                            <div class="sb-nav-link-icon"><i class="fas fa-utensils text-warning"></i></div>
+                            Menu
                         </a>
                          <a class="nav-link text-light" asp-controller="Rooms" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-door-open text-success"></i></div>
@@ -148,10 +148,10 @@
                             Hóa đơn
                         </a>
                     }
-                         <div class="sb-sidenav-menu-heading text-light">Báo cáo</div> 
+                         <div class="sb-sidenav-menu-heading text-light">Tài chính</div> 
                          <a class="nav-link text-light" asp-controller="Report" asp-action="Index"> 
                              <div class="sb-nav-link-icon"><i class="fa-solid fa-receipt"></i></i></div> 
-                             Quản lý thu chi
+                             Quản lý doanh thu - chi phí
                          </a>
                     </div>
                 </div>

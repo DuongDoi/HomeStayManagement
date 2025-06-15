@@ -101,13 +101,13 @@
                 <tr>
 
                     <td style="min-width: 60px;">
-                       rp-@Html.DisplayFor(modelItem => report.ID)
+                        rp-@Html.DisplayFor(modelItem => report.ID)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => report.CREATE_AT)
                     </td>
                     <td>
-                        @String.Format("{0:N0}",report.AMOUNT) VND
+                        @String.Format("{0:N0}", report.AMOUNT) VND
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => report.TYPE)
@@ -149,7 +149,7 @@
         @if (TempData["Success"] != null)
         {
             <text>
-                                Swal.fire('Thành công', '@TempData["Success"]', 'success');
+                                    Swal.fire('Thành công', '@TempData["Success"]', 'success');
             </text>
         }
     </script>

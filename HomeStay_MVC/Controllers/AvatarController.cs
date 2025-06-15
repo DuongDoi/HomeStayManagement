@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using HomeStay_MVC.Models;
+﻿using HomeStay_MVC.Models;
+using Microsoft.AspNetCore.Mvc;
 using ResfullApi.Models;
 
 namespace HomeStay_MVC.Controllers
@@ -17,12 +17,13 @@ namespace HomeStay_MVC.Controllers
                 return RedirectToAction("Index", "Login");
             AvatarModel av = new AvatarModel();
             string _avatar_name = HttpContext.Session.GetString("AVATAR_PATH");
-            if (!string.IsNullOrWhiteSpace(_avatar_name)) {
+            if (!string.IsNullOrWhiteSpace(_avatar_name))
+            {
                 var User = HttpContext.Session.GetString("User");
-                av.Avatar_name=$"{User}/{_avatar_name}";
+                av.Avatar_name = $"{User}/{_avatar_name}";
             }
             else { av.Avatar_name = "no_image.png"; }
-                
+
             return View(av);
         }
         [HttpPost]
@@ -31,77 +32,83 @@ namespace HomeStay_MVC.Controllers
             if (!CheckAuthToken())
                 return RedirectToAction("Index", "Login");
 
-            string savedFileName = SaveImageToUploads(avatarFile);
-            string errCode = "-1";
-            string errMsg = "Không thể cập nhật ảnh đại diện";
+            string errorMessage;
+            string savedFileName = SaveImageToUploads(avatarFile, out errorMessage);
+
+            AvatarModel av = new AvatarModel();
+            string user = HttpContext.Session.GetString("User");
+            string currentAvatar = HttpContext.Session.GetString("AVATAR_PATH");
             if (!string.IsNullOrEmpty(savedFileName))
             {
-                var username = HttpContext.Session.GetString("User");
-                var ds = DataAccess.USERS_UPDATE_AVATAR(username, savedFileName);
-                errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
-                errMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
+                var ds = DataAccess.USERS_UPDATE_AVATAR(user, savedFileName);
+                var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+                var errMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
+
                 if (errCode == "0")
                 {
-                    var User = HttpContext.Session.GetString("User");
-                    HttpContext.Session.SetString("AVATAR_PATH", savedFileName ?? "");
-                    AvatarModel av = new AvatarModel();
-                    av.Avatar_name = $"{User}/{savedFileName}";
-                    ViewBag.Message = errMsg;
-                    return View(av);
+                    HttpContext.Session.SetString("AVATAR_PATH", savedFileName);
+                    av.Avatar_name = $"{user}/{savedFileName}";
+                    ViewBag.Message = "Cập nhật ảnh thành công!";
                 }
                 else
                 {
-                    AvatarModel av = new AvatarModel();
-                    string _avatar_name1 = HttpContext.Session.GetString("AVATAR_PATH");
-                    if (!string.IsNullOrWhiteSpace(_avatar_name1)) av.Avatar_name = _avatar_name1;
-                    else
-                        av.Avatar_name = "no_image.png";
+                    av.Avatar_name = string.IsNullOrEmpty(currentAvatar) ? "no_image.png" : $"{user}/{currentAvatar}";
                     ViewBag.Message = errMsg;
-                    return View(av);
                 }
             }
-            AvatarModel av1 = new AvatarModel();
-            string _avatar_name = HttpContext.Session.GetString("AVATAR_PATH");
-            if (!string.IsNullOrWhiteSpace(_avatar_name)) av1.Avatar_name = _avatar_name;
             else
-                av1.Avatar_name = "no_image.png";
-            ViewBag.Message = errMsg;
-            return View(av1);
+            {
+                av.Avatar_name = string.IsNullOrEmpty(currentAvatar) ? "no_image.png" : $"{user}/{currentAvatar}";
+                ViewBag.Message = errorMessage ?? "Không thể cập nhật ảnh đại diện.";
+            }
 
-
+            return View(av);
         }
-        protected string SaveImageToUploads(IFormFile file)
+
+        protected string SaveImageToUploads(IFormFile file, out string errorMessage)
         {
+            errorMessage = null;
+
             if (file == null || file.Length == 0)
+            {
+                errorMessage = "Vui lòng chọn một file hợp lệ.";
                 return null;
+            }
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
+            var fileExtension = Path.GetExtension(file.FileName).ToLower();
+
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                errorMessage = "Chỉ cho phép định dạng ảnh: .jpg, .jpeg, .png";
+                return null;
+            }
 
             try
             {
-                var User = HttpContext.Session.GetString("User");
-                // Đảm bảo thư mục tồn tại
-                string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads","AvatarUser",User);
+                var user = HttpContext.Session.GetString("User");
+                string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "AvatarUser", user);
                 Directory.CreateDirectory(uploadsFolder);
 
-                // Tạo tên file duy nhất
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-
-                // Đường dẫn tuyệt đối
+                // Tên file cố định theo user (hoặc ID người dùng nếu có)
+                string fileName = "avatar" + fileExtension;
                 string filePath = Path.Combine(uploadsFolder, fileName);
 
-                // Lưu file
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                // Ghi đè nếu đã tồn tại
+                using (var stream = new FileStream(filePath, FileMode.Create)) // FileMode.Create sẽ tự động ghi đè
                 {
                     file.CopyTo(stream);
                 }
 
-                // Trả về tên file (để lưu vào DB hoặc hiển thị lại)
                 return fileName;
             }
             catch (Exception ex)
             {
+                errorMessage = "Có lỗi xảy ra khi lưu file.";
                 Console.WriteLine("Error saving image: " + ex.Message);
                 return null;
             }
         }
+
     }
 }

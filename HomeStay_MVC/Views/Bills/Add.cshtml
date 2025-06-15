@@ -167,6 +167,70 @@
 
     <script>
 
+        // Gọi API lấy danh sách phòng khi chọn homestay
+        document.getElementById("homestay-select").addEventListener("change", function () {
+            const homestayId = this.value;
+            if (!homestayId) return;
+
+            fetch(`/Bills/GetRoomsByHomestay?homestayId=${homestayId}`)
+                .then(res => res.json())
+                .then(data => {
+                    let options = '<option value="">-- Chọn phòng --</option>';
+                    data.forEach(room => {
+                        options += `<option value="${room.value}">${room.text}</option>`;
+                    });
+
+                    // Gán cho tất cả dropdown phòng
+                    document.querySelectorAll(".room-select").forEach(select => {
+                        select.innerHTML = options;
+                    });
+
+                    // Lưu sẵn options vào thẻ template
+                    document.getElementById("room-template").dataset.options = options;
+
+                    // Cập nhật lại select options để loại bỏ phòng đã chọn
+                    updateSelectOptions('room-select', 'room-template');
+                });
+        });
+
+        // Gọi API tìm khách hàng
+        document.getElementById("btn-search-customer").addEventListener("click", function () {
+            const cccd = document.getElementById("search-customer").value.trim();
+            if (!cccd) return;
+
+            fetch(`/Bills/GetCustomersByCCCD?cccd=${cccd}`)
+                .then(res => res.json())
+                .then(data => {
+                    const select = document.getElementById("customer-select");
+
+                    // Xóa tất cả option ngoại trừ option mặc định
+                    while (select.options.length > 1) {
+                        select.remove(1);
+                    }
+
+                    if (data.length === 0) {
+                        alert("Không tìm thấy khách hàng nào!");
+                        return;
+                    }
+
+                    // Tạo HTML cho danh sách khách hàng
+                    let options = '';
+                    data.forEach(item => {
+                        options += `<option value="${item.value}">${item.text}</option>`;
+                    });
+
+                    // Lưu sẵn danh sách khách hàng để dùng lại nếu cần
+                    document.getElementById("customer-select").dataset.options = options;
+
+                    // Thêm option vào select
+                    select.insertAdjacentHTML("beforeend", options);
+
+                    // Chọn khách hàng đầu tiên
+                    select.selectedIndex = 1;
+                })
+                .catch(() => alert("Lỗi khi tìm kiếm khách hàng!"));
+        });
+
 
 
         // Hàm gán lại chỉ số cho các input mảng
@@ -191,7 +255,7 @@
         }
 
         // Hàm cập nhật option cho tất cả select trong một nhóm, loại bỏ các giá trị đã được chọn ở các select khác
-                function updateSelectOptions(selectClass, templateId) {
+        function updateSelectOptions(selectClass, templateId) {
             const allSelects = document.querySelectorAll(`.${selectClass}`);
             const selectedValues = getSelectedValues(`.${selectClass}`);
 
@@ -267,70 +331,6 @@
             updateSelectOptions('food-select', 'food-template');
             updateSelectOptions('service-select', 'service-template');
         }
-
-        // Gọi API lấy danh sách phòng khi chọn homestay
-        document.getElementById("homestay-select").addEventListener("change", function () {
-            const homestayId = this.value;
-            if (!homestayId) return;
-
-            fetch(`/Bills/GetRoomsByHomestay?homestayId=${homestayId}`)
-                .then(res => res.json())
-                .then(data => {
-                    let options = '<option value="">-- Chọn phòng --</option>';
-                    data.forEach(room => {
-                        options += `<option value="${room.value}">${room.text}</option>`;
-                    });
-
-                    // Gán cho tất cả dropdown phòng
-                    document.querySelectorAll(".room-select").forEach(select => {
-                        select.innerHTML = options;
-                    });
-
-                    // Lưu sẵn options vào thẻ template
-                    document.getElementById("room-template").dataset.options = options;
-
-                    // Cập nhật lại select options để loại bỏ phòng đã chọn
-                    updateSelectOptions('room-select', 'room-template');
-                });
-        });
-
-        // Gọi API tìm khách hàng
-        document.getElementById("btn-search-customer").addEventListener("click", function () {
-            const cccd = document.getElementById("search-customer").value.trim();
-            if (!cccd) return;
-
-            fetch(`/Bills/GetCustomersByCCCD?cccd=${cccd}`)
-                .then(res => res.json())
-                .then(data => {
-                    const select = document.getElementById("customer-select");
-
-                    // Xóa tất cả option ngoại trừ option mặc định
-                    while (select.options.length > 1) {
-                        select.remove(1);
-                    }
-
-                    if (data.length === 0) {
-                        alert("Không tìm thấy khách hàng nào!");
-                        return;
-                    }
-
-                    // Tạo HTML cho danh sách khách hàng
-                    let options = '';
-                    data.forEach(item => {
-                        options += `<option value="${item.value}">${item.text}</option>`;
-                    });
-
-                    // Lưu sẵn danh sách khách hàng để dùng lại nếu cần
-                    document.getElementById("customer-select").dataset.options = options;
-
-                    // Thêm option vào select
-                    select.insertAdjacentHTML("beforeend", options);
-
-                    // Chọn khách hàng đầu tiên
-                    select.selectedIndex = 1;
-                })
-                .catch(() => alert("Lỗi khi tìm kiếm khách hàng!"));
-        });
 
         // Thêm dòng phòng
         document.getElementById("add-room").addEventListener("click", function () {

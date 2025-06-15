@@ -25,6 +25,8 @@ namespace HomeStay_MVC.Models
 
          public string Is_First_Login { get; set; }
          public string Homestays_Id { get; set; }
+
+         public string? HOMESTAYS_NAME { get; set; }
          public string Create_By { get; set; }
     }
 

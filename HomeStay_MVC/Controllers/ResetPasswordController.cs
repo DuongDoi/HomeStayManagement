@@ -1,5 +1,6 @@
 ﻿using HomeStay_MVC.ModelCommon;
 using HomeStay_MVC.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ResfullApi.Models;
 using System.Data;
@@ -31,7 +32,8 @@ namespace HomeStay_MVC.Controllers
                 }
                 else
                 {
-                    var pass = model.Pass1;
+                    var hasher = new PasswordHasher<string>();
+                    var pass = hasher.HashPassword(null, model.Pass1);
                     ResponseObjs _obj = new ResponseObjs();
                     _obj.errCode = "-1";
                     _obj.errMsgs = "Lấy lại mật khẩu thất bại!";

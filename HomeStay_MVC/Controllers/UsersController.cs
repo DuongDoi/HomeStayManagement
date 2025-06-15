@@ -2,6 +2,7 @@
 using HomeStay_MVC.Model;
 using HomeStay_MVC.Models;
 using log4net.Core;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
@@ -103,19 +104,25 @@ namespace HomeStay_MVC.Controllers
             if(model.NewPass1 != model.NewPass2)
             {
                 ViewBag.Message = "Mật khẩu mới không khớp";
+                return View(model);
             }
-            var old_pass = HttpContext.Session.GetString("Pass"); ;
-            if (model.OldPass != old_pass)
+
+            var user = GetCurrentUser();
+            var hasher = new PasswordHasher<string>();
+
+            var result = hasher.VerifyHashedPassword(null, user.Pass, model.OldPass);
+            if (result != PasswordVerificationResult.Success)
             {
                 ViewBag.Message = "Sai mật khẩu cũ";
+                return View(model);
             }
-            var user = GetCurrentUser();
+            var pass = hasher.HashPassword(null, model.NewPass1);
             ResponseObjs _obj = new ResponseObjs();
             _obj.errCode = "-1";
             _obj.errMsgs = "unknow!";
             try
             {
-                DataSet ds = DataAccess.USERS_UPDATE_PASS(user.Users,user.Email,user.Save_Code, model.NewPass1);
+                DataSet ds = DataAccess.USERS_UPDATE_PASS(user.Users,user.Email,user.Save_Code, pass);
                 string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                 string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
                 _obj.errCode = errrCode;
@@ -132,7 +139,7 @@ namespace HomeStay_MVC.Controllers
             if (_obj.errCode == "0")
             {
                 TempData["Success"] = "Cập nhật mật khẩu thành công.";
-                SetCurrentPass(model.NewPass1);
+                SetCurrentPass(pass);
 
                 return RedirectToAction("Index","AdminHome");
             }
@@ -165,15 +172,18 @@ namespace HomeStay_MVC.Controllers
             }
             if (!System.Text.RegularExpressions.Regex.IsMatch(model.NewPIN1 ?? "", @"^\d{8}$"))
             {
-                ModelState.AddModelError("", "Mã PIN phải gồm đúng 8 chữ số.");
+                ViewBag.Message = "Mã PIN phải gồm đúng 8 chữ số.";
+                return View(model);
             }
             if (model.NewPIN1 != model.NewPIN2)
             {
                 ViewBag.Message = "Mã PIN mới không khớp";
+                return View(model);
             }
             if (!checkPIN(model.OldPIN))
             {
                 ViewBag.Message = "Sai mã PIN cũ";
+                return View(model);
             }
             var user = GetCurrentUser();
             ResponseObjs _obj = new ResponseObjs();

@@ -506,6 +506,7 @@ namespace HomeStay_MVC.Controllers
 
         }
 
+        [HttpGet]
         public IActionResult Edit(string id)
         {
             if (!CheckAuthToken())
@@ -515,7 +516,7 @@ namespace HomeStay_MVC.Controllers
             Bills model = new Bills();
             model = get_infor(id);
             if (model != null) return View(model);
-            else return RedirectToAction("Index", "Login");
+            else return RedirectToAction("Index", "Bills");
         }
 
         private Bills get_infor(string id)
@@ -559,7 +560,7 @@ namespace HomeStay_MVC.Controllers
             model.Services = new List<ServiceDetail>();
             string selectedHomestayId = "";
             string selectedCustomer = "";
-            var dsht = DataAccess.BILLS_GET_LIST(bill_id, "-1", "-1",bill_status, "1");
+            var dsht = DataAccess.BILLS_GET_LIST(bill_id, "-1", user_id,bill_status, "1");
             if (dsht.Tables[0].Rows.Count > 0)
             {
                 DataRow drht = dsht.Tables[0].Rows[0];
@@ -570,7 +571,7 @@ namespace HomeStay_MVC.Controllers
 
 
             //Homestay
-            DataSet ds = DataAccess.HOMESTAYS_GET_LIST(ht_id, user_id, "0");
+            DataSet ds = DataAccess.HOMESTAYS_GET_LIST(ht_id, user_id, "1");
             model.HomestayOptions = new List<SelectListItem>();
             
             foreach (DataRow dr in ds.Tables[0].Rows)
@@ -593,8 +594,6 @@ namespace HomeStay_MVC.Controllers
                 
                 var _c_id = drc["CUSTOMERS_CARD_NUMBER"].ToString();
                 var _c_name = drc["CUSTOMERS_NAME"].ToString();
-                model.CUSTOMERS_CARD_ID = _c_id;
-                model.CUSTOMERS_NAME = _c_name;
                 
                 model.CustomerOptions.Add(new SelectListItem
                 {
@@ -615,12 +614,7 @@ namespace HomeStay_MVC.Controllers
                 model.Rooms.Add(new RoomDetail
                 {
                     RoomId = roomId,
-                    ROOMS_NAME =  dr_selected["ROOMS_NAME"].ToString(),
-                    CheckInDate = Convert.ToDateTime(dr_selected["CHECKIN_DATE"]),
-                    CheckOutDate = Convert.ToDateTime(dr_selected["CHECKOUT_DATE"]),
-                    PRICE_PER_DAY = Convert.ToInt32(dr_selected["PRICE_PER_DAY"]),
-                    TOTAL_DAYS = Convert.ToInt32(dr_selected["TOTAL_DAYS"]),
-                    TOTAL_PRICE = Convert.ToInt32(dr_selected["TOTAL_PRICE"])
+                    ROOMS_NAME =  dr_selected["ROOMS_NAME"].ToString()
                 });
             }
 
@@ -633,8 +627,7 @@ namespace HomeStay_MVC.Controllers
                 model.RoomOptions.Add(new SelectListItem
                 {
                     Text = _r_name,
-                    Value = _r_id,
-                    Selected = selectedRoomIds.Contains(_r_id)
+                    Value = _r_id
                 });
             }
 
@@ -666,8 +659,7 @@ namespace HomeStay_MVC.Controllers
                 model.FoodDrinkOptions.Add(new SelectListItem
                 {
                     Text = _f_name,
-                    Value = _f_id,
-                    Selected = selectedFoodIds.Contains(_f_id)
+                    Value = _f_id
                 });
             }
 
@@ -695,8 +687,7 @@ namespace HomeStay_MVC.Controllers
                 model.ServiceOptions.Add(new SelectListItem
                 {
                     Text = _s_name,
-                    Value = _s_id,
-                    Selected = selectedServiceIds.Contains(_s_id)
+                    Value = _s_id
                 });
             }
 
@@ -720,8 +711,7 @@ namespace HomeStay_MVC.Controllers
             string _role = HttpContext.Session.GetString("Role");
             if (_role == "admin" || _role == "owner")
             {
-                var user_id = "-1";
-                if (_role == "owner") user_id = HttpContext.Session.GetString("ID");
+                var user_id = HttpContext.Session.GetString("ID");
                 DataSet ds = DataAccess.BILLS_GET_LIST(id,"-1", user_id,"-1", "1");
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -730,7 +720,7 @@ namespace HomeStay_MVC.Controllers
                     _obj.ID = id;
                     return View(_obj);
                 }
-                return RedirectToAction("Index", "Rooms");
+                return RedirectToAction("Index", "Bills");
             }
             else
             {

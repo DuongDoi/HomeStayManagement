@@ -59,25 +59,27 @@
                 {
                     <tr>
                         <td>
-                            <select class="form-select room-select" name="Rooms[@i].RoomId" required>
-                                <option value="">-- Chọn phòng --</option>
-                                @foreach (var item in Model.RoomOptions)
-                                {
-                                    if (item.Value == Model.Rooms[i].RoomId.ToString())
-                                    {
-                                        <option value="@item.Value" selected>
-                                            @item.Text
-                                        </option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@item.Value">
-                                            @item.Text
-                                        </option>
-                                    }
+                             <select class="form-select room-select" name="Rooms[@i].RoomId" required> 
+                                 <option value="">-- Chọn phòng --</option> 
+                                 @foreach (var item in Model.RoomOptions) 
+                                 { 
+                                     if (item.Value == Model.Rooms[i].RoomId.ToString()) 
+                                     { 
+                                         <option value="@item.Value" selected> 
+                                             @item.Text 
+                                         </option> 
+                                     } 
+                                     else 
+                                     { 
+                                         <option value="@item.Value"> 
+                                             @item.Text 
+                                         </option> 
+                                     } 
 
-                                 }
-                                </select>
+                                  } 
+                                 </select>
+                            
+
                             </td>
                             <td>
                                 <input type="date" class="form-control" name="Rooms[@i].CheckInDate" value="@Model.Rooms[i].CheckInDate.ToString("yyyy-MM-dd")" required />
@@ -321,9 +323,9 @@
                 .catch(() => alert("Lỗi khi tìm kiếm khách hàng!"));
         });
 
-        let roomIndex = 1;
-        let foodIndex = 1;
-        let serviceIndex = 1;
+        let roomIndex = @Model.Rooms.Count;
+        let foodIndex = @Model.Foods.Count ;
+        let serviceIndex = @Model.Services.Count;
         const roomOptions = @Html.Raw(Json.Serialize(Model.RoomOptions));
         const foodOptions = @Html.Raw(Json.Serialize(Model.FoodDrinkOptions));
         const serviceOptions = @Html.Raw(Json.Serialize(Model.ServiceOptions));

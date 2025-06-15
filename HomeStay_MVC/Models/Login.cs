@@ -6,5 +6,6 @@ namespace HomeStay_MVC.Models
     {
         public string Users { get; set; }
         public string Pass { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

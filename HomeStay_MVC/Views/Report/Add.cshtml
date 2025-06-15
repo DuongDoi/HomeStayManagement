@@ -1,12 +1,12 @@
 ﻿@model HomeStay_MVC.Models.ReportModel
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Thêm mới bản ghi báo cáo";
+    ViewData["Title"] = "Thêm mới bản ghi giao dịch";
     var role = Context.Session.GetString("Role");
     var ht_id = Context.Session.GetString("Homestays_Id");
 }
 
-<h2 class="text-center mt-4">Thêm mới bản ghi báo cáo</h2>
+<h2 class="text-center mt-4">Thêm mới bản ghi giao dịch</h2>
 <div style="margin-left:50px; margin-top: 50px;">
     @using (Html.BeginForm("Add", "Report", FormMethod.Post))
     {
@@ -32,15 +32,15 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="TYPE">Phân loại</label>
-                    @Html.DropDownListFor(m => m.TYPE, Model.TypeOptions, "-- Chọn loại báo cáo --", new { @class = "form-control", @id = "TYPE", required = "required" })
+                    <label for="TYPE">Phân loại giao dịch</label>
+                    @Html.DropDownListFor(m => m.TYPE, Model.TypeOptions, "-- Chọn loại giao dịch --", new { @class = "form-control", @id = "TYPE", required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="CATEGORY">Danh mục</label>
+                    <label for="CATEGORY">Tên giao dịch</label>
                     @Html.TextBoxFor(m => m.CATEGORY, new { @class = "form-control", @id = "CATEGORY", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="DESCRIPT">Mô tả</label>
+                    <label for="DESCRIPT">Mô tả giao dịch</label>
                     @Html.TextAreaFor(m => m.DESCRIPT, new { @class = "form-control", @id = "DESCRIPT", @required = "required" })
                 </div>
                 <div class="form-group">

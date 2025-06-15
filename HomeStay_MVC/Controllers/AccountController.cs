@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ResfullApi.Models;
 using System.Data;
 using System.Security.Principal;
-
+using Microsoft.AspNetCore.Identity;
 namespace HomeStay_MVC.Controllers
 {
     public class AccountController : BaseController
@@ -61,6 +61,8 @@ namespace HomeStay_MVC.Controllers
                 _obj.Is_First_Login = dr["Is_First_Login"].ToString();
                 _obj.Homestays_Id = dr["Homestays_Id"].ToString();
                 _obj.Create_By = dr["Create_By"].ToString();
+                if (_role == "manager") _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+                else _obj.HOMESTAYS_NAME = "Không";
 
                 accounts.Add(_obj);
 
@@ -104,9 +106,20 @@ namespace HomeStay_MVC.Controllers
                     if (id_homestay != "") _obj.Homestays_Id = id_homestay;
                     else _obj.Homestays_Id = "Không";
                     var create_by = dr["Create_By"].ToString();
-                    if (create_by != "") _obj.Create_By = create_by;
+                    if (create_by != "")
+                    {
+                        if(_role == "admin" || create_by == HttpContext.Session.GetString("User"))
+                        {
+                            _obj.Create_By = create_by;
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index");
+                        }
+                    }
                     else _obj.Create_By = "Không";
-
+                    if (_obj.Role == "manager") _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+                    else _obj.HOMESTAYS_NAME = "Không";
                     return View(_obj);
                 }
                 return RedirectToAction("Index", "Account");
@@ -149,11 +162,14 @@ namespace HomeStay_MVC.Controllers
                     var id_homestay = dr["Homestays_Id"].ToString();
                     if (id_homestay != "") _obj.Homestays_Id = id_homestay;
                     else _obj.Homestays_Id = "Không";
+
                     var create_by = dr["Create_By"].ToString();
                     if (create_by != "") _obj.Create_By = create_by;
                     else _obj.Create_By = "Không";
+                    if (_role == "manager") _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+                    else _obj.HOMESTAYS_NAME = "Không";
 
-                    return View(_obj);
+                        return View(_obj);
                 }
                 return RedirectToAction("Index", "Account");
             }
@@ -310,12 +326,22 @@ namespace HomeStay_MVC.Controllers
                 {
                     type = "0";
                     model.role = "owner";
-                    model.RoleOptions = new List<SelectListItem>
+                    if(HttpContext.Session.GetString("User") == "admin")
+                    {
+                        model.RoleOptions = new List<SelectListItem>
                     {
                         new SelectListItem { Text = "Admin", Value = "admin" },
                         new SelectListItem { Text = "Chủ sở hữu", Value = "owner" },
                         new SelectListItem { Text = "Quản lý", Value = "manager" }
                     };
+                    } else
+                    {
+                        model.RoleOptions = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Chủ sở hữu", Value = "owner" },
+                        new SelectListItem { Text = "Quản lý", Value = "manager" }
+                    };
+                    }
                 }
                 else
                 {
@@ -355,11 +381,13 @@ namespace HomeStay_MVC.Controllers
                 if (model.Pass1 != model.Pass2)
                 {
                     ViewBag.Message = "Mật khẩu phải giống nhau!";
-                    return View();
+                    model = addOptionModel(model);
+                    return View(model);
                 }
                 else
                 {
-                    var pass = model.Pass1;
+                    var hasher = new PasswordHasher<string>();
+                    var pass = hasher.HashPassword(null, model.Pass1);
                     ResponseObjs _obj = new ResponseObjs();
                     _obj.errCode = "-1";
                     _obj.errMsgs = "Thêm mới thất bại!";
@@ -368,6 +396,18 @@ namespace HomeStay_MVC.Controllers
                         var user = HttpContext.Session.GetString("User");
                         if (model.role != "manager") model.HOMESTAYS_ID = "";
                         if (model.role == "owner") user = model.Users;
+                        if(model.role == "manager")
+                        {
+                            var ds1 = DataAccess.HOMESTAYS_GET_LIST(model.HOMESTAYS_ID, "-1", "1");
+                            if (ds1.Tables[0].Rows.Count > 0)
+                            {
+                                user = ds1.Tables[0].Rows[0]["USERS"].ToString();
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index");
+                            }
+                        }
                         DataSet ds = DataAccess.USERS_INSERT(model.Users, pass, model.Phone, model.Email, model.Name,model.role,model.HOMESTAYS_ID,user);
                         string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                         string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
@@ -384,21 +424,92 @@ namespace HomeStay_MVC.Controllers
                     }
                     if (_obj.errCode != "-1")
                     {
-                        TempData["Success"] = "Thêm mới thành công.";
-                        return RedirectToAction("Index", "Account");
+                        if (_obj.errCode == "0")
+                        {
+                            TempData["Success"] = "Thêm mới tài khoản thành công.";
+                            return RedirectToAction("Index", "Account");
+                        }
+                        else
+                        {
+                            ViewBag.Message = "Tài khoản đã tồn tại"; 
+                            model = addOptionModel(model);
+                            return View(model);
+                        }
                     }
                     else
                     {
                         ViewBag.Message = "Đăng ký thất bại!";
+                        model = addOptionModel(model);
+                        return View(model);
                     }
+
                 }
-
-                return View();
             }
-
+            model = addOptionModel(model);
             return View(model);
         }
 
+
+        private RegisterModel addOptionModel(RegisterModel model)
+        {
+            string _role = HttpContext.Session.GetString("Role");
+
+            if (_role == "admin" || _role == "owner")
+            {
+                var type = "1";
+                if (_role == "admin")
+                {
+                    type = "0";
+                    model.role = "owner";
+                    if (HttpContext.Session.GetString("User") == "admin")
+                    {
+                        model.RoleOptions = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Admin", Value = "admin" },
+                        new SelectListItem { Text = "Chủ sở hữu", Value = "owner" },
+                        new SelectListItem { Text = "Quản lý", Value = "manager" }
+                    };
+                    }
+                    else
+                    {
+                        model.RoleOptions = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Chủ sở hữu", Value = "owner" },
+                        new SelectListItem { Text = "Quản lý", Value = "manager" }
+                    };
+                    }
+                }
+                else
+                {
+                    model.RoleOptions = new List<SelectListItem>
+                    {
+                        new SelectListItem { Text = "Quản lý", Value = "manager" }
+                    };
+                }
+                var userID = HttpContext.Session.GetString("ID");
+                var ht_id = "-1";
+                DataSet ds = DataAccess.HOMESTAYS_GET_LIST(ht_id, userID, type);
+                model.HomeStayOptions = new List<SelectListItem>();
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    var _ht_id = dr["ID"].ToString();
+                    var _ht_name = dr["HOMESTAYS_NAME"].ToString();
+                    model.HomeStayOptions.Add(new SelectListItem
+                    {
+                        Text = _ht_name,
+                        Value = _ht_id
+                    });
+
+                }
+                return model;
+            }
+            else
+            {
+                return model;
+            }
+        }
         
     }
+
+    
 }

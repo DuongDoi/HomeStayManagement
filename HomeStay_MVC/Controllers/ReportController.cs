@@ -57,7 +57,7 @@ namespace HomeStay_MVC.Controllers
             }
             ViewBag.HomestayList = homestayList;
 
-            DataSet ds = DataAccess.REPORT_GET_LIST(report_id, user_id, ht_id, "-1", "-1", "-1","1");
+            DataSet ds = DataAccess.REPORT_GET_LIST(report_id, user_id, ht_id, "-1", "-1", "-1", "1");
             List<ReportModel> reports = new List<ReportModel>();
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
@@ -139,7 +139,7 @@ namespace HomeStay_MVC.Controllers
             string _id_homestay = (HomestayId.HasValue && HomestayId.Value != 0) ? HomestayId.Value.ToString() : "-1";
             string _start_date = start_date.HasValue ? start_date.Value.ToString("yyyy-MM-dd") : "";
             string _end_date = end_date.HasValue ? end_date.Value.ToString("yyyy-MM-dd") : "";
-            string _report_type = TYPE_VALUE.HasValue ? ( TYPE_VALUE.Value != 2 ? "Thu" : "Chi") : "-1";
+            string _report_type = TYPE_VALUE.HasValue ? (TYPE_VALUE.Value != 2 ? "Thu" : "Chi") : "-1";
             if (_role == "manager") _id_homestay = ht_id;
 
             DataSet ds = DataAccess.REPORT_GET_LIST(report_id, user_id, _id_homestay, _start_date, _end_date, _report_type, "1");
@@ -214,7 +214,7 @@ namespace HomeStay_MVC.Controllers
             }
             DataSet ds = DataAccess.REPORT_GET_LIST(id, user_id, ht_id, "-1", "-1", "-1", "1");
             ReportModel reports = new ReportModel();
-            if (ds.Tables[0].Rows.Count> 0)
+            if (ds.Tables[0].Rows.Count > 0)
             {
                 DataRow dr = ds.Tables[0].Rows[0];
                 ReportModel _obj = new ReportModel();
@@ -235,6 +235,10 @@ namespace HomeStay_MVC.Controllers
                 catch { }
                 try { reports.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
                 catch { }
+            }
+            else
+            {
+                return RedirectToAction("Index");
             }
 
 
@@ -309,7 +313,7 @@ namespace HomeStay_MVC.Controllers
             _obj.errMsgs = "Thêm mới thất bại!";
             try
             {
-                DataSet ds = DataAccess.REPORT_INSERT(model.TYPE, model.CATEGORY, model.DESCRIPT,"-1",userID,model.HOMESTAYS_ID,model.AMOUNT.ToString(),"1");
+                DataSet ds = DataAccess.REPORT_INSERT(model.TYPE, model.CATEGORY, model.DESCRIPT, "-1", userID, model.HOMESTAYS_ID, model.AMOUNT.ToString(), "1");
                 string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
                 string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
                 _obj.errCode = errrCode;
