@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\DATN\\test\\HomeStay_MVC\\HomeStay_MVC\\HomeStay_MVC.csproj": {}
+    "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\HomeStay_MVC.csproj": {}
   },
   "projects": {
-    "D:\\DATN\\test\\HomeStay_MVC\\HomeStay_MVC\\HomeStay_MVC.csproj": {
+    "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\HomeStay_MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\DATN\\test\\HomeStay_MVC\\HomeStay_MVC\\HomeStay_MVC.csproj",
+        "projectUniqueName": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\HomeStay_MVC.csproj",
         "projectName": "HomeStay_MVC",
-        "projectPath": "D:\\DATN\\test\\HomeStay_MVC\\HomeStay_MVC\\HomeStay_MVC.csproj",
+        "projectPath": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\HomeStay_MVC.csproj",
         "packagesPath": "C:\\Users\\dvdoi\\.nuget\\packages\\",
-        "outputPath": "D:\\DATN\\test\\HomeStay_MVC\\HomeStay_MVC\\obj\\",
+        "outputPath": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

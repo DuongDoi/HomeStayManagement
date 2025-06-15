@@ -6,16 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Include="obj\Debug\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" />
-    <Compile Include="obj\Debug\net8.0\HomeStay_MVC.AssemblyInfo.cs" />
-    <Compile Include="obj\Debug\net8.0\HomeStay_MVC.GlobalUsings.g.cs" />
-    <Compile Include="obj\Debug\net8.0\HomeStay_MVC.RazorAssemblyInfo.cs" />
-    <Compile Include="obj\Release\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" />
-    <Compile Include="obj\Release\net8.0\HomeStay_MVC.AssemblyInfo.cs" />
-    <Compile Include="obj\Release\net8.0\HomeStay_MVC.GlobalUsings.g.cs" />
-    <Compile Include="obj\Release\net8.0\HomeStay_MVC.RazorAssemblyInfo.cs" />
-  </ItemGroup>
+
 
   <ItemGroup>
     <Content Include="bin\Debug\net8.0\appsettings.Development.json" />

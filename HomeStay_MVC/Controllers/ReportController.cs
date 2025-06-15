@@ -307,26 +307,90 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
             var userID = HttpContext.Session.GetString("ID");
-            ResponseObjs _obj = new ResponseObjs();
-            _obj.errCode = "-1";
-            _obj.errMsgs = "Thêm mới thất bại!";
+            string _role = HttpContext.Session.GetString("Role");
+            string ht_id = "-1";
+            string user_id = "-1";
+            string v_type = "1";
+
+            // Lấy user_id và homestay_id tương ứng theo vai trò
+            if (_role == "admin")
+            {
+                // Nếu cần, admin có thể xem toàn bộ danh sách
+                user_id = "0";
+                ht_id = "0";
+            }
+            else if (_role == "owner")
+            {
+                user_id = userID;
+            }
+            else
+            {
+                var createdBy = HttpContext.Session.GetString("Create_By");
+                var dsUser = DataAccess.USERS_GET_LIST(createdBy);
+                if (dsUser.Tables[0].Rows.Count > 0)
+                {
+                    var dr = dsUser.Tables[0].Rows[0];
+                    user_id = dr["ID"].ToString();
+                    ht_id = HttpContext.Session.GetString("Homestays_Id");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+
+            // Load danh sách cơ sở homestay
+            DataSet dsHomestays = DataAccess.HOMESTAYS_GET_LIST(ht_id, user_id, v_type);
+            var homestayList = new List<SelectListItem>();
+            foreach (DataRow dr in dsHomestays.Tables[0].Rows)
+            {
+                homestayList.Add(new SelectListItem
+                {
+                    Value = dr["ID"].ToString(),
+                    Text = dr["HOMESTAYS_NAME"].ToString()
+                });
+            }
+            ViewBag.HomestayList = homestayList;
+
+            // Gán lại TypeOptions để tránh mất lựa chọn trong View
+            model.TypeOptions = new List<SelectListItem>
+    {
+        new SelectListItem { Text = "Thu", Value = "Thu" },
+        new SelectListItem { Text = "Chi", Value = "Chi" }
+    };
+
+            // Gọi thủ tục thêm mới
+            ResponseObjs _obj = new ResponseObjs { errCode = "-1", errMsgs = "Thêm mới thất bại!" };
             try
             {
-                DataSet ds = DataAccess.REPORT_INSERT(model.TYPE, model.CATEGORY, model.DESCRIPT, "-1", userID, model.HOMESTAYS_ID, model.AMOUNT.ToString(), "1");
-                string errrCode = ds.Tables[0].Rows[0]["errCode"].ToString();
-                string errrMsg = ds.Tables[0].Rows[0]["errMsg"].ToString();
-                _obj.errCode = errrCode;
-                _obj.errMsgs = errrMsg;
+                var ds = DataAccess.REPORT_INSERT(
+                    model.TYPE,
+                    model.CATEGORY,
+                    model.DESCRIPT,
+                    "-1",                   
+                    userID,
+                    model.HOMESTAYS_ID,
+                    model.AMOUNT.ToString(),
+                    "1"                     
+                );
+
+                _obj.errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+                _obj.errMsgs = ds.Tables[0].Rows[0]["errMsg"].ToString();
             }
             catch (HttpRequestException ex)
             {
                 ViewBag.Message = $"Đã xảy ra lỗi khi gửi yêu cầu: {ex.Message}";
+                return View(model);
             }
             catch (Exception ex)
             {
                 ViewBag.Message = $"Lỗi không xác định: {ex.Message}";
+                return View(model);
             }
+
+            // Kiểm tra kết quả thêm
             if (_obj.errCode == "0")
             {
                 TempData["Success"] = "Thêm mới thành công.";
@@ -338,6 +402,7 @@ namespace HomeStay_MVC.Controllers
                 return View(model);
             }
         }
+
 
 
 
