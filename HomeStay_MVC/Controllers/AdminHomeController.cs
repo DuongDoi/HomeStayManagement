@@ -5,6 +5,7 @@ using ResfullApi.Models;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using HomeStay_MVC.Models;
+using System.Security.Cryptography;
 
 namespace HomeStay_MVC.Controllers
 {
@@ -17,6 +18,87 @@ namespace HomeStay_MVC.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+            gettop();
+            string userId = "-1";
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "owner") userId = HttpContext.Session.GetString("ID");
+            DataSet datareport = DataAccess.GET_DATA_REPORT(userId,"3");
+            List<DataReportModel> listDataReportModel = new List<DataReportModel>();
+            if (datareport != null && datareport.Tables.Count > 0)
+            {
+                foreach (DataRow row in datareport.Tables[0].Rows)
+                {
+                    DataReportModel _obj = new DataReportModel();
+                    _obj.Date_value = row["Date_value"].ToString();
+                    _obj.Total_in = Convert.ToInt32(row["Total_in"]);
+                    _obj.Total_out = Convert.ToInt32(row["Total_out"]);
+                    listDataReportModel.Add(_obj);
+                }
+
+            }
+            ViewBag.listDataReportModel = listDataReportModel;
+            ViewBag.TypeSelect = "3";
+            return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult Filter(string TypeSelect)
+        {
+            if (!CheckAuthToken())
+                return RedirectToAction("Index", "Login");
+
+            gettop();
+
+            string userId = "-1";
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "owner") userId = HttpContext.Session.GetString("ID");
+            DataSet datareport = null;
+
+            switch (TypeSelect)
+            {
+                case "1": // 6 tháng
+                    datareport = DataAccess.GET_DATA_REPORT(userId,"1");
+                    break;
+                case "2": // 6 tuần
+                    datareport = DataAccess.GET_DATA_REPORT(userId, "2");
+                    break;
+                case "3": // 6 ngày
+                    datareport = DataAccess.GET_DATA_REPORT(userId, "3");
+                    break;
+                default:
+                    datareport = DataAccess.GET_DATA_REPORT(userId, "1"); 
+                    break;
+            }
+
+            List<DataReportModel> listDataReportModel = new List<DataReportModel>();
+            if (datareport != null && datareport.Tables.Count > 0)
+            {
+                foreach (DataRow row in datareport.Tables[0].Rows)
+                {
+                    listDataReportModel.Add(new DataReportModel
+                    {
+                        Date_value = row["Date_value"].ToString(),
+                        Total_in = Convert.ToInt32(row["Total_in"]),
+                        Total_out = Convert.ToInt32(row["Total_out"]),
+                    });
+                }
+            }
+            ViewBag.TypeSelect = TypeSelect;
+            ViewBag.listDataReportModel = listDataReportModel;
+            return View("Index");
+        
+        }
+
+
+
+
+
+
+
+
+        private void gettop()
+        {
             string user_id = "-1";
 
             string _role = HttpContext.Session.GetString("Role");
@@ -39,10 +121,9 @@ namespace HomeStay_MVC.Controllers
                         DataRow dr1 = ds1.Tables[0].Rows[0];
                         user_id = dr1["ID"].ToString();
                     }
-                    else return RedirectToAction("Index", "Login");
                 }
             }
-            DataSet dsf = DataAccess.GET_TOP(user_id,"1");
+            DataSet dsf = DataAccess.GET_TOP(user_id, "1");
             List<TopItemViewModel> topFoods = new List<TopItemViewModel>();
             if (dsf != null && dsf.Tables.Count > 0)
             {
@@ -70,7 +151,7 @@ namespace HomeStay_MVC.Controllers
 
             ViewBag.TopFoods = topFoods;
 
-            DataSet ddf = DataAccess.GET_TOP(user_id,"2");
+            DataSet ddf = DataAccess.GET_TOP(user_id, "2");
             List<TopItemViewModel> topDrinks = new List<TopItemViewModel>();
             if (ddf != null && ddf.Tables.Count > 0)
             {
@@ -124,8 +205,6 @@ namespace HomeStay_MVC.Controllers
             }
 
             ViewBag.topServices = topServices;
-
-            return View();
         }
     }
 }

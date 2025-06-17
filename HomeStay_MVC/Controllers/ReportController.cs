@@ -9,7 +9,7 @@ namespace HomeStay_MVC.Controllers
     public class ReportController : BaseController
     {
         static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(BillsController));
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int pageSize = 5)
         {
             if (!CheckAuthToken())
             {
@@ -83,7 +83,17 @@ namespace HomeStay_MVC.Controllers
                 reports.Add(_obj);
 
             }
-            return View(reports);
+            //  Phân trang dữ liệu
+            int totalItems = reports.Count;
+            var pagedReport = reports
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+            .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            return View(pagedReport);
         }
 
         [HttpGet]
@@ -144,30 +154,41 @@ namespace HomeStay_MVC.Controllers
 
             DataSet ds = DataAccess.REPORT_GET_LIST(report_id, user_id, _id_homestay, _start_date, _end_date, _report_type, "1");
             List<ReportModel> reports = new List<ReportModel>();
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            
+
+            if (ds.Tables[0].Rows.Count > 0)
             {
-                ReportModel _obj = new ReportModel();
-                _obj.ID = dr["ID"].ToString();
-                _obj.HOMESTAYS_ID = dr["HOMESTAYS_ID"].ToString();
-                _obj.AMOUNT = int.TryParse(dr["AMOUNT"]?.ToString(), out int value) ? value : 0;
-                _obj.BILLS_ID = dr["BILLS_ID"].ToString();
-                _obj.CATEGORY = dr["CATEGORY"].ToString();
-                _obj.DESCRIPT = dr["DESCRIPT"].ToString();
-                _obj.TYPE = dr["TYPE"].ToString();
-                _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    ReportModel _obj = new ReportModel();
+                    _obj.ID = dr["ID"].ToString();
+                    _obj.HOMESTAYS_ID = dr["HOMESTAYS_ID"].ToString();
+                    _obj.AMOUNT = int.TryParse(dr["AMOUNT"]?.ToString(), out int value) ? value : 0;
+                    _obj.BILLS_ID = dr["BILLS_ID"].ToString();
+                    _obj.CATEGORY = dr["CATEGORY"].ToString();
+                    _obj.DESCRIPT = dr["DESCRIPT"].ToString();
+                    _obj.TYPE = dr["TYPE"].ToString();
+                    _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
 
-                _obj.UPDATE_BY_USERS_NAME = dr["UPDATE_BY_USERS_NAME"].ToString();
-                _obj.UPDATE_BY = dr["UPDATE_BY"].ToString();
-                _obj.CREATE_BY_USERS_NAME = dr["CREATE_BY_USERS_NAME"].ToString();
-                _obj.CREATE_BY = dr["CREATE_BY"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                    _obj.UPDATE_BY_USERS_NAME = dr["UPDATE_BY_USERS_NAME"].ToString();
+                    _obj.UPDATE_BY = dr["UPDATE_BY"].ToString();
+                    _obj.CREATE_BY_USERS_NAME = dr["CREATE_BY_USERS_NAME"].ToString();
+                    _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                    catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                    catch { }
 
-                reports.Add(_obj);
+                    reports.Add(_obj);
 
+                }
             }
+            else
+            {
+                ViewBag.notfound = "Không tìm thấy kết quả phù hợp";
+            }
+
+
             ViewBag.id_homestay = _id_homestay;
             ViewBag.start_date = _start_date;
             ViewBag.end_date = _end_date;
@@ -403,8 +424,217 @@ namespace HomeStay_MVC.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            string user_id = "-1";
+            string report_id = id;
+            string ht_id = "-1";
+            string report_type = "-1";
+            string v_type = "1";
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin")
+            {
+                user_id = "-1";
+            }
+            else
+            {
+                if (_role == "owner")
+                {
+                    user_id = HttpContext.Session.GetString("ID");
+                }
+                
+                else return RedirectToAction("Index", "Login");
+            }
+            DataSet ds = DataAccess.REPORT_GET_LIST(report_id, user_id, ht_id, "-1", "-1", "-1", "1");
+            List<ReportModel> reports = new List<ReportModel>();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+
+                DataRow dr = ds.Tables[0].Rows[0];
+                ReportModel _obj = new ReportModel();
+                _obj.ID = dr["ID"].ToString();
+                _obj.HOMESTAYS_ID = dr["HOMESTAYS_ID"].ToString();
+                _obj.AMOUNT = int.TryParse(dr["AMOUNT"]?.ToString(), out int value) ? value : 0;
+                _obj.BILLS_ID = dr["BILLS_ID"].ToString();
+                _obj.CATEGORY = dr["CATEGORY"].ToString();
+                _obj.DESCRIPT = dr["DESCRIPT"].ToString();
+                _obj.TYPE = dr["TYPE"].ToString();
+                _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+
+                _obj.UPDATE_BY_USERS_NAME = dr["UPDATE_BY_USERS_NAME"].ToString();
+                _obj.UPDATE_BY = dr["UPDATE_BY"].ToString();
+                _obj.CREATE_BY_USERS_NAME = dr["CREATE_BY_USERS_NAME"].ToString();
+                _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                catch { }
+                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                catch { }
+
+                return View(_obj);
+
+            }
+            return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public IActionResult Delete(string id, ReportModel model)
+        {
+            if (!CheckAuthToken())
+                return RedirectToAction("Index", "Login");
+
+            if (!checkPIN(model.Save_code))
+            {
+                ViewBag.Message = "Mã PIN không chính xác.";
+                return View(model);
+            }
+
+            var ds = DataAccess.REPORT_UPDATE(id, "", "", "", "", "","", "2");
+            var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+
+            if (errCode == "0")
+            {
+                TempData["Success"] = "Xóa thành công.";
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Message = "Không thể xóa.";
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            string user_id = "-1";
+            string report_id = id;
+            string ht_id = "-1";
+            string report_type = "-1";
+            string v_type = "1";
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin")
+            {
+                user_id = "-1";
+            }
+            else
+            {
+                if (_role == "owner")
+                {
+                    user_id = HttpContext.Session.GetString("ID");
+                }
+
+                else return RedirectToAction("Index", "Login");
+            }
+            DataSet ds = DataAccess.REPORT_GET_LIST(report_id, user_id, ht_id, "-1", "-1", "-1", "1");
+            List<ReportModel> reports = new List<ReportModel>();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+
+                DataRow dr = ds.Tables[0].Rows[0];
+                ReportModel _obj = new ReportModel();
+                _obj.ID = dr["ID"].ToString();
+                _obj.HOMESTAYS_ID = dr["HOMESTAYS_ID"].ToString();
+                _obj.AMOUNT = int.TryParse(dr["AMOUNT"]?.ToString(), out int value) ? value : 0;
+                _obj.BILLS_ID = dr["BILLS_ID"].ToString();
+                if (!string.IsNullOrEmpty(_obj.BILLS_ID)) return RedirectToAction("Index");
+                _obj.CATEGORY = dr["CATEGORY"].ToString();
+                _obj.DESCRIPT = dr["DESCRIPT"].ToString();
+                _obj.TYPE = dr["TYPE"].ToString();
+                _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
+
+                _obj.UPDATE_BY_USERS_NAME = dr["UPDATE_BY_USERS_NAME"].ToString();
+                _obj.UPDATE_BY = dr["UPDATE_BY"].ToString();
+                _obj.CREATE_BY_USERS_NAME = dr["CREATE_BY_USERS_NAME"].ToString();
+                _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                catch { }
+                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                catch { }
+
+                DataSet dsHomestays = DataAccess.HOMESTAYS_GET_LIST(ht_id, user_id, v_type);
+                List<SelectListItem> homestayList = new List<SelectListItem>();
+                foreach (DataRow drht in dsHomestays.Tables[0].Rows)
+                {
+                    homestayList.Add(new SelectListItem
+                    {
+                        Value = drht["ID"].ToString(),
+                        Text = drht["HOMESTAYS_NAME"].ToString()
+                    });
+                }
+                ViewBag.HomestayList = homestayList;
+
+
+                _obj.TypeOptions = new List<SelectListItem>{
+                    new SelectListItem { Text = "Thu", Value = "Thu" },
+                    new SelectListItem { Text = "Chi", Value = "Chi" }
+                };
 
 
 
+                return View(_obj);
+
+            }
+            return RedirectToAction("Index");
+
+        }
+
+        public IActionResult Edit(string id, ReportModel model)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (!checkPIN(model.Save_code))
+            {
+                ViewBag.Message = "Mã PIN không chính xác.";
+                return View(model);
+            }
+            string user_id = "-1";
+            string report_id = id;
+            string ht_id = "-1";
+            string v_type = "1";
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin")
+            {
+                user_id = "-1";
+            }
+            else
+            {
+                if (_role == "owner")
+                {
+                    user_id = HttpContext.Session.GetString("ID");
+                }
+
+                else return RedirectToAction("Index", "Login");
+            }
+            DataSet ds1 = DataAccess.REPORT_GET_LIST(report_id, user_id, ht_id, "-1", "-1", "-1", "1");
+            if (ds1.Tables[0].Rows.Count < 0)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                string userid = HttpContext.Session.GetString("ID");
+                var ds = DataAccess.REPORT_UPDATE(report_id, model.TYPE, model.CATEGORY, model.DESCRIPT,userid,model.HOMESTAYS_ID,model.AMOUNT.ToString(),"1");
+                var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+
+                if (errCode == "0")
+                {
+                    TempData["Success"] = "Cập nhật thành công.";
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.Message = "Không thể cập nhật.";
+                return View(model);
+            }
+        }
     }
 }

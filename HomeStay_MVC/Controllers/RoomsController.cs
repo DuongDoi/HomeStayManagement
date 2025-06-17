@@ -1,7 +1,9 @@
 ﻿using HomeStay_MVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ResfullApi.Models;
+using System.Buffers;
 using System.Data;
 using System.Net.NetworkInformation;
 
@@ -17,7 +19,7 @@ namespace HomeStay_MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int pageSize = 5)
         {
             if (!CheckAuthToken())
             {
@@ -113,14 +115,24 @@ namespace HomeStay_MVC.Controllers
                 rooms.Add(_obj);
 
             }
+            //  Phân trang dữ liệu
+            int totalItems = rooms.Count;
+            var pagedRoom = rooms
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+            .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
             logger.Info("Pro Rooms Select All success.");
-            return View(rooms);
+            return View(pagedRoom);
         }
 
 
         [HttpGet]
-        public IActionResult Filter(int? HomestayId,DateTime? checkin_date, DateTime? checkout_date, int? TYPE_VALUE, int? STATUS_VALUE)
+        public IActionResult Filter(int? HomestayId,DateTime? checkin_date, DateTime? checkout_date, int? TYPE_VALUE, int? STATUS_VALUE, int page = 1, int pageSize = 5)
         {
             if (!CheckAuthToken())
             {
@@ -155,7 +167,7 @@ namespace HomeStay_MVC.Controllers
                 }
                 else return RedirectToAction("Index", "Login");
             }
-            if (checkout_date < checkin_date) return RedirectToAction("Index");
+            
             // Lấy danh sách homestay để hiển thị lại trong view
             DataSet dsHomestays = DataAccess.HOMESTAYS_GET_LIST(ht_id, userID, "1");
             List<SelectListItem> homestayList = new List<SelectListItem>();
@@ -181,49 +193,61 @@ namespace HomeStay_MVC.Controllers
             ViewBag.check_out = _checkout;
             ViewBag.room_type = _room_type;
             ViewBag.status_value = _status_value;
-            
-            DataSet ds = DataAccess.ROOMS_FILTER_LIST(_id_homestay, _checkin, _checkout, _room_type,_status_value);
-
-            List<Rooms> rooms = new List<Rooms>();
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            if (checkout_date < checkin_date)
             {
-                Rooms _obj = new Rooms
+                TempData["Fail"] = "Ngày nhận phòng phải nhỏ hơn ngày trả phòng";
+                return RedirectToAction("Index");
+            }
+            DataSet ds = DataAccess.ROOMS_FILTER_LIST(_id_homestay, _checkin, _checkout, _room_type, _status_value);
+            List<Rooms> rooms = new List<Rooms>();
+            
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
                 {
-                    ID = dr["ID"].ToString(),
-                    HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString(),
-                    ROOMS_NAME = dr["ROOMS_NAME"].ToString(),
-                    ROOMS_PRICE = dr["ROOMS_PRICE"].ToString(),
-                    NUMBER_BED = dr["NUMBER_BED"].ToString(),
-                    SQUARE = dr["SQUARE"].ToString(),
-                    HOMESTAYS_ID = dr["HOMESTAYS_ID"].ToString()
-                };
+                    Rooms _obj = new Rooms
+                    {
+                        ID = dr["ID"].ToString(),
+                        HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString(),
+                        ROOMS_NAME = dr["ROOMS_NAME"].ToString(),
+                        ROOMS_PRICE = dr["ROOMS_PRICE"].ToString(),
+                        NUMBER_BED = dr["NUMBER_BED"].ToString(),
+                        SQUARE = dr["SQUARE"].ToString(),
+                        HOMESTAYS_ID = dr["HOMESTAYS_ID"].ToString()
+                    };
 
-                // Avatar
-                string _avatar_name = dr["AVATAR_PATH"].ToString();
-                _obj.AVATAR_PATH = !string.IsNullOrWhiteSpace(_avatar_name)
-                    ? $"{_obj.HOMESTAYS_ID}/{_avatar_name}"
-                    : "no_image.png";
+                    // Avatar
+                    string _avatar_name = dr["AVATAR_PATH"].ToString();
+                    _obj.AVATAR_PATH = !string.IsNullOrWhiteSpace(_avatar_name)
+                        ? $"{_obj.HOMESTAYS_ID}/{_avatar_name}"
+                        : "no_image.png";
 
-                // Status
-                string _status = dr["ROOMS_STATUS"].ToString();
-                _obj.ROOMS_STATUS = (_status == "Available") ? "Hoạt động" : "Đang sửa chữa";
+                    // Status
+                    string _status = dr["ROOMS_STATUS"].ToString();
+                    _obj.ROOMS_STATUS = (_status == "Available") ? "Hoạt động" : "Đang sửa chữa";
 
-                // Type
-                string _type = dr["TYPE"].ToString();
-                _obj.TYPE = _type switch
-                {
-                    "1" => "Phòng đơn",
-                    "2" => "Phòng đôi",
-                    _ => "Phòng nhiều người"
-                };
+                    // Type
+                    string _type = dr["TYPE"].ToString();
+                    _obj.TYPE = _type switch
+                    {
+                        "1" => "Phòng đơn",
+                        "2" => "Phòng đôi",
+                        _ => "Phòng nhiều người"
+                    };
 
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); } catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); } catch { }
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); } catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); } catch { }
 
-                rooms.Add(_obj);
+                    rooms.Add(_obj);
+                }
+            }
+            else
+            {
+                ViewBag.notfound = "Không tìm thấy kết quả phù hợp";
             }
 
             logger.Info("Room filtering completed successfully.");
+            
             return View("Index", rooms);
         }
 

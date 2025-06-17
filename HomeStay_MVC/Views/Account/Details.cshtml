@@ -3,6 +3,8 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Thông tin người dùng";
+    var role = Context.Session.GetString("Role");
+    var username = Context.Session.GetString("User");
 }
 <h2 class="text-center mt-4">Thông tin người dùng</h2>
 <div style="margin-left:50px; margin-top: 50px;">
@@ -46,9 +48,71 @@
                 <label for="Update_At">Ngày sửa đổi</label>
                 <input id="Update_At" type="text" class="form-control" value="@Model.Update_At" readonly />
             </div>
-            <div class="form-group" style="text-align:right;margin-right:20px;">
+
+            <div class="form-group" style="text-align:right;margin-right:20px; display: flex; flex-direction:row; justify-content:space-between">
+                @if ((Model.IsLock == "Bị khóa" && Model.Role == "manager" && role != "manager") || (Model.IsLock == "Bị khóa" && Model.Role == "owner" && role == "admin") || (Model.IsLock == "Bị khóa" && Model.Role == "admin" && username == "admin" && role == "admin" && Model.Users != "admin"))
+                {
+                    @using (Html.BeginForm("Lock", "Account", FormMethod.Post))
+                    {
+                        @Html.HiddenFor(m => m.Id)
+                        ;
+                        @Html.HiddenFor(m => m.IsLock)
+                        ;
+                        @Html.HiddenFor(m => m.Name)
+                        ;
+                        @Html.HiddenFor(m => m.Email)
+                        @Html.HiddenFor(m => m.Phone)
+                        ;
+                        @Html.HiddenFor(m => m.Card_Number)
+                        ;
+                        @Html.HiddenFor(m => m.Create_By)
+                        ;
+                        @Html.HiddenFor(m => m.HOMESTAYS_NAME)
+                        ;
+                        @Html.HiddenFor(m => m.Create_At)
+                        ;
+                        @Html.HiddenFor(m => m.Update_At)
+                        ;
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Bạn có chắc chắn muốn mở khóa tài khoản này không?')">Mở khóa tài khoản</button>
+                    }
+                }
+                @if ((Model.IsLock == "Đang hoạt động" && Model.Role == "manager" && role != "manager") || (Model.IsLock == "Đang hoạt động" && Model.Role == "owner" && role == "admin") || (Model.IsLock == "Đang hoạt động" && Model.Role == "admin" && username == "admin" && role == "admin" && Model.Users != "admin"))
+                {
+                    @using (Html.BeginForm("Lock", "Account", FormMethod.Post))
+                    {
+                        @Html.HiddenFor(m => m.Id)
+                        ;
+                        @Html.HiddenFor(m => m.IsLock)
+                        ;
+                        @Html.HiddenFor(m => m.Name)
+                        ;
+                        @Html.HiddenFor(m => m.Email)
+                        @Html.HiddenFor(m => m.Phone)
+                        ;
+                        @Html.HiddenFor(m => m.Card_Number)
+                        ;
+                        @Html.HiddenFor(m => m.Create_By)
+                        ;
+                        @Html.HiddenFor(m => m.HOMESTAYS_NAME)
+                        ;
+                        @Html.HiddenFor(m => m.Create_At)
+                        ;
+                        @Html.HiddenFor(m => m.Update_At)
+                        ;
+                        <button type="submit" class="btn btn-success" onclick="return confirm('Bạn có chắc chắn muốn khóa tài khoản này không?')">Khóa tài khoản</button>
+                    }
+                }
                 <a type="button" class="btn btn-danger" asp-controller="Account" asp-action="Index">Quay lại</a>
             </div>
+
+            @if (!string.IsNullOrEmpty(ViewBag.Message))
+            {
+                @:<div class="alert alert-success">@ViewBag.Message</div>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.Erro))
+            {
+                @:<div class="alert alert-danger">@ViewBag.Erro</div>
+            }
         </div>
    </div>
 </div>

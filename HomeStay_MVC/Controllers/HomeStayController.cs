@@ -15,17 +15,19 @@ namespace HomeStay_MVC.Controllers
             _env = env;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int pageSize = 5)
         {
             if (!CheckAuthToken())
             {
                 return RedirectToAction("Index", "Login");
             }
+
             logger.Info("New request income select HomeStay :");
             string _role = HttpContext.Session.GetString("Role");
             string users = "0";
             string ht_id = "0";
             string v_type = "0";
+
             if (_role == "admin")
             {
                 users = "0";
@@ -42,41 +44,119 @@ namespace HomeStay_MVC.Controllers
                 }
                 else return RedirectToAction("Index", "Login");
             }
-            DataSet ds = DataAccess.HOMESTAYS_GET_LIST(ht_id,users,v_type);
-            List<HomestaysObj> homestays = new List<HomestaysObj>();
+
+            DataSet ds = DataAccess.HOMESTAYS_GET_LIST(ht_id, users, v_type);
+            List<HomestaysObj> allHomestays = new List<HomestaysObj>();
+
             foreach (DataRow dr in ds.Tables[0].Rows)
             {
-                HomestaysObj _obj = new HomestaysObj();
-                _obj.id = dr["ID"].ToString();
-                _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
-                _obj.MANAGER_CARD_NUMBER = dr["MANAGER_CARD_NUMBER"].ToString();
-                _obj.HOMESTAYS_ADDRESS = dr["HOMESTAYS_ADDRESS"].ToString();
-                _obj.HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString();
-                _obj.MANAGER_NAME = dr["MANAGER_NAME"].ToString();
-                _obj.MANAGER_PHONE = dr["MANAGER_PHONE"].ToString();
-                _obj.USERS_ID = dr["USERS_ID"].ToString();
-
-                string _avatar_name = dr["AVATAR_PATH"].ToString();
-                if (!string.IsNullOrWhiteSpace(_avatar_name))
+                HomestaysObj _obj = new HomestaysObj
                 {
-                    
-                    _obj.AVATAR_PATH = $"{_obj.USERS_ID}/{_avatar_name}";
-                }
-                else { _obj.AVATAR_PATH = "no_image.png"; }
+                    id = dr["ID"].ToString(),
+                    HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString(),
+                    MANAGER_CARD_NUMBER = dr["MANAGER_CARD_NUMBER"].ToString(),
+                    HOMESTAYS_ADDRESS = dr["HOMESTAYS_ADDRESS"].ToString(),
+                    HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString(),
+                    MANAGER_NAME = dr["MANAGER_NAME"].ToString(),
+                    MANAGER_PHONE = dr["MANAGER_PHONE"].ToString(),
+                    USERS_ID = dr["USERS_ID"].ToString(),
+                    AVATAR_PATH = string.IsNullOrWhiteSpace(dr["AVATAR_PATH"].ToString())
+                                  ? "no_image.png"
+                                  : $"{dr["USERS_ID"]}/{dr["AVATAR_PATH"]}"
+                };
 
+                if (DateTime.TryParse(dr["CREATE_AT"].ToString(), out DateTime createAt))
+                    _obj.CREATE_AT = createAt;
 
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                if (DateTime.TryParse(dr["UPDATE_AT"].ToString(), out DateTime updateAt))
+                    _obj.UPDATE_AT = updateAt;
 
-                homestays.Add(_obj);
-
+                allHomestays.Add(_obj);
             }
 
+            //  Phân trang dữ liệu
+            int totalItems = allHomestays.Count;
+            var pagedHomestays = allHomestays
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
             logger.Info("Pro HOMESTAYS Select success.");
-            return View(homestays);
+            return View(pagedHomestays);
         }
+
+
+
+        [HttpGet]
+        public IActionResult Filter(string search_value, int page = 1, int pageSize = 5)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+            string _role = HttpContext.Session.GetString("Role");
+            if (_role == "admin" || _role == "owner")
+            {
+                string userID = HttpContext.Session.GetString("ID");
+                if (_role == "admin") userID = "-1";
+
+                // Gọi procedure lấy danh sách
+                DataSet ds = DataAccess.HomestayFilter(search_value, userID);
+                List<HomestaysObj> homestays = new List<HomestaysObj>();
+
+                if (ds.Tables[0].Rows.Count>0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        HomestaysObj _obj = new HomestaysObj
+                        {
+                            id = dr["ID"].ToString(),
+                            HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString(),
+                            MANAGER_CARD_NUMBER = dr["MANAGER_CARD_NUMBER"].ToString(),
+                            HOMESTAYS_ADDRESS = dr["HOMESTAYS_ADDRESS"].ToString(),
+                            HOMESTAY_DESCRIPTION = dr["HOMESTAY_DESCRIPTION"].ToString(),
+                            MANAGER_NAME = dr["MANAGER_NAME"].ToString(),
+                            MANAGER_PHONE = dr["MANAGER_PHONE"].ToString(),
+                            USERS_ID = dr["USERS_ID"].ToString(),
+                            AVATAR_PATH = string.IsNullOrWhiteSpace(dr["AVATAR_PATH"].ToString())
+                                            ? "no_image.png"
+                                            : $"{dr["USERS_ID"]}/{dr["AVATAR_PATH"]}"
+                        };
+
+                        if (DateTime.TryParse(dr["CREATE_AT"].ToString(), out DateTime created))
+                            _obj.CREATE_AT = created;
+                        if (DateTime.TryParse(dr["UPDATE_AT"].ToString(), out DateTime updated))
+                            _obj.UPDATE_AT = updated;
+
+                        homestays.Add(_obj);
+                    }
+                }
+                else
+                {
+                    ViewBag.notfound = "Không tìm thấy kết quả phù hợp";
+                }
+
+                    // Phân trang
+                    int totalItems = homestays.Count;
+                var pagedList = homestays.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                // Truyền thông tin cho View
+                ViewBag.SearchValue = search_value;
+                ViewBag.CurrentPage = page;
+                ViewBag.PageSize = pageSize;
+                ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+                return View("Index", pagedList);
+            }
+
+            return RedirectToAction("Index", "Login");
+        }
+
 
         public IActionResult Details(string id,string userId)
         {
@@ -388,7 +468,7 @@ namespace HomeStay_MVC.Controllers
                 }
                 if (_obj.errCode != "-1")
                 {
-                    TempData["Success"] = "Thêm mới thành công.";
+                    TempData["Success"] = "Thêm mới cơ sở thành công.";
                     return RedirectToAction("Index", "HomeStay");
                 }
                 else

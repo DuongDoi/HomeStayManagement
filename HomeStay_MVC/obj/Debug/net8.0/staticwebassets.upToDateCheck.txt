@@ -1323,6 +1323,7 @@ wwwroot\uploads\AvatarFoodDrink\210\123b963c-26f6-4ad6-b731-8ce19d20f582.jpg
 wwwroot\uploads\AvatarFoodDrink\210\3ced1d14-a006-4967-bb79-b9496be07a95.jpg
 wwwroot\uploads\AvatarFoodDrink\210\4e5dbe52-4621-4816-8465-5195d3bc3711.jpg
 wwwroot\uploads\AvatarFoodDrink\210\6b9cc389-6f9a-4c1b-b795-2613a108e2b9.jpg
+wwwroot\uploads\AvatarFoodDrink\210\add51db8-a913-46c3-b3fa-16bf3ccf0c2b.jpg
 wwwroot\uploads\AvatarFoodDrink\210\cae32848-0100-4df0-9ff9-a77ffbd3a3ec.jpg
 wwwroot\uploads\AvatarFoodDrink\210\da1b0836-4c07-44f6-9453-c46cebb11134.jpg
 wwwroot\uploads\AvatarFoodDrink\241\15d23310-0180-4c07-a8aa-9971c959f003.jpg
@@ -1343,6 +1344,7 @@ wwwroot\uploads\AvatarHomestay\1\52a8fbe9-e70a-4f8b-9581-2c2a9ce82747.jpg
 wwwroot\uploads\AvatarHomestay\163\cf70d428-7969-4aaf-8bea-bb4edb6b4aab.png
 wwwroot\uploads\AvatarHomestay\210\65d0539f-9edd-4fe9-806f-54aa81710f36.jpg
 wwwroot\uploads\AvatarHomestay\210\8f25d7c4-c77f-4fa6-8b6b-f01b8afda013.jpg
+wwwroot\uploads\AvatarHomestay\210\c759b599-8698-4041-9b4d-593ab1016708.jpg
 wwwroot\uploads\AvatarHomestay\241\d116f8ee-939d-4e6a-a6eb-7a49e96d56ac.jpg
 wwwroot\uploads\AvatarHomestay\267\8c6028ee-cf88-437b-a9eb-024a6edc1801.jpg
 wwwroot\uploads\AvatarHomestay\no_image.png

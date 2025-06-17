@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Views\Account\IndexManager.cshtml" />
+  </ItemGroup>
+
 
 
   <ItemGroup>

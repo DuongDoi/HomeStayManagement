@@ -77,7 +77,7 @@ namespace HomeStay_MVC.Controllers
 
             if (_userInfor.IsLock == "1")
             {
-                ViewBag.Message = "Tài khoản của bạn đang bị khóa do hết hạn, hãy liên hệ Admin để được hỗ trợ.";
+                ViewBag.Message = "Tài khoản của bạn đang bị khóa. Vui lòng liên hệ Admin hoặc Hotline: 0397360167 để được hỗ trợ.";
                 return View(model);
             }
 
@@ -90,20 +90,20 @@ namespace HomeStay_MVC.Controllers
                     var isLocked = ds1.Tables[0].Rows[0]["ISLOCK"].ToString();
                     if (isLocked == "1")
                     {
-                        ViewBag.Message = "Tài khoản của chủ cơ sở đang bị khóa do hết hạn, hãy liên hệ Admin để được hỗ trợ.";
+                        ViewBag.Message = "Tài khoản của chủ cơ sở đang bị khóa. Vui lòng liên hệ Admin hoặc Hotline: 0397360167 để được hỗ trợ.";
                         return View(model);
                     }
                 }
                 else
                 {
-                    ViewBag.Message = "Người dùng không tồn tại, vui lòng liên hệ Admin để được hỗ trợ!";
+                    ViewBag.Message = "t, vui lòng liên hệ Admin để được hỗ trợ!";
                     return View(model);
                 }
             }
 
             // Tạo session
             CreateAuthToken(_userInfor);
-            TempData["Success"] = "Đăng nhập thành công. Chào mừng bạn quay lại ^^";
+            TempData["Success"] = "Đăng nhập thành công.";
 
             return RedirectToAction("Index", "AdminHome");
         }

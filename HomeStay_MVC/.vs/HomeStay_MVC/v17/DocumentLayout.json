@@ -3,20 +3,40 @@
   "WorkspaceRootPath": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\models\\reportmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:models\\reportmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\views\\report\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:views\\report\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\models\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:models\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:controllers\\reportcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\views\\report\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:views\\report\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\controllers\\billscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:controllers\\billscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\views\\bills\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:views\\bills\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\views\\homestay\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:views\\homestay\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\views\\rooms\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:views\\rooms\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:views\\services\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\views\\foods\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:views\\foods\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +46,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ReportModel.cs",
-              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\ReportModel.cs",
-              "RelativeDocumentMoniker": "Models\\ReportModel.cs",
-              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\ReportModel.cs",
-              "RelativeToolTip": "Models\\ReportModel.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAUwDIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-15T17:12:59.516Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DataAccess.cs",
-              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\DataAccess.cs",
-              "RelativeDocumentMoniker": "Models\\DataAccess.cs",
-              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\DataAccess.cs",
-              "RelativeToolTip": "Models\\DataAccess.cs",
-              "ViewState": "AgIAAP8DAAAAAAAAAADgvw0EAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-15T16:57:59.061Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ReportController.cs",
-              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\ReportController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ReportController.cs",
-              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\ReportController.cs",
-              "RelativeToolTip": "Controllers\\ReportController.cs",
-              "ViewState": "AgIAAGUBAAAAAAAAAAAwwHUBAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-15T16:52:39.457Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "Add.cshtml",
               "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Report\\Add.cshtml",
               "RelativeDocumentMoniker": "Views\\Report\\Add.cshtml",
               "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Report\\Add.cshtml",
               "RelativeToolTip": "Views\\Report\\Add.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-15T16:52:01.193Z",
+              "WhenOpened": "2025-06-17T13:29:50.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ReportController.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\ReportController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ReportController.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\ReportController.cs",
+              "RelativeToolTip": "Controllers\\ReportController.cs",
+              "ViewState": "AgIAAKkBAAAAAAAAAAAcwEwCAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-17T12:49:51.624Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BillsController.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\BillsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BillsController.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\BillsController.cs",
+              "RelativeToolTip": "Controllers\\BillsController.cs",
+              "ViewState": "AgIAAD4DAAAAAAAAAAAQwFYDAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-17T12:31:57.918Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Bills\\Delete.cshtml",
+              "RelativeDocumentMoniker": "Views\\Bills\\Delete.cshtml",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Bills\\Delete.cshtml",
+              "RelativeToolTip": "Views\\Bills\\Delete.cshtml",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABYAAACVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-17T12:29:06.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Report\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Report\\Index.cshtml",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Report\\Index.cshtml",
+              "RelativeToolTip": "Views\\Report\\Index.cshtml",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAAAHwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-17T11:54:30.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Services\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Services\\Index.cshtml",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Services\\Index.cshtml",
+              "RelativeToolTip": "Views\\Services\\Index.cshtml",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAACgAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-17T11:49:41.102Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Foods\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Foods\\Index.cshtml",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Foods\\Index.cshtml",
+              "RelativeToolTip": "Views\\Foods\\Index.cshtml",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAADgAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-17T11:48:55.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Rooms\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Rooms\\Index.cshtml",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Rooms\\Index.cshtml",
+              "RelativeToolTip": "Views\\Rooms\\Index.cshtml",
+              "ViewState": "AgIAAJEAAAAAAAAAAADwv5YAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-17T11:44:48.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\HomeStay\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\HomeStay\\Index.cshtml",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\HomeStay\\Index.cshtml",
+              "RelativeToolTip": "Views\\HomeStay\\Index.cshtml",
+              "ViewState": "AgIAADUAAAAAAAAAAADwv0UAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-17T11:34:12.407Z",
               "EditorCaption": ""
             }
           ]

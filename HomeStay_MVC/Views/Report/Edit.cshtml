@@ -1,47 +1,59 @@
-﻿@model HomeStay_MVC.Models.FOODS
+﻿@model HomeStay_MVC.Models.ReportModel
 
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Cập nhật thông tin";
+    var role = Context.Session.GetString("Role");
+    var ht_id = Context.Session.GetString("Homestays_Id");
 }
 <h2 class="text-center mt-4">Cập nhật thông tin</h2>
 
-@using (Html.BeginForm("Edit", "Foods", new { id = Model.ID }, FormMethod.Post, false, htmlAttributes: new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Report", new { id = Model.ID }, FormMethod.Post))
 {
-    <div style="text-align: center; margin-top: 20px;display:flex;align-items:center;justify-content:center;">
-        <img id="previewImage"
-             src="@Url.Content($"~/uploads/AvatarFoodDrink/{Model.AVATAR_PATH}")"
-             alt="Avatar"
-             style="width: 300px; height: 300px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
-        <div style="width: 400px;margin-left:30px; text-align: center; margin-top: 20px;">
-            <label for="avatarFile">Tải lên ảnh đại diện mới:</label>
-            <input type="file"
-                   id="avatarFile"
-                   name="avatarFile"
-                   class="form-control"
-                   accept="image/*" />
-        </div>
-
-    </div>
+   
     <div style="margin-left:50px; margin-top: 50px;">
         <div style="display: flex; flex-direction:row;">
             <div style="flex:1;margin-left: 30px;margin-right: 30px;">
-                @Html.HiddenFor(m => m.USERS_ID)
+                @Html.HiddenFor(m => m.ID)
+                @Html.HiddenFor(m => m.HOMESTAYS_ID)
                 <div class="form-group">
-                    <label for="FOODS_NAME">Tên dịch vụ</label>
-                    @Html.TextBoxFor(m => m.FOODS_NAME, new { @class = "form-control", @id = "FOODS_NAME", @required = "required" })
+                    <label for="homestay-select">Chọn cơ sở</label>
+                    <select id="homestay-select" name="HOMESTAYS_ID" class="form-control" requied>
+                        <option value="0">-- Chọn cơ sở --</option>
+                        @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
+                        {
+
+                            if (item.Value == ht_id || item.Value == Model.HOMESTAYS_ID)
+                            {
+                                <option value="@item.Value" selected>@item.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+
+                        }
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="FOODS_PRICE">Giá dịch vụ</label>
-                    @Html.TextBoxFor(m => m.FOODS_PRICE, new { @class = "form-control", @id = "FOODS_PRICE", @required = "required" })
+                    <label for="TYPE">Phân loại giao dịch</label>
+                    @Html.DropDownListFor(m => m.TYPE, Model.TypeOptions, "-- Chọn loại giao dịch --", new { @class = "form-control", @id = "TYPE", required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="FOODS_TYPE">Phân loại</label>
-                    @Html.DropDownListFor(m => m.FOODS_TYPE, Model.TypeOptions, "-- Chọn loại thực phẩm--", new { @class = "form-control", @id = "FOODS_TYPE", required = "required" })
+                    <label for="CATEGORY">Tên giao dịch</label>
+                    @Html.TextBoxFor(m => m.CATEGORY, new { @class = "form-control", @id = "CATEGORY", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="Save_code">Mã Pin</label>
-                    @Html.PasswordFor(m => m.Save_code, new { @class = "form-control", autocomplete = "new-password", @id = "Save_code", @required = "required" })
+                    <label for="DESCRIPT">Mô tả giao dịch</label>
+                    @Html.TextAreaFor(m => m.DESCRIPT, new { @class = "form-control", @id = "DESCRIPT", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="AMOUNT">Giá trị</label>
+                    @Html.TextBoxFor(m => m.AMOUNT, new { type = "number", @class = "form-control", @id = "AMOUNT", @required = "required" })
+                </div>
+                <div class="form-group">
+                    <label for="Save_code">Nhập mã PIN</label>
+                    @Html.TextBoxFor(m => m.Save_code, new { type = "number", @class = "form-control", @id = "Save_code", @required = "required" })
                 </div>
                 @if (ViewBag.Message != null)
                 {
@@ -50,7 +62,7 @@
 
                 <p style="text-align:right; margin-right:40px; margin-top: 50px">
                     <button type="submit" class="btn btn-success">Lưu</button>
-                    <a href="@Url.Action("Index", "Foods")" class="btn btn-danger">Quay lại</a>
+                    <a href="@Url.Action("Index", "Report")" class="btn btn-danger">Quay lại</a>
             </div>
         </div>
     </div>

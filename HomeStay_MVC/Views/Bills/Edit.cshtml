@@ -9,6 +9,13 @@
     <h2 class="text-center">Sửa hóa đơn</h2>
     @using (Html.BeginForm("Edit", "Bills", new { ID = Model.ID }, FormMethod.Post))
     {
+
+        <br />
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Message</div>
+        }
+        <br />
         @Html.TextBoxFor(m => m.ID, new { @class = "form-control", type = "hidden", name = "ID", value = "@Model.ID" })
         <!-- Danh sách cơ sở -->
         <h5>Danh sách cơ sở</h5>
@@ -200,12 +207,6 @@
             <label for="Save_Code">Mã Pin</label>
             @Html.PasswordFor(m => m.Save_code, new { @class = "form-control", @id = "Save_Code", @required = "required" })
         </div>
-        <br />
-        @if (ViewBag.Message != null)
-        {
-            <div class="alert alert-danger">@ViewBag.Message</div>
-        }
-        <br />
         
         <p style="text-align:right; margin-right:40px; margin-top: 50px">
             <button type="submit" class="btn btn-primary">Lưu hóa đơn</button>

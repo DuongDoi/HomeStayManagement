@@ -7,10 +7,37 @@
 }
 
 <h2 class="text-center mt-4">Quản lý tài khoản</h2>
+<form id="filter-form" method="get" action="/Account/Filter">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; padding: 20px 30px;">
 
-<p style="text-align:right; margin-right:20px;">
-    <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i>Tạo tài khoản mới</a>
-</p>
+        <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;">
+
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label for="search_value">Tìm kiếm</label>
+                @if (string.IsNullOrEmpty(ViewBag.SearchValue))
+                {
+                    <input type="text" id="search_value" name="search_value" class="form-control" placeholder="Nhập tên tài khoản..." required />
+                }
+                else
+                {
+
+                    <input type="text" id="search_value" name="search_value" class="form-control" value="@ViewBag.SearchValue" placeholder="Nhập tên tài khoản..." required />
+                }
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Tìm kiếm tài khoản</label>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Tìm tài khoản</button>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Xóa lọc</label>
+                <a asp-action="Index" class="btn btn-danger">Xóa lọc</a>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> Tạo tài khoản mới</a>
+            </div>
+        </div>
+    </div>
+</form>
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center">
@@ -45,7 +72,21 @@
                         @Html.DisplayFor(modelItem => account.Update_At)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => account.Role)
+                        @if (account.Role == "manager")
+                        {
+                            <p>Quản lý</p>
+                        }
+                        else
+                        {
+                            if (account.Role == "admin")
+                            {
+                                <p>Quản trị viên</p>
+                            }
+                            else
+                            {
+                                <p>Chủ cơ sở</p>
+                            }
+                        }
                     </td>
                     <td style="display: flex; gap: 15px; justify-content:center;align-items:center;">
                         <a asp-action="Details" class="btn btn-sm btn-info" asp-route-username="@account.Users" title="Xem chi tiết"><i class="fa-solid fa-circle-info"></i></a>
@@ -61,6 +102,64 @@
     </table>
 </div>
 
+@if (!string.IsNullOrEmpty(ViewBag.notfound))
+{
+    @:<div class="alert alert-danger">@ViewBag.notfound</div>
+}
+@if (ViewBag.TotalPages > 1)
+{
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            @{
+                int currentPage = ViewBag.CurrentPage;
+                int totalPages = ViewBag.TotalPages;
+                int maxDisplayPages = 5; // hiển thị các trang gần
+                string searchValue = ViewBag.SearchValue as string ?? "";
+            }
+
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+
+                    <!-- Trang trước -->
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Filter", new { page = currentPage - 1, pageSize = ViewBag.PageSize, search_value = searchValue })">&laquo;</a>
+                    </li>
+
+                    <!-- Trang đầu và dấu ... nếu cần -->
+                    @if (currentPage > 3)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Filter", new { page = 1, pageSize = ViewBag.PageSize, search_value = searchValue })">1</a>
+                        </li>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    }
+
+                    <!-- Các trang gần trang hiện tại -->
+                    @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Filter", new { page = i, pageSize = ViewBag.PageSize, search_value = ViewBag.SearchValue })">@i</a>
+                        </li>
+                    }
+
+                    <!-- Dấu ... và trang cuối nếu cần -->
+                    @if (currentPage < totalPages - 2)
+                    {
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Filter", new { page = totalPages, pageSize = ViewBag.PageSize, search_value = searchValue })">@totalPages</a>
+                        </li>
+                    }
+
+                    <!-- Trang sau -->
+                    <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Filter", new { page = currentPage + 1, pageSize = ViewBag.PageSize, search_value = searchValue })">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </ul>
+    </nav>
+}
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -70,5 +169,15 @@
                     Swal.fire('Thành công', '@TempData["Success"]', 'success');
             </text>
         }
+        TempData["Success"] = null;
+    </script>
+    <script>
+        @if (TempData["Fail"] != null)
+        {
+            <text>
+                                        Swal.fire('Lỗi', '@TempData["Fail"]', 'error');
+            </text>
+        }
+        TempData["Fail"] = null;
     </script>
 }

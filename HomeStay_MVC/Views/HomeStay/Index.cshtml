@@ -6,10 +6,37 @@
 }
 
 <h2 class="text-center mt-4">Quản lý cơ sở</h2>
+<form id="filter-form" method="get" action="/HomeStay/Filter">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; padding: 20px 30px;">
 
-<p style="text-align:right; margin-right:20px;">
-    <a class="btn btn-success" asp-action="Add">Tạo cơ sở mới</a>
-</p>
+        <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;">
+
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label for="search_value">Tìm kiếm</label>
+                @if (string.IsNullOrEmpty(ViewBag.SearchValue))
+                {
+                    <input type="text" id="search_value" name="search_value" class="form-control" placeholder="Nhập tên cơ sở..." required />
+                }
+                else
+                {
+
+                    <input type="text" id="search_value" name="search_value" class="form-control" value="@ViewBag.SearchValue" placeholder="Nhập tên cơ sở..." required />
+                }
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Tìm kiếm cơ sở</label>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Tìm cơ sở</button>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Xóa lọc</label>
+                <a asp-action="Index" class="btn btn-danger">Xóa lọc</a>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> Tạo cơ sở mới</a>
+            </div>
+        </div>
+    </div>
+</form>
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center">
@@ -29,32 +56,98 @@
                 <tr>
                     <td>
                         <img src="@Url.Content($"~/uploads/AvatarHomestay/{homestay.AVATAR_PATH}")"
-                             alt="Avatar"
-                             style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
+                        alt="Avatar"
+                        style="width: 100px; height: 100px; object-fit: cover; border: 1px solid #ccc; padding: 5px;" />
                     </td>
-                    <td>
+                    <td  class="align-middle text-center">
                         @Html.DisplayFor(modelItem => homestay.HOMESTAYS_NAME)
                     </td>
-                    <td>
+                    <td  class="align-middle text-center">
                         @Html.DisplayFor(modelItem => homestay.MANAGER_NAME)
                     </td>
-                    <td style="white-space: wrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;" title="@Html.DisplayFor(modelItem => homestay.HOMESTAYS_ADDRESS)">
-                        @Html.DisplayFor(modelItem => homestay.HOMESTAYS_ADDRESS)
+                    <td class="align-middle text-center" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;" title="@homestay.HOMESTAYS_ADDRESS">
+                        @homestay.HOMESTAYS_ADDRESS
                     </td>
-                    <td>
+                    <td  class="align-middle text-center">
                         @Html.DisplayFor(modelItem => homestay.CREATE_AT)
                     </td>
-                    <td style="display: flex; gap: 15px; justify-content:center;align-items:center;">
-                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID" title="Xem chi tiết"><i class="fa-solid fa-circle-info"></i></a>
-                        <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID" title="Sửa thông tin"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID" title="Xóa"><i class="fa-solid fa-trash-can"></i></a>
+                    <td class="align-middle text-center">
+                        <div class="d-inline-flex gap-2">
+                            <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID" title="Xem chi tiết">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </a>
+                            <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID" title="Sửa thông tin">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@homestay.id" asp-route-userId="@homestay.USERS_ID" title="Xóa">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+@if (!string.IsNullOrEmpty(ViewBag.notfound))
+{
+    @:<div class="alert alert-danger">@ViewBag.notfound</div>
+}
+@if (ViewBag.TotalPages > 1)
+{
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            @{
+                int currentPage = ViewBag.CurrentPage;
+                int totalPages = ViewBag.TotalPages;
+                int maxDisplayPages = 5; // hiển thị các trang gần
+                string searchValue = ViewBag.SearchValue as string ?? "";
+            }
 
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+
+                    <!-- Trang trước -->
+                    <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Filter", new { page = currentPage - 1, pageSize = ViewBag.PageSize, search_value = searchValue })">&laquo;</a>
+                    </li>
+
+                    <!-- Trang đầu và dấu ... nếu cần -->
+                    @if (currentPage > 3)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Filter", new { page = 1, pageSize = ViewBag.PageSize, search_value = searchValue })">1</a>
+                        </li>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                    }
+
+                    <!-- Các trang gần trang hiện tại -->
+                    @for (int i = Math.Max(1, currentPage - 2); i <= Math.Min(totalPages, currentPage + 2); i++)
+                    {
+                        <li class="page-item @(i == currentPage ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("Filter", new { page = i, pageSize = ViewBag.PageSize, search_value = ViewBag.SearchValue })">@i</a>
+                        </li>
+                    }
+
+                    <!-- Dấu ... và trang cuối nếu cần -->
+                    @if (currentPage < totalPages - 2)
+                    {
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("Filter", new { page = totalPages, pageSize = ViewBag.PageSize, search_value = searchValue })">@totalPages</a>
+                        </li>
+                    }
+
+                    <!-- Trang sau -->
+                    <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("Filter", new { page = currentPage + 1, pageSize = ViewBag.PageSize, search_value = searchValue })">&raquo;</a>
+                    </li>
+                </ul>
+            </nav>
+        </ul>
+    </nav>
+    
+}
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -64,5 +157,6 @@
                         Swal.fire('Thành công', '@TempData["Success"]', 'success');
             </text>
         }
+        TempData["Success"] = null;
     </script>
 }

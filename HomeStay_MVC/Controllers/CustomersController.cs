@@ -4,6 +4,8 @@ using ResfullApi.Models;
 using HomeStay_MVC.Models;
 using System.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Buffers;
 
 namespace HomeStay_MVC.Controllers
 {
@@ -12,7 +14,7 @@ namespace HomeStay_MVC.Controllers
         static readonly log4net.ILog logger = log4net.LogManager.GetLogger(typeof(UsersController));
 
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int pageSize = 5)
         {
             if (!CheckAuthToken())
             {
@@ -72,7 +74,20 @@ namespace HomeStay_MVC.Controllers
             }
 
             logger.Info("Pro Customers Select All success.");
-            return View(customers);
+            //  Phân trang dữ liệu
+            int totalItems = customers.Count;
+            var pagedCustomer = customers
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+            .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.SearchValue = "";
+            ViewBag.OPTION_VALUE = "3";
+
+            return View(pagedCustomer);
         }
 
         public IActionResult Details(string id)
@@ -307,6 +322,8 @@ namespace HomeStay_MVC.Controllers
         }
 
 
+        
+
         [HttpGet]
         public IActionResult Add()
         {
@@ -376,7 +393,7 @@ namespace HomeStay_MVC.Controllers
 
 
         [HttpGet]
-        public IActionResult Filter(string search_value, int? OPTION_VALUE)
+        public IActionResult Filter(string search_value, int? OPTION_VALUE, int page = 1, int pageSize = 5)
         {
             if (!CheckAuthToken())
             {
@@ -411,30 +428,58 @@ namespace HomeStay_MVC.Controllers
 
             // Format tham số lọc
             string _search_value = search_value;
-            string option_value = (OPTION_VALUE.HasValue && OPTION_VALUE.Value != 0) ? "3" : "4";
+            string option_value;
+            if(OPTION_VALUE == 3)
+            {
+                _search_value = "-1";
+                option_value = "1";
+            }
+            else
+            {
+                option_value = (OPTION_VALUE.HasValue && OPTION_VALUE.Value != 0) ? "3" : "4";
+            }
 
             DataSet ds = DataAccess.CUSTOMERS_GET_LIST(_search_value, userID, option_value);
             List<Customers> customers = new List<Customers>();
-            foreach (DataRow dr in ds.Tables[0].Rows)
+            
+            if (ds.Tables[0].Rows.Count > 0)
             {
-                Customers _obj = new Customers();
-                _obj.ID = dr["ID"].ToString();
-                _obj.CUSTOMERS_CARD_NUMBER = dr["CUSTOMERS_CARD_NUMBER"].ToString();
-                _obj.CUSTOMERS_NAME = dr["CUSTOMERS_NAME"].ToString();
-                _obj.CUSTOMERS_PHONE = dr["CUSTOMERS_PHONE"].ToString();
-                _obj.CUSTOMERS_ADDRESS = dr["CUSTOMERS_ADDRESS"].ToString();
-                _obj.USERS_NAME = dr["NAME"].ToString();
-                _obj.CREATE_BY = dr["CREATE_BY"].ToString();
-                try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
-                catch { }
-                try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
-                catch { }
+                foreach(DataRow dr in ds.Tables[0].Rows)
+                {
+                    Customers _obj = new Customers();
+                    _obj.ID = dr["ID"].ToString();
+                    _obj.CUSTOMERS_CARD_NUMBER = dr["CUSTOMERS_CARD_NUMBER"].ToString();
+                    _obj.CUSTOMERS_NAME = dr["CUSTOMERS_NAME"].ToString();
+                    _obj.CUSTOMERS_PHONE = dr["CUSTOMERS_PHONE"].ToString();
+                    _obj.CUSTOMERS_ADDRESS = dr["CUSTOMERS_ADDRESS"].ToString();
+                    _obj.USERS_NAME = dr["NAME"].ToString();
+                    _obj.CREATE_BY = dr["CREATE_BY"].ToString();
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                    catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                    catch { }
 
-                customers.Add(_obj);
+                    customers.Add(_obj);
 
+                }
+            }
+            else
+            {
+                ViewBag.notfound = "Không tìm thấy kết quả phù hợp";
             }
 
-            return View("Index", customers);
+
+
+            // Phân trang
+            int totalItems = customers.Count;
+            var pagedBills = customers.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.SearchValue = search_value;
+            ViewBag.OPTION_VALUE = OPTION_VALUE;
+            return View("Index", pagedBills);
         }
 
 

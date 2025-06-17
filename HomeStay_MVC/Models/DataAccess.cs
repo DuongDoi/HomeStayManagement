@@ -174,6 +174,26 @@ namespace ResfullApi.Models
 
             return getDataFromProcedure(str, "", parms);
         }
+        
+        public static DataSet UserFilter(string search_value, string user)
+        {
+
+            string str;
+            str = "";
+            str = "API_USES_PKG.USERS_FILTER";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_value", OracleDbType.Varchar2),
+                                new OracleParameter("v_user", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = search_value;
+            parms[1].Value = user;
+
+
+            return getDataFromProcedure(str, "", parms);
+        }
         public static DataSet USERS_GET_LIST_EMPLOYEE(string user_id,string ht_id,string create_by)
         {
 
@@ -214,6 +234,26 @@ namespace ResfullApi.Models
             parms[1].Value = email;
             parms[2].Value = save_Code;
             parms[3].Value = newPass1;
+
+
+            return getDataFromProcedure(str, "", parms);
+        }
+
+        public static DataSet UserLock(string userid, string type)
+        {
+
+            string str;
+            str = "";
+            str = "API_USES_PKG.USERS_Lock";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_user_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_type", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = userid;
+            parms[1].Value = type;
 
 
             return getDataFromProcedure(str, "", parms);
@@ -302,7 +342,25 @@ namespace ResfullApi.Models
 
             return getDataFromProcedure(str, "", parms);
         }
+        public static DataSet HomestayFilter(string search_value, string user)
+        {
 
+            string str;
+            str = "";
+            str = "homestays_pkg.HOMESTAY_FILTER";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_value", OracleDbType.NVarchar2),
+                                new OracleParameter("v_user", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = search_value;
+            parms[1].Value = user;
+
+
+            return getDataFromProcedure(str, "", parms);
+        }
 
         //CUSTOMER
         public static DataSet CUSTOMERS_INSERT(string customer_card_id, string customer_name, string customer_phone, string customer_address, string users_id,string user_name)
@@ -986,6 +1044,25 @@ namespace ResfullApi.Models
             return getDataFromProcedure(str, "", parms);
         }
 
+        //Láy dữ liệu để vẽ biểu đồ
+        public static DataSet GET_DATA_REPORT(string user_id,string type)
+        {
+
+            string str;
+            str = "";
+            str = "homestays_pkg.Get_data_report";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_user_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_type", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+
+            parms[0].Value = user_id;
+            parms[1].Value = type;
+            return getDataFromProcedure(str, "", parms);
+        }
         // Báo cáo
         public static DataSet REPORT_GET_LIST(string id, string user_id, string homestay_id, string start_date, string end_date, string report_type, string type)
         {
@@ -1040,6 +1117,38 @@ namespace ResfullApi.Models
             parms[2].Value = v_descript;
             parms[3].Value = v_bills_id;
             parms[4].Value = v_create_by;
+            parms[5].Value = v_homestays_id;
+            parms[6].Value = v_amount;
+            parms[7].Value = v_type;
+
+            return getDataFromProcedure(str, "", parms);
+        }
+
+        public static DataSet REPORT_UPDATE(string v_id_report, string v_type_report, string v_categrory, string v_descript, string v_update_by, string v_homestays_id, string v_amount, string v_type)
+        {
+
+            string str;
+            str = "";
+            str = "report_pkg.report_update";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_id_report", OracleDbType.Varchar2),
+                                new OracleParameter("v_type_report", OracleDbType.NVarchar2),
+                                new OracleParameter("v_categrory", OracleDbType.NVarchar2),
+                                new OracleParameter("v_descript", OracleDbType.NVarchar2),
+                                new OracleParameter("v_update_by", OracleDbType.Varchar2),
+                                new OracleParameter("v_homestays_id", OracleDbType.Varchar2),
+                                new OracleParameter("v_amount", OracleDbType.Varchar2),
+                                new OracleParameter("v_type", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+
+            parms[0].Value = v_id_report;
+            parms[1].Value = v_type_report;
+            parms[2].Value = v_categrory;
+            parms[3].Value = v_descript;
+            parms[4].Value = v_update_by;
             parms[5].Value = v_homestays_id;
             parms[6].Value = v_amount;
             parms[7].Value = v_type;

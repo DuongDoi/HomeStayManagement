@@ -166,11 +166,7 @@ namespace HomeStay_MVC.Controllers
                     _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
                     _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
                     var food_type = dr["FOODS_TYPE"].ToString();
-                    if (food_type == "FOOD")
-                        _obj.FOODS_TYPE = "Đồ ăn";
-                    else
-                        _obj.FOODS_TYPE = "Đồ uống";
-
+                    _obj.FOODS_TYPE = food_type;
                     _obj.TypeOptions = new List<SelectListItem>{
                     new SelectListItem { Text = "Đồ ăn", Value = "FOOD" },
                     new SelectListItem { Text = "Đồ uống", Value = "DRINK" }

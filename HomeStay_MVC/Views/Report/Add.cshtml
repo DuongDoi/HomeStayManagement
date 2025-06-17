@@ -1,12 +1,12 @@
 ﻿@model HomeStay_MVC.Models.ReportModel
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Thêm mới bản ghi giao dịch";
+    ViewData["Title"] = "Thêm giao dịch mới";
     var role = Context.Session.GetString("Role");
     var ht_id = Context.Session.GetString("Homestays_Id");
 }
 
-<h2 class="text-center mt-4">Thêm mới bản ghi giao dịch</h2>
+<h2 class="text-center mt-4">Thêm giao dịch mới</h2>
 <div style="margin-left:50px; margin-top: 50px;">
     @using (Html.BeginForm("Add", "Report", FormMethod.Post))
     {

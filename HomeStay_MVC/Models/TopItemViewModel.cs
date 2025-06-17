@@ -8,4 +8,10 @@
         public string Avatar { get; set; }
         public int UsedCount { get; set; }
     }
+    public class DataReportModel
+    {
+        public string Date_value { get; set; }
+        public int Total_in { get; set; }
+        public int Total_out { get; set; }
+    }
 }

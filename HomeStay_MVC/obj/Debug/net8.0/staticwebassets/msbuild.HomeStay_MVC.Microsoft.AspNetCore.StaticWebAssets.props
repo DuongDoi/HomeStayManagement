@@ -23868,6 +23868,24 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\AvatarFoodDrink\210\6b9cc389-6f9a-4c1b-b795-2613a108e2b9.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\AvatarFoodDrink\210\add51db8-a913-46c3-b3fa-16bf3ccf0c2b.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>HomeStay_MVC</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/HomeStay_MVC</BasePath>
+      <RelativePath>uploads/AvatarFoodDrink/210/add51db8-a913-46c3-b3fa-16bf3ccf0c2b.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>bcn8gj4ckk</Fingerprint>
+      <Integrity>K6TV5dZpJy8QLClJr7E8UHq6R2VdsvH6v8msVpiMf8w=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\AvatarFoodDrink\210\add51db8-a913-46c3-b3fa-16bf3ccf0c2b.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\AvatarFoodDrink\210\cae32848-0100-4df0-9ff9-a77ffbd3a3ec.jpg'))">
       <SourceType>Package</SourceType>
       <SourceId>HomeStay_MVC</SourceId>
@@ -24227,6 +24245,24 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\AvatarHomestay\210\8f25d7c4-c77f-4fa6-8b6b-f01b8afda013.jpg'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\AvatarHomestay\210\c759b599-8698-4041-9b4d-593ab1016708.jpg'))">
+      <SourceType>Package</SourceType>
+      <SourceId>HomeStay_MVC</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/HomeStay_MVC</BasePath>
+      <RelativePath>uploads/AvatarHomestay/210/c759b599-8698-4041-9b4d-593ab1016708.jpg</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>y5uthbdhy6</Fingerprint>
+      <Integrity>CvVxIdgbJIPsBDvGsPZdGbArcNpRvrEST2Ey75Gur80=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\AvatarHomestay\210\c759b599-8698-4041-9b4d-593ab1016708.jpg'))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\uploads\AvatarHomestay\241\d116f8ee-939d-4e6a-a6eb-7a49e96d56ac.jpg'))">
       <SourceType>Package</SourceType>

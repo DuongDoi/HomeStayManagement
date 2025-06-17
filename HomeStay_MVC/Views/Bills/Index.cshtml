@@ -1,55 +1,71 @@
 ﻿@model IEnumerable<HomeStay_MVC.Models.Bills>
-
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Quản lý hóa đơn";
-    string bill_status = "Chưa thanh toán";
     var _role = Context.Session.GetString("Role");
+    var bill_status_unpaid = "Chưa thanh toán";
 }
 
-<h2 class="text-center mt-4" >Quản lý hóa đơn</h2>
+<h2 class="text-center mt-4">Quản lý hóa đơn</h2>
 
-<form id="filter-form" method="get" action="/Bills/Filter">
-    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; padding: 20px 30px;">
-        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-            <div style="display: flex; flex-direction: column;">
-                <label for="homestay-select">Chọn cơ sở</label>
-                <select id="homestay-select" name="HomestayId" class="form-control" required>
-                    <option value="0">-- Chọn cơ sở --</option>
-                    @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
+<form method="get" asp-action="Filter" class="p-4">
+    <div class="row g-3">
+        <div class="col-md-3">
+            <label for="homestay-select" class="form-label">Chọn cơ sở</label>
+            <select id="homestay-select" name="HomestayId" class="form-control" required>
+                <option value="0">-- Chọn cơ sở --</option>
+                @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
+                {
+
+                    if (item.Value == ViewBag.HomestayId?.ToString())
                     {
-                        
-                            <option value="@item.Value">@item.Text</option>
-                    }
-                </select>
-            </div>
-        </div>
 
-        <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;">            
-            <div style="display: flex; flex-direction: column;">
-                <label for="type-bill-select">Loại hóa đơn</label>
-                <select id="type-bill-select" name="BILL_TYPE_VALUE" class="form-control" required>
-                    <option value="">-- Chọn loại hóa đơn --</option>
-                    <option value="0">Chưa thanh toán</option>
-                    <option value="1">Đã thanh toán</option>
-                </select>
-            </div>
-            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
-                <label style="visibility: hidden;">Lọc hóa đơn</label>
-                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i> Lọc hóa đơn</button>
-            </div>
-            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
-                <label style="visibility: hidden;">Xóa lọc</label>
-                <a asp-action="Index" class="btn btn-danger">Xóa lọc</a>
-            </div>
-            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
-                    <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> Tạo hóa đơn</a>
-            </div>
+                        @:<option value="@item.Value" selected>@item.Text</option>
+                    }
+                    else
+                    {
+                        @:<option value="@item.Value" >@item.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label for="type-bill-select" class="form-label">Loại hóa đơn</label>
+            <select id="type-bill-select" name="BILL_TYPE_VALUE" class="form-control" required>
+                <option value="3">-- Chọn loại hóa đơn --</option>
+
+
+                @if (ViewBag.BillType?.ToString() == "1")
+                {
+                    @: <option value="0">Chưa thanh toán</option>
+                    @:
+                    <option value="1" selected>Đã thanh toán</option>
+                }
+                else
+                {
+                    if (ViewBag.BillType?.ToString() == "0")
+                    {
+                        @: <option value="0" selected>Chưa thanh toán</option>
+                        @: <option value="1" >Đã thanh toán</option>
+                    }
+                    else
+                    {
+                        @:<option value="0" >Chưa thanh toán</option>
+                        @:<option value="1">Đã thanh toán</option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-md-6 d-flex align-items-end justify-content-end gap-2">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Lọc</button>
+            <a asp-action="Index" class="btn btn-danger">Xóa lọc</a>
+            <a asp-action="Add" class="btn btn-success"><i class="fa fa-plus"></i> Tạo hóa đơn</a>
         </div>
     </div>
 </form>
-<div class="table-responsive">
-    <table class="table table-bordered table-hover text-center">
+
+<div class="table-responsive mt-3">
+    <table class="table table-bordered text-center">
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
@@ -59,107 +75,70 @@
                 <th>Hành động</th>
             </tr>
         </thead>
-        <tbody id="bill_body">
+        <tbody>
             @foreach (var bill in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => bill.ID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => bill.CUSTOMERS_NAME)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => bill.BILLS_STATUS)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => bill.CREATE_AT)
-                    </td>
-                    <td style="display: flex; gap: 15px; justify-content:center;align-items:center;">
-                        <a asp-action="Details" class="btn btn-sm btn-info" asp-route-id="@bill.ID" title="Xem chi tiết/ Thanh toán"><i class="fa-solid fa-circle-info"></i></a>
-                        @if(bill.BILLS_STATUS == bill_status)
+                    <td>@bill.ID</td>
+                    <td>@bill.CUSTOMERS_NAME</td>
+                    <td>@bill.BILLS_STATUS</td>
+                    <td>@(bill.CREATE_AT?.ToString("dd/MM/yyyy HH:mm") ?? "")</td>
+                    <td class="d-flex justify-content-center gap-2">
+                        <a asp-action="Details" asp-route-id="@bill.ID" class="btn btn-sm btn-info" title="Chi tiết"><i class="fa fa-info-circle"></i></a>
+                        @if (bill.BILLS_STATUS == bill_status_unpaid)
                         {
-                            <a asp-action="Edit" class="btn btn-sm btn-primary" asp-route-id="@bill.ID" title="Sửa thông tin"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a asp-action="Edit" asp-route-id="@bill.ID" class="btn btn-sm btn-primary" title="Sửa"><i class="fa fa-edit"></i></a>
                         }
-                        @if (_role != "manager")
+                        @if (_role != "manager" && bill.BILLS_STATUS == bill_status_unpaid)
                         {
-                            <a asp-action="Delete" class="btn btn-sm btn-danger" asp-route-id="@bill.ID" title="Xóa"><i class="fa-solid fa-trash-can"></i></a>
+                            <a asp-action="Delete" asp-route-id="@bill.ID" class="btn btn-sm btn-danger" title="Xóa"><i class="fa fa-trash"></i></a>
                         }
-                        
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+@if (!string.IsNullOrEmpty(ViewBag.notfound))
+{
+    @:<div class="alert alert-danger">@ViewBag.notfound</div>
+}
+<!-- Phân trang -->
+@if (ViewBag.TotalPages > 1)
+{
+    <nav class="mt-3">
+        <ul class="pagination justify-content-center">
+            @{
+                int currentPage = ViewBag.CurrentPage;
+                int totalPages = ViewBag.TotalPages;
+            }
 
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Filter", new { page = currentPage - 1, pageSize = ViewBag.PageSize, HomestayId = ViewBag.HomestayId, BILL_TYPE_VALUE = ViewBag.BillType })">&laquo;</a>
+            </li>
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Filter", new { page = i, pageSize = ViewBag.PageSize, HomestayId = ViewBag.HomestayId, BILL_TYPE_VALUE = ViewBag.BillType })">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Filter", new { page = currentPage + 1, pageSize = ViewBag.PageSize, HomestayId = ViewBag.HomestayId, BILL_TYPE_VALUE = ViewBag.BillType })">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
+}
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         @if (TempData["Success"] != null)
         {
             <text>
-                                Swal.fire('Thành công', '@TempData["Success"]', 'success');
+                            Swal.fire('Thành công', '@TempData["Success"]', 'success');
             </text>
         }
+        TempData["Success"] = null;
     </script>
-
-
-    @*  <script> *@
-    @*     const billBody = document.getElementById("bill_body"); *@
-    @*     const billStatusUnpaid = "Chưa thanh toán";  *@
-    @*     const userRole = "@_role";  *@
-    @*     document.getElementById("homestay-select").addEventListener("change", function () { *@
-    @*         const homestayId = this.value; *@
-    @*         if (!homestayId) return; *@
-
-    @*         fetch(`/Bills/GetBillsByHomestay?homestayId=${homestayId}`) *@
-    @*             .then(res => res.json()) *@
-    @*             .then(data => { *@
-    @*                 console.log(data); *@
-    @*                 billBody.innerHTML = "";  *@
-
-    @*                 if (data.length === 0) { *@
-    @*                     billBody.innerHTML = `<tr><td colspan="5">Không có hóa đơn nào.</td></tr>`; *@
-    @*                     return; *@
-    @*                 } *@
-
-    @*                 data.forEach(bill => { *@
-    @*                     const tr = document.createElement("tr"); *@
-
-    @*                     const createDate = bill.creatE_AT *@
-    @*                     ? new Date(bill.creatE_AT).toLocaleDateString("vi-VN") *@
-    @*                     : ""; *@
-
-    @*                     let html = ` *@
-    @*                         <td>${bill.id}</td> *@
-    @*                         <td>${bill.customerS_NAME}</td> *@
-    @*                         <td>${bill.billS_STATUS}</td> *@
-    @*                         <td>${createDate}</td> *@
-    @*                         <td> *@
-    @*                             <a href="/Bills/Details/${bill.id}" class="btn btn-sm btn-info">Chi tiết</a> *@
-    @*                     `; *@
-
-    @*                     if (bill.billS_STATUS === billStatusUnpaid) { *@
-    @*                         html += `<a href="/Bills/Edit/${bill.id}" class="btn btn-sm btn-primary">Sửa</a>`; *@
-    @*                     } *@
-
-    @*                     if (userRole !== "manager") { *@
-    @*                         html += `<a href="/Bills/Delete/${bill.id}" class="btn btn-sm btn-danger">Xóa</a>`; *@
-    @*                     } *@
-
-    @*                     html += `</td>`; *@
-    @*                     tr.innerHTML = html; *@
-    @*                     billBody.appendChild(tr); *@
-    @*                 }); *@
-    @*             }) *@
-    @*             .catch(error => { *@
-    @*                 console.error("Lỗi khi tải hóa đơn:", error); *@
-    @*                 billBody.innerHTML = `<tr><td colspan="5">Đã xảy ra lỗi khi tải hóa đơn.</td></tr>`; *@
-    @*             }); *@
-    @*     }); *@
-    @* </script> *@
-
-
-
 }

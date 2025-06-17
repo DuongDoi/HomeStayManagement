@@ -8,6 +8,12 @@
 <div class="container mt-4">
     <h2 class="text-center">Tạo mới hóa đơn</h2>
     <form asp-action="Add" method="post">
+        <br />
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Message</div>
+        }
+        <br />
         <!-- Danh sách cơ sở -->
         <h5>Danh sách cơ sở</h5>
         <table class="table table-bordered" id="homestay-table">
@@ -18,7 +24,7 @@
                 <tr>
                     <td>
                         <select asp-for="ID_HOMESTAYS" asp-items="Model.HomestayOptions" class="form-select" id="homestay-select" required>
-                            <option value="">-- Chọn cơ sở --</option>
+                            <option value="" selected>-- Chọn cơ sở --</option>
                         </select>
                     </td>
                 </tr>
@@ -54,7 +60,44 @@
                 </tr>
             </thead>
             <tbody>
-                
+                @for (int i = 0; i < Model.Rooms.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <select class="form-select room-select" name="Rooms[@i].RoomId" required>
+                                <option value="">-- Chọn phòng --</option>
+                                @foreach (var item in Model.RoomOptions)
+                                {
+                                    if (item.Value == Model.Rooms[i].RoomId.ToString())
+                                    {
+                                        <option value="@item.Value" selected>
+                                            @item.Text
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">
+                                            @item.Text
+                                        </option>
+                                    }
+
+                                }
+                            </select>
+
+
+
+                        </td>
+                        <td>
+                            <input type="date" class="form-control" name="Rooms[@i].CheckInDate" value="@Model.Rooms[i].CheckInDate.ToString("yyyy-MM-dd")" required />
+                        </td>
+                        <td>
+                            <input type="date" class="form-control" name="Rooms[@i].CheckOutDate" value="@Model.Rooms[i].CheckOutDate.ToString("yyyy-MM-dd")" required />
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
         <button type="button" class="btn btn-warning btn-sm mb-3" id="add-room">+ Thêm phòng</button>
@@ -70,24 +113,63 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <select class="form-select food-select" name="Foods[0].FoodId" required>
-                            <option value="">-- Chọn món --</option>
-                            @foreach (var item in Model.FoodDrinkOptions)
-                            {
-                                <option value="@item.Value">@item.Text</option>
-                            }
-                        </select>
-                    </td>
-                    <td><input type="number" name="Foods[0].Quantity" class="form-control" required /></td>
-                    <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
-                </tr>
+                @if (Model.Foods.Count>0)
+                {
+                    @for (int i = 0; i < Model.Foods.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <select class="form-select food-select" name="Foods[@i].FoodId" required>
+                                    <option value="">-- Chọn món --</option>
+                                    @foreach (var item in Model.FoodDrinkOptions)
+                                    {
+                                        if (item.Value == Model.Foods[i].FoodId.ToString())
+                                        {
+                                            <option value="@item.Value" selected>
+                                                @item.Text
+                                            </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">
+                                                @item.Text
+                                            </option>
+                                        }
+
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="Foods[@i].Quantity" value="@Model.Foods[i].Quantity.ToString()" required />
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td style="display: ">
+                            <select class="form-select food-select" name="Foods[0].FoodId" required>
+                                <option value="">-- Chọn món --</option>
+                                @foreach (var item in Model.FoodDrinkOptions)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </td>
+                        <td><input type="number" name="Foods[0].Quantity" class="form-control" required /></td>
+                        <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
+                    </tr>
+                }
+                
             </tbody>
         </table>
         <button type="button" class="btn btn-warning btn-sm mb-3" id="add-food">+ Thêm món ăn</button>
 
- 
+
         <h5>Danh sách dịch vụ</h5>
         <table class="table table-bordered" id="service-table" >
             <thead class="table-light">
@@ -98,28 +180,62 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <select class="form-select service-select" name="Services[0].ServiceId" required>
-                            <option value="">-- Chọn dịch vụ --</option>
-                            @foreach (var item in Model.ServiceOptions)
-                            {
-                                <option value="@item.Value">@item.Text</option>
-                            }
-                        </select>
-                    </td>
-                    <td><input type="number" name="Services[0].Quantity" class="form-control" required /></td>
-                    <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
-                </tr>
+                @if (Model.Services.Count>0)
+                {
+                    @for (int i = 0; i < Model.Services.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <select class="form-select service-select" name="Services[@i].ServiceId" required>
+                                    <option value="">-- Chọn dịch vụ --</option>
+                                    @foreach (var item in Model.ServiceOptions)
+                                    {
+                                        if (item.Value == Model.Services[i].ServiceId.ToString())
+                                        {
+                                            <option value="@item.Value" selected>
+                                                @item.Text
+                                            </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">
+                                                @item.Text
+                                            </option>
+                                        }
+
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="Services[@i].Quantity" value="@Model.Services[i].Quantity.ToString()" required />
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            <select class="form-select service-select" name="Services[0].ServiceId" required>
+                                <option value="">-- Chọn dịch vụ --</option>
+                                @foreach (var item in Model.ServiceOptions)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            </select>
+                        </td>
+                        <td><input type="number" name="Services[0].Quantity" class="form-control" required /></td>
+                        <td><button type="button" class="btn btn-danger btn-sm remove-row">Xóa</button></td>
+                    </tr>
+                }
+                
             </tbody>
         </table>
         <button type="button" class="btn btn-warning btn-sm mb-3" id="add-service">+ Thêm dịch vụ</button>
-        <br/>
-        @if (ViewBag.Message != null)
-        {
-            <div class="alert alert-danger">@ViewBag.Message</div>
-        }
-        <br />
+        
         <p style="text-align:right; margin-right:40px; margin-top: 50px">
             <button type="submit" class="btn btn-primary">Lưu hóa đơn</button>
             <a href="@Url.Action("Index", "Bills")" class="btn btn-danger">Quay lại</a>
@@ -165,11 +281,33 @@
 </template>
 @section Scripts {
 
+
+    <script>
+        @for (int i = 0; i < Model.Rooms.Count; i++)
+        {
+            <text>
+                    console.log("Room [@i]: RoomId = '@Model.Rooms[i].RoomId'");
+            </text>
+        }
+
+        @foreach (var option in Model.RoomOptions)
+        {
+            <text>
+                    console.log("RoomOption: Value = '@option.Value', Text = '@option.Text'");
+            </text>
+        }
+    </script>
+
+
+
     <script>
 
         // Gọi API lấy danh sách phòng khi chọn homestay
         document.getElementById("homestay-select").addEventListener("change", function () {
             const homestayId = this.value;
+            loadRoomsByHomestayId(homestayId);
+        });
+            function loadRoomsByHomestayId(homestayId) {
             if (!homestayId) return;
 
             fetch(`/Bills/GetRoomsByHomestay?homestayId=${homestayId}`)
@@ -180,18 +318,24 @@
                         options += `<option value="${room.value}">${room.text}</option>`;
                     });
 
-                    // Gán cho tất cả dropdown phòng
                     document.querySelectorAll(".room-select").forEach(select => {
                         select.innerHTML = options;
                     });
 
-                    // Lưu sẵn options vào thẻ template
                     document.getElementById("room-template").dataset.options = options;
 
-                    // Cập nhật lại select options để loại bỏ phòng đã chọn
                     updateSelectOptions('room-select', 'room-template');
                 });
-        });
+        }
+        @if (ViewBag.Message != null)
+        {
+            var selectedHomestayId = "@Model.ID_HOMESTAYS";
+            <text>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        loadRoomsByHomestayId("@Model.ID_HOMESTAYS");
+                    });
+            </text>
+        }
 
         // Gọi API tìm khách hàng
         document.getElementById("btn-search-customer").addEventListener("click", function () {
@@ -364,7 +508,7 @@
                 Array.from(document.querySelectorAll(".service-select option"))
                     .map(opt => `<option value="${opt.value}">${opt.textContent}</option>`)
                     .join('');
-
+            
             refreshSelects();
         });
     </script>

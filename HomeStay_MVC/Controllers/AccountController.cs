@@ -13,7 +13,7 @@ namespace HomeStay_MVC.Controllers
     {
 
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int pageSize = 5)
         {
             if (!CheckAuthToken())
             {
@@ -67,7 +67,17 @@ namespace HomeStay_MVC.Controllers
                 accounts.Add(_obj);
 
             }
-            return View(accounts);
+            int totalItems = accounts.Count;
+            var pagedAccount = accounts
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            return View(pagedAccount);
         }
 
         public IActionResult Details(string username)
@@ -122,6 +132,7 @@ namespace HomeStay_MVC.Controllers
                     else _obj.HOMESTAYS_NAME = "Không";
                     return View(_obj);
                 }
+
                 return RedirectToAction("Index", "Account");
             }
             else return RedirectToAction("Index", "Login");
@@ -168,10 +179,10 @@ namespace HomeStay_MVC.Controllers
                     else _obj.Create_By = "Không";
                     if (_role == "manager") _obj.HOMESTAYS_NAME = dr["HOMESTAYS_NAME"].ToString();
                     else _obj.HOMESTAYS_NAME = "Không";
-
-                        return View(_obj);
+                    if (_obj.Create_By != HttpContext.Session.GetString("User") && _role != "admin") return RedirectToAction("Index");
+                    return View(_obj);
                 }
-                return RedirectToAction("Index", "Account");
+                return RedirectToAction("Index");
             }
             else return RedirectToAction("Index", "Login");
         }
@@ -263,7 +274,7 @@ namespace HomeStay_MVC.Controllers
                     var create_by = dr["Create_By"].ToString();
                     if (create_by != "") _obj.Create_By = create_by;
                     else _obj.Create_By = "Không";
-
+                    if (_obj.Create_By != HttpContext.Session.GetString("User") && _role != "admin") return RedirectToAction("Index");
                     return View(_obj);
                 }
                 return RedirectToAction("Index", "Account");
@@ -276,20 +287,39 @@ namespace HomeStay_MVC.Controllers
         {
             if (!CheckAuthToken())
                 return RedirectToAction("Index", "Login");
-            string _role = HttpContext.Session.GetString("Role");
-            if (_role == "admin" || _role == "owner")
+
+            string currentRole = HttpContext.Session.GetString("Role");
+            string currentUsername = HttpContext.Session.GetString("User");
+
+            // Chỉ người dùng là admin hoặc owner mới được xóa tài khoản
+            if (currentRole == "admin" || currentRole == "owner")
             {
+                // Kiểm tra mã PIN
                 if (!checkPIN(model.Save_Code))
                 {
                     ViewBag.Message = "Mã PIN không chính xác.";
                     return View(model);
                 }
-                if (username == "admin")
+
+                // Không cho tự xóa chính mình hoặc xóa tài khoản gốc "admin"
+                if (username == "admin" || username == currentUsername)
                 {
                     ViewBag.Message = "Không thể xóa tài khoản này.";
                     return View(model);
                 }
 
+                // Nếu tài khoản bị xóa có vai trò là admin
+                if (model.Role == "admin")
+                {
+                    // Chỉ tài khoản gốc "admin" mới được quyền xóa
+                    if (currentUsername != "admin")
+                    {
+                        ViewBag.Message = "Chỉ tài khoản 'admin' mới có quyền xóa các tài khoản admin khác.";
+                        return View(model);
+                    }
+                }
+
+                // Xóa tài khoản
                 var ds = DataAccess.USERS_UPDATE_INFOR(username, "", "", "", "", "2");
                 var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
 
@@ -303,11 +333,11 @@ namespace HomeStay_MVC.Controllers
                     ViewBag.Message = "Không thể xóa tài khoản.";
                     return View(model);
                 }
-
-                   
             }
-            else return RedirectToAction("Index", "Login");
+
+            return RedirectToAction("Index", "Login");
         }
+
 
         [HttpGet]
         public IActionResult Add(string username)
@@ -395,7 +425,7 @@ namespace HomeStay_MVC.Controllers
                     {
                         var user = HttpContext.Session.GetString("User");
                         if (model.role != "manager") model.HOMESTAYS_ID = "";
-                        if (model.role == "owner") user = model.Users;
+                        if (model.role != "manager") user = model.Users;
                         if(model.role == "manager")
                         {
                             var ds1 = DataAccess.HOMESTAYS_GET_LIST(model.HOMESTAYS_ID, "-1", "1");
@@ -508,7 +538,107 @@ namespace HomeStay_MVC.Controllers
                 return model;
             }
         }
-        
+
+
+        [HttpGet]
+        public IActionResult Filter(string search_value, int page = 1, int pageSize = 5)
+        {
+            if (!CheckAuthToken())
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+
+            string _role = HttpContext.Session.GetString("Role");
+            if(_role == "admin" || _role == "owner")
+            {
+                // Format tham số lọc
+                string _search_value = search_value;
+                string user = HttpContext.Session.GetString("User");
+                if (_role == "admin") user = "-1";
+    
+                DataSet ds = DataAccess.UserFilter(search_value, user);
+                List<AccountInfor> accInf = new List<AccountInfor>();
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        AccountInfor _obj = new AccountInfor();
+                        _obj.Id = dr["ID"].ToString();
+                        _obj.Users = dr["USERS"].ToString();
+                        _obj.Name = dr["NAME"].ToString();
+                        _obj.Role = dr["ROLE"].ToString();
+                        try { _obj.Create_At = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                        catch { }
+                        try { _obj.Update_At = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                        catch { }
+
+                        accInf.Add(_obj);
+
+                    }
+                    
+                }
+                else
+                {
+                    ViewBag.notfound = "Không tìm thấy tài khoản phù hợp";
+                }
+                // Phân trang
+                int totalItems = accInf.Count;
+                var pagedList = accInf.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+                // Truyền thông tin cho View
+                ViewBag.SearchValue = search_value;
+                ViewBag.CurrentPage = page;
+                ViewBag.PageSize = pageSize;
+                ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+                return View("Index", pagedList);
+            }
+            return RedirectToAction("Index", "Login");
+
+
+            
+        }
+
+        [HttpPost]
+        public IActionResult Lock(AccountInfor model)
+        {
+            if (!CheckAuthToken()) return RedirectToAction("Index", "Login");
+            var type = "1";
+            if (model.IsLock == "Đang hoạt động") type = "2";
+            DataSet ds = DataAccess.UserLock(model.Id, type);
+            var errCode = ds.Tables[0].Rows[0]["errCode"].ToString();
+            if (errCode == "0")
+            {
+                if(type == "1")
+                {
+                    ViewBag.Message = "Mở khóa tài khoản thành công";
+                    model.IsLock = "Đang hoạt động";
+                    return View("Details", model);
+                }
+                else
+                {
+                    ViewBag.Message = "Đã khóa tài khoản";
+                    model.IsLock = "Bị khóa";
+                    return View("Details", model);
+                }
+            }
+            else
+            {
+                if (type == "1")
+                {
+                    ViewBag.Erro = "Không thể mở khóa tài khoản";
+
+                    return View("Details", model);
+                }
+                else
+                {
+                    ViewBag.Erro = "Không thể khóa tài khoản";
+
+                    return View("Details", model);
+                }
+            }
+        }
     }
 
     

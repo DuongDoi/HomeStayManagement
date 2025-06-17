@@ -1,26 +1,15 @@
 ﻿@{
     Layout = "_Layout";
     ViewData["Title"] = "Trang chủ";
+    var role = Context.Session.GetString("Role");
+    var data = ViewBag.listDataReportModel as List<HomeStay_MVC.Models.DataReportModel>;
+    var labels = string.Join(",", data.Select(x => $"'{x.Date_value}'"));
+    var incomes = string.Join(",", data.Select(x => x.Total_in));
+    var expenses = string.Join(",", data.Select(x => x.Total_out));
 }
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        @if (TempData["Success"] != null)
-        {
-            <text>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Thành công!',
-                        text: '@Html.Raw(TempData["Success"])',
-                        confirmButtonText: 'OK'
-                    });
-            </text>
-            TempData["Success"] = null;
-        }
-    </script>
-}
+
 <div style="position: relative; width: 100%; min-height: 100vh;">
-    <!-- Hình nền mờ -->
+
     <div style="
         position: absolute;
         top: 0; left: 0;
@@ -33,9 +22,71 @@
         z-index: 1;">
     </div>
 
-    <!-- Nội dung chính -->
+
+
     <div style="position: relative; z-index: 2; padding: 30px;">
-            @if (ViewBag.TopFoods != null)
+        @if (role != "manager")
+        {
+            @if (data != null && data.Count > 0)
+            {
+
+                var list = (List<DataReportModel>)ViewBag.listDataReportModel;
+                <div style="background-color: #fff; padding: 10px 20px; border: 1px solid #ccc; border-radius: 8px; max-height: 500px;">
+                    <h4>Báo cáo thu - chi</h4>
+                    <form method="get" asp-action="Filter" class="p-4">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <select id="type-select" name="TypeSelect" class="form-control" required>
+                                    @if (ViewBag.TypeSelect == "1")
+                                    {
+                                        <option value="1" selected>6 tháng gần nhất</option>
+                                        <option value="2">6 tuần gần nhất</option>
+                                        <option value="3">6 ngày gần nhất</option>
+
+                                    }
+                                    else
+                                    {
+                                        if (ViewBag.TypeSelect == "2")
+                                        {
+                                            <option value="1">6 tháng gần nhất</option>
+                                            <option value="2" selected>6 tuần gần nhất</option>
+                                            <option value="3">6 ngày gần nhất</option>
+
+                                        }
+                                        else
+                                        {
+                                            if (ViewBag.TypeSelect == "3")
+                                            {
+                                                <option value="1">6 tháng gần nhất</option>
+                                                <option value="2">6 tuần gần nhất</option>
+                                                <option value="3"selected>6 ngày gần nhất</option>
+
+                                            }
+                                            else
+                                            {
+                                                <option value="1">6 tháng gần nhất</option>
+                                                <option value="2">6 tuần gần nhất</option>
+                                                <option value="3">6 ngày gần nhất</option>
+
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-6 d-flex gap-2">
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Lọc</button>
+                            </div>
+                        </div>
+                    </form>
+                    <canvas id="barChart" style="max-height: 300px;"></canvas>
+                </div>
+            }
+            else
+            {
+                <p style="color:red;">Không có dữ liệu báo cáo</p>
+            }
+        }
+        @if (ViewBag.TopFoods != null)
         {
             <h2 style="margin: 10px;
                 background: linear-gradient(to right, #e0f7fa, #ffffff);
@@ -50,8 +101,8 @@
                 {
                     <div style="flex: 0 0 auto; width: 200px; border: 1px solid #ccc; border-radius: 12px; padding: 10px; text-align: center; background-color: #fff; scroll-snap-align: start; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
                         <img src="@Url.Content($"~/uploads/AvatarFoodDrink/{food.Avatar}")"
-                             alt="@food.Name"
-                             style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
+                        alt="@food.Name"
+                        style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
                         <div style="margin-top: 10px;">
                             <h5 style="margin: 10px 0 5px; font-size: 16px;">@food.Name</h5>
                             <p style="color: #ff5722; font-weight: bold; margin: 0;">Giá: @String.Format("{0:N0}", food.Price) VND</p>
@@ -59,10 +110,10 @@
                     </div>
                 }
             </div>
-            }
+        }
 
-            @if (ViewBag.TopDrinks != null)
-            {
+        @if (ViewBag.TopDrinks != null)
+        {
             <h2 style="margin:10px;
                 background: linear-gradient(to right, #e0f7fa, #ffffff);
                 padding: 10px 20px;
@@ -76,8 +127,8 @@
                 {
                     <div style="flex: 0 0 auto; width: 200px; border: 1px solid #ccc; border-radius: 12px; padding: 10px; text-align: center; background-color: #fff; scroll-snap-align: start; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
                         <img src="@Url.Content($"~/uploads/AvatarFoodDrink/{food.Avatar}")"
-                             alt="@food.Name"
-                             style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
+                        alt="@food.Name"
+                        style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
                         <div style="margin-top: 10px;">
                             <h5 style="margin: 10px 0 5px; font-size: 16px;">@food.Name</h5>
                             <p style="color: #cc4321; font-weight: bold; margin: 0;">Giá: @String.Format("{0:N0}", food.Price) VND</p>
@@ -85,11 +136,11 @@
                     </div>
                 }
             </div>
-            }
+        }
 
-        
-            @if (ViewBag.topServices != null)
-            {
+
+        @if (ViewBag.topServices != null)
+        {
             <h2 style="margin:10px;
                 background: linear-gradient(to right, #e0f7fa, #ffffff);
                 padding: 10px 20px;
@@ -103,8 +154,8 @@
                 {
                     <div style="flex: 0 0 auto; width: 200px; border: 1px solid #ccc; border-radius: 12px; padding: 10px; text-align: center; background-color: #fff; scroll-snap-align: start; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
                         <img src="@Url.Content($"~/uploads/AvatarServices/{service.Avatar}")"
-                             alt="@service.Name"
-                             style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
+                        alt="@service.Name"
+                        style="width: 100%; height: 250px; object-fit: cover; border-radius: 8px;" />
                         <div style="margin-top: 10px;">
                             <h5 style="margin: 10px 0 5px; font-size: 16px;">@service.Name</h5>
                             <p style="color: #cc4321; font-weight: bold; margin: 0;">Giá: @String.Format("{0:N0}", service.Price) VND</p>
@@ -112,7 +163,7 @@
                     </div>
                 }
             </div>
-            }
+        }
         <div id="about-us" style="margin-top: 40px; padding: 20px; background-color: rgba(255, 255, 255, 0.85); border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); ">
             <h2>Hệ thống quản lý Homestay</h2>
             <p>
@@ -129,9 +180,84 @@
                 <li><strong>Hotline:</strong> <a href="tel:0397360167" >0397 360 167</a></li>
                 <li><strong>Email:</strong> <a href="homestaymanagement.work@gmail.com">homestaymanagement.work@gmail.com</a></li>
                 <li><strong>Địa chỉ:</strong> Số 4, Ngõ 44/148 Trần Thái Tông, Cầu Giấy, Hà Nội</li>
-                <li><strong>Mọi ý kiến đóng góp vui lòng gửi về:</strong> <a href="homestaymanagement.feedback@gmail.com">homestaymanagement.feedback@gmail.com<</li>
+                <li><strong>Mọi ý kiến đóng góp vui lòng gửi về:</strong> <a href="homestaymanagement.feedback@gmail.com">homestaymanagement.feedback@gmail.com</a></li>
             </ul>
         </div>
     </div>
 </div>
 
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: '@Html.Raw(TempData["Success"])',
+                confirmButtonText: 'OK'
+                });
+            </text>
+            TempData["Success"] = null;
+        }
+    </script>
+    @if (data != null && data.Count > 0)
+    {
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                const ctx = document.getElementById('barChart')?.getContext('2d');
+                
+
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [@Html.Raw(labels)],
+                        datasets: [
+                            {
+                                label: 'Thu',
+                                data: [@Html.Raw(incomes)],
+                                backgroundColor: 'rgba(0, 128, 0, 0.7)',
+                                maxBarThickness: 40
+                            },
+                            {
+                                label: 'Chi',
+                                data: [@Html.Raw(expenses)],
+                                backgroundColor: 'rgba(255, 0, 0, 0.7)',
+                                maxBarThickness: 40
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Thời gian'
+                                    }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Số tiền (VNĐ)'
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+    </script>}
+}
