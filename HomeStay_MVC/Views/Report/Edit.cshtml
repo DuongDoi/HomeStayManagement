@@ -17,7 +17,7 @@
                 @Html.HiddenFor(m => m.ID)
                 @Html.HiddenFor(m => m.HOMESTAYS_ID)
                 <div class="form-group">
-                    <label for="homestay-select">Chọn cơ sở</label>
+                    <label for="homestay-select">Chọn cơ sở<span style="color:red">*</span></label>
                     <select id="homestay-select" name="HOMESTAYS_ID" class="form-control" requied>
                         <option value="0">-- Chọn cơ sở --</option>
                         @foreach (var item in (List<SelectListItem>)ViewBag.HomestayList)
@@ -36,24 +36,32 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="TYPE">Phân loại giao dịch</label>
+                    <label for="TYPE">Phân loại giao dịch<span style="color:red">*</span></label>
                     @Html.DropDownListFor(m => m.TYPE, Model.TypeOptions, "-- Chọn loại giao dịch --", new { @class = "form-control", @id = "TYPE", required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="CATEGORY">Tên giao dịch</label>
+                    <label for="CATEGORY">Tên giao dịch<span style="color:red">*</span></label>
                     @Html.TextBoxFor(m => m.CATEGORY, new { @class = "form-control", @id = "CATEGORY", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="DESCRIPT">Mô tả giao dịch</label>
+                    <label for="DESCRIPT">Mô tả giao dịch<span style="color:red">*</span></label>
                     @Html.TextAreaFor(m => m.DESCRIPT, new { @class = "form-control", @id = "DESCRIPT", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="AMOUNT">Giá trị</label>
+                    <label for="AMOUNT">Giá trị<span style="color:red">*</span></label>
                     @Html.TextBoxFor(m => m.AMOUNT, new { type = "number", @class = "form-control", @id = "AMOUNT", @required = "required" })
                 </div>
                 <div class="form-group">
-                    <label for="Save_code">Nhập mã PIN</label>
-                    @Html.TextBoxFor(m => m.Save_code, new { type = "number", @class = "form-control", @id = "Save_code", @required = "required" })
+                    <label for="Save_code">Nhập mã PIN<span style="color:red">*</span></label>
+                    @Html.PasswordFor(m => m.Save_code, new
+                        {
+                            @class = "form-control",
+                            @id = "Save_code",
+                            @required = "required",
+                            @maxlength = "8",
+                            @pattern = "\\d{8}",
+                            @title = "Vui lòng nhập đúng 8 chữ số"
+                        })
                 </div>
                 @if (ViewBag.Message != null)
                 {

@@ -3,8 +3,13 @@
     Layout = "_Layout"; 
     ViewData["Title"] = "Hóa đơn thanh toán";
     string bill_status = Model.BILLS_STATUS;
+    decimal totalRoom = Model.Rooms?.Sum(r => r.TOTAL_PRICE) ?? 0;
+    decimal totalFood = Model.Foods?.Sum(f => f.TOTAL_PRICE_FOOD) ?? 0;
+    decimal totalService = Model.Services?.Sum(s => s.TOTAL_PRICE_SERVICE) ?? 0;
+    //decimal discount = 0; 
+    //decimal vat = 0.1M * (totalRoom + totalFood + totalService);
+    decimal finalTotal = totalRoom + totalFood + totalService;
 }
-
 <div class="container mt-4 mb-5">
     <div class="text-center">
         <h2>HÓA ĐƠN THANH TOÁN</h2>
@@ -12,121 +17,141 @@
         <p>Địa chỉ: @Model.HOMESTAYS_ADDRESS</p>
         <p>SĐT: @Model.MANAGER_PHONE </p>
     </div>
-
     <hr />
-
     <div>
-        <p><strong>Mã hóa đơn:</strong> @Model.ID</p>
-        <p><strong>Ngày lập:</strong> @Model.CREATE_AT</p>
-        <p><strong>Nhân viên lập:</strong>NV-@Model.CREATE_BY</p>
+        <div class="form-left">
+            <p><strong>Mã hóa đơn:</strong> @Model.ID</p>
+            <p><strong>Ngày lập:</strong> @Model.CREATE_AT</p>
+            <p><strong>Nhân viên lập:</strong>NV-@Model.CREATE_BY</p>
+        </div>
+        <div class="form-right">
+            <h5 class="mt-4">Thông tin khách hàng</h5>
+            <p><strong>Họ tên:</strong> @Model.CUSTOMERS_NAME</p>
+            <p><strong>Số điện thoại:</strong> @Model.CUSTOMERS_PHONE</p>
+            <p><strong>CMND/CCCD:</strong> @Model.CUSTOMERS_CARD_ID</p>
+            <p><strong>Địa chỉ:</strong> @Model.CUSTOMERS_ADDRESS</p>
+        </div>
     </div>
+    @if(Model.Rooms != null && Model.Rooms.Count > 0)
+    {
+        <h5 class="mt-4">Thông tin phòng</h5>
+        <table class="table table-bordered text-center">
+            <thead class="table-secondary">
+                <tr>
+                    <th>STT</th>
+                    <th>Tên phòng</th>
+                    <th>Ngày nhận</th>
+                    <th>Ngày trả</th>
+                    <th>Số đêm</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 1;
+                    foreach (var room in Model.Rooms)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@room.ROOMS_NAME</td>
+                            <td>@room.CheckInDate.ToString("dd/MM/yyyy")</td>
+                            <td>@room.CheckOutDate.ToString("dd/MM/yyyy")</td>
+                            <td>@room.TOTAL_DAYS</td>
+                            <td>@String.Format("{0:N0}",room.PRICE_PER_DAY) VNĐ</td>
+                            <td>@String.Format("{0:N0}",room.TOTAL_PRICE) VNĐ</td>
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    @if(Model.Foods != null && Model.Foods.Count > 0)
+    {
+        <h5 class="mt-4">Món ăn phát sinh</h5>
+        <table class="table table-bordered text-center">
+            <thead class="table-secondary">
+                <tr>
+                    <th>STT</th>
+                    <th>Tên món</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 1;
+                    foreach (var food in Model.Foods)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@food.FOODS_NAME</td>
+                            <td>@food.Quantity</td>
+                            <td>@String.Format("{0:N0}", food.UNIT_PRICE_FOOD) VND</td>
+                            <td>@String.Format("{0:N0}", food.TOTAL_PRICE_FOOD) VND</td>
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    @if (Model.Services != null && Model.Services.Count > 0)
+    {
+        <h5 class="mt-4">Dịch vụ phát sinh</h5>
+        <table class="table table-bordered text-center">
+            <thead class="table-secondary">
+                <tr>
+                    <th>STT</th>
+                    <th>Tên dịch vụ</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 1;
+                    foreach (var service in Model.Services)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@service.SERVICES_NAME</td>
+                            <td>@service.Quantity</td>
+                            <td>@String.Format("{0:N0}", service.UNIT_PRICE_SERVICE) VNĐ</td>
+                            <td>@String.Format("{0:N0}", service.TOTAL_PRICE_SERVICE) VND</td>
+                        </tr>
+                        i++;
+                    }
+                }
+            </tbody>
+        </table>
 
-    <h5 class="mt-4">Thông tin khách hàng</h5>
-    <p><strong>Họ tên:</strong> @Model.CUSTOMERS_NAME</p>
-    <p><strong>Số điện thoại:</strong> @Model.CUSTOMERS_PHONE</p>
-    <p><strong>CMND/CCCD:</strong> @Model.CUSTOMERS_CARD_ID</p>
-    <p><strong>Địa chỉ:</strong> @Model.CUSTOMERS_ADDRESS</p>
-
-    <h5 class="mt-4">Thông tin phòng</h5>
-    <table class="table table-bordered text-center">
-        <thead class="table-secondary">
-            <tr>
-                <th>STT</th>
-                <th>Tên phòng</th>
-                <th>Ngày nhận</th>
-                <th>Ngày trả</th>
-                <th>Số đêm</th>
-                <th>Đơn giá</th>
-                <th>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                var i = 1;
-                foreach (var room in Model.Rooms)
-                {
-                    <tr>
-                        <td>@i</td>
-                        <td>@room.ROOMS_NAME</td>
-                        <td>@room.CheckInDate.ToString("dd/MM/yyyy")</td>
-                        <td>@room.CheckOutDate.ToString("dd/MM/yyyy")</td>
-                        <td>@room.TOTAL_DAYS</td>
-                        <td>@String.Format("{0:N0}",room.PRICE_PER_DAY) VNĐ</td>
-                        <td>@String.Format("{0:N0}",room.TOTAL_PRICE) VNĐ</td>
-                    </tr>
-                    i++;
-                }
-            }
-        </tbody>
-    </table>
-    <h5 class="mt-4">Món ăn phát sinh</h5>
-    <table class="table table-bordered text-center">
-        <thead class="table-secondary">
-            <tr>
-                <th>STT</th>
-                <th>Tên món</th>
-                <th>Số lượng</th>
-                <th>Đơn giá</th>
-                <th>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                i = 1;
-                foreach (var food in Model.Foods)
-                {
-                    <tr>
-                        <td>@i</td>
-                        <td>@food.FOODS_NAME</td>
-                        <td>@food.Quantity</td>
-                        <td>@String.Format("{0:N0}",food.UNIT_PRICE_FOOD) VND</td>
-                        <td>@String.Format("{0:N0}",food.TOTAL_PRICE_FOOD) VND</td>
-                    </tr>
-                    i++;
-                }
-            }
-        </tbody>
-    </table>
-    <h5 class="mt-4">Dịch vụ phát sinh</h5>
-    <table class="table table-bordered text-center">
-        <thead class="table-secondary">
-            <tr>
-                <th>STT</th>
-                <th>Tên dịch vụ</th>
-                <th>Số lượng</th>
-                <th>Đơn giá</th>
-                <th>Thành tiền</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                i = 1;
-                foreach (var service in Model.Services)
-                {
-                    <tr>
-                        <td>@i</td>
-                        <td>@service.SERVICES_NAME</td>
-                        <td>@service.Quantity</td>
-                        <td>@String.Format("{0:N0}",service.UNIT_PRICE_SERVICE) VNĐ</td>
-                        <td>@String.Format("{0:N0}", service.TOTAL_PRICE_SERVICE) VND</td>
-                    </tr>
-                    i++;
-                }
-            }
-        </tbody>
-    </table>
+    }
 
     <h5 class="mt-4">Tổng kết</h5>
     <ul class="list-unstyled">
-        <li><strong>Tổng tiền phòng:</strong>  VNĐ</li>
-        <li><strong>Tổng dịch vụ:</strong>  VNĐ</li>
-        <li><strong>Giảm giá:</strong>  VNĐ</li>
-        <li><strong>VAT (10%):</strong> VNĐ</li>
+        @if (totalRoom > 0)
+        {
+            <li><strong>Tổng tiền phòng:</strong>@String.Format("{0:N0}", totalRoom) VNĐ</li>
+        }
+        @if (totalFood > 0)
+        {
+            <li><strong>Tổng đô ăn và đồ uống:</strong>@String.Format("{0:N0}", totalFood) VNĐ</li>
+        }
+        @if (totalService > 0)
+        {
+            <li><strong>Tổng dịch vụ:</strong>@String.Format("{0:N0}", totalService) VNĐ</li>
+        }        
+        <li><strong>Giảm giá:</strong>0  VNĐ</li>
+        <li><strong>VAT (10%):</strong>0 VNĐ</li>
         <li><strong style="font-size: 1.2em;">Tổng thanh toán:</strong> <span class="text-danger fw-bold">@String.Format("{0:N0}", Model.TOTAL_MONEY) VND</span></li>
     </ul>
 
     <h5 class="mt-4">Thanh toán</h5>
-    <p><strong>Phương thức:</strong> </p>
+    <p><strong>Phương thức:</strong> tiền mặt</p>
     @if (Model.BILLS_STATUS != "Chưa thanh toán")
     {
 

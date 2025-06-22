@@ -108489,6 +108489,88 @@
       ]
     },
     {
+      "Route": "uploads/AvatarFoodDrink/210/1e26357d-6f97-418c-99af-4e6dfada27b0.iv2ab2ypwo.png",
+      "AssetFile": "uploads/AvatarFoodDrink/210/1e26357d-6f97-418c-99af-4e6dfada27b0.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "77684"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8j9lYrMxIM2OSHGKLtD9C/MYRiFInqtQBe/yWeSqYCs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 20 Jun 2025 16:01:36 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "iv2ab2ypwo"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-8j9lYrMxIM2OSHGKLtD9C/MYRiFInqtQBe/yWeSqYCs="
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/AvatarFoodDrink/210/1e26357d-6f97-418c-99af-4e6dfada27b0.png"
+        }
+      ]
+    },
+    {
+      "Route": "uploads/AvatarFoodDrink/210/1e26357d-6f97-418c-99af-4e6dfada27b0.png",
+      "AssetFile": "uploads/AvatarFoodDrink/210/1e26357d-6f97-418c-99af-4e6dfada27b0.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "77684"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8j9lYrMxIM2OSHGKLtD9C/MYRiFInqtQBe/yWeSqYCs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 20 Jun 2025 16:01:36 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8j9lYrMxIM2OSHGKLtD9C/MYRiFInqtQBe/yWeSqYCs="
+        }
+      ]
+    },
+    {
       "Route": "uploads/AvatarFoodDrink/210/3ced1d14-a006-4967-bb79-b9496be07a95.0m5aglnqk2.jpg",
       "AssetFile": "uploads/AvatarFoodDrink/210/3ced1d14-a006-4967-bb79-b9496be07a95.jpg",
       "Selectors": [],

@@ -2,12 +2,12 @@
 
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Quản lý thực phẩm";
+    ViewData["Title"] = "Danh sách món trong Menu";
     var role = Context.Session.GetString("Role");
     string currentGroup = null;
 }
 
-<h2 class="text-center mt-4">Quản lý thực phẩm</h2>
+<h2 class="text-center mt-4">Menu</h2>
 @if (role != "manager")
 {
     <p style="text-align:right; margin-right:20px;">

@@ -395,6 +395,10 @@ namespace HomeStay_MVC.Controllers
             }
             else
             {
+                model.TypeOptions = new List<SelectListItem>{
+                    new SelectListItem { Text = "Đồ ăn", Value = "FOOD" },
+                    new SelectListItem { Text = "Đồ uống", Value = "DRINK" }
+                };
                 ViewBag.Message = _obj.errMsgs;
                 return View(model);
             }

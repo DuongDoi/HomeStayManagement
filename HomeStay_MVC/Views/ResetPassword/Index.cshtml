@@ -30,52 +30,62 @@
                 <img src="~/Assets/img/Homestay_logo.png" alt="Logo Homestay" />
             </div>
 
-            <div class="form-right">
+            <div class="form-right" style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw;">
                 @if (ViewBag.Message != null)
                 {
-                    <div class="alert alert-danger" style="color:red; text-align:center; margin-bottom: 10px;">
+                    <div class="alert alert-danger" style="color: red; text-align: center; margin-bottom: 10px;">
                         @ViewBag.Message
                     </div>
                 }
+
                 @using (Html.BeginForm())
-                  {
-                   @Html.AntiForgeryToken()
-                   @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
-                <div class="reset-password-form">
-                    <h2 class="form-title">Quên mật khẩu</h2>
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
 
-                    <div class="form-group">
-                        <label for="username">Tên đăng nhập</label>
+                    <div class="reset-password-form" style="width: 400px;">
+                        <h2 class="form-title">Quên mật khẩu</h2>
+
+                        <div class="form-group">
+                            <label for="username">Tên đăng nhập<span style="color:red">*</span></label>
                             @Html.TextBoxFor(m => m.Users, new { @id = "username", @required = "required" })
-                    </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                            @Html.TextBoxFor(m => m.Email, new { @id = "email",@type="email",  @required = "required" })
-                    </div>
+                        <div class="form-group">
+                            <label for="email">Email<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(m => m.Email, new { @id = "email", @type = "email", @required = "required" })
+                        </div>
 
-                    <div class="form-group">
-                        <label for="pin">Mã PIN</label>
-                            @Html.PasswordFor(m => m.PIN, new { @id = "pin", @required = "required" })
-                    </div>
+                        <div class="form-group">
+                            <label for="pin">Mã PIN<span style="color:red">*</span></label>
+                            @Html.PasswordFor(m => m.PIN, new
+                                {
+                                    @id = "pin",
+                                    @required = "required",
+                                    @maxlength = "8",
+                                    @pattern = "\\d{8}",
+                                    @title = "Vui lòng nhập đúng 8 chữ số"
+                                })
+                        </div>
 
-                    <div class="form-group">
-                        <label for="new-password">Mật khẩu mới</label>
+                        <div class="form-group">
+                            <label for="new-password">Mật khẩu mới<span style="color:red">*</span></label>
                             @Html.PasswordFor(m => m.Pass1, new { @id = "new-password", @required = "required" })
-                    </div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="confirm-new-password">Xác nhận mật khẩu mới</label>
+                        <div class="form-group">
+                            <label for="confirm-new-password">Xác nhận mật khẩu mới<span style="color:red">*</span></label>
                             @Html.PasswordFor(m => m.Pass2, new { @id = "confirm-new-password", @required = "required" })
+                        </div>
+
+                        <button type="submit" class="submit-btn">Xác nhận</button>
+
+                        <p class="login-link">Quay lại trang <a href="/Login">Đăng nhập</a></p>
+                        <p class="signup-link">Chưa có tài khoản? <a href="/Register">Đăng ký ngay</a></p>
                     </div>
-
-                    <button type="submit" class="submit-btn">Xác nhận</button>
-
-                    <p class="login-link">Quay lại trang <a href="/Login">Đăng nhập</a></p>
-                    <p class="signup-link">Chưa có tài khoản? <a href="/Register">Đăng ký ngay</a></p>
-                </div>
                 }
             </div>
+
         </div>
     </main>
 </body>

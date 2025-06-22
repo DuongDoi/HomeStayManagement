@@ -27,7 +27,7 @@ namespace HomeStay_MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(RegisterModel model)
+        public IActionResult Index(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +69,7 @@ namespace HomeStay_MVC.Controllers
                     else
                     {
                         ViewBag.Message = "Đăng ký thất bại!";
-                        return View();
+                        return View(model);
                     }
                 }
             }

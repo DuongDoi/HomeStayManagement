@@ -33,35 +33,52 @@
                 <img src="~/Assets/img/Homestay_logo.png" alt="Logo Homestay" />
             </div>
 
-            <div class="form-right">
-
+            <div class="form-right" style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw;">
                 @using (Html.BeginForm())
                 {
-                    <div class="login-form">
+                    <div class="login-form" style="width: 400px;">
                         <h2 class="form-title">Tạo mã PIN</h2>
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, null, new { @class = "alert alert-danger" })
+
                         @Html.HiddenFor(m => m.Users)
+
                         <div class="form-group">
-                            <label for="PIN1">Mã PIN</label>
-                            @Html.PasswordFor(m => m.PIN1, new { @id = "PIN1", @required = "required", maxlength = "8"})
+                            <label for="PIN1">Mã PIN<span style="color:red">*</span></label>
+                            @Html.PasswordFor(m => m.PIN1, new
+                                {
+                                    @id = "PIN1",
+                                    @required = "required",
+                                    @pattern = "\\d{8}",
+                                    @title = "Vui lòng nhập đúng 8 chữ số"
+                                })
                         </div>
 
                         <div class="form-group">
-                            <label for="PIN2">Nhập lại mã PIN</label>
-                            @Html.PasswordFor(m => m.PIN2, new { @id = "PIN2", @required = "required", maxlength = "8"})
+                            <label for="PIN2">Nhập lại mã PIN<span style="color:red">*</span></label>
+                            @Html.PasswordFor(m => m.PIN2, new
+                                {
+                                    @id = "PIN2",
+                                    @required = "required",
+                                    @pattern = "\\d{8}",
+                                    @title = "Vui lòng nhập đúng 8 chữ số"
+                                })
                         </div>
-                        <p>*mã PIN là bắt buộc để lấy lại mật khẩu và thực hiện các chức năng hệ thống</p>
+
+                        <p style="font-size: 14px; color: #555;"><span style="color:red">**</span>Mã PIN là bắt buộc để lấy lại mật khẩu và thực hiện các chức năng hệ thống</p>
+
                         <button type="submit" class="submit-btn">Xác nhận</button>
+
                         <p class="forgot-password-link"><a href="/Login">Quay lại Đăng nhập</a></p>
+
                         @if (ViewBag.Message != null)
                         {
                             <div class="alert alert-danger">@ViewBag.Message</div>
                         }
-
                     </div>
                 }
             </div>
+
         </div>
     </main>
 </body>

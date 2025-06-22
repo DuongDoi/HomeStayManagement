@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "GuEYNUShP4p3YR9rsytvxDMJeIWPxpL9y2BOB26AoO0=",
+  "Hash": "5dPJYMS3L5YnvNZqSPTzumE/k1Qi3MTkAHLzoBRLU5g=",
   "Source": "HomeStay_MVC",
   "BasePath": "_content/HomeStay_MVC",
   "Mode": "Default",
@@ -27819,6 +27819,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\AvatarFoodDrink\\210\\123b963c-26f6-4ad6-b731-8ce19d20f582.jpg"
+    },
+    {
+      "Identity": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\wwwroot\\uploads\\AvatarFoodDrink\\210\\1e26357d-6f97-418c-99af-4e6dfada27b0.png",
+      "SourceId": "HomeStay_MVC",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\wwwroot\\",
+      "BasePath": "_content/HomeStay_MVC",
+      "RelativePath": "uploads/AvatarFoodDrink/210/1e26357d-6f97-418c-99af-4e6dfada27b0#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "iv2ab2ypwo",
+      "Integrity": "8j9lYrMxIM2OSHGKLtD9C/MYRiFInqtQBe/yWeSqYCs=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\AvatarFoodDrink\\210\\1e26357d-6f97-418c-99af-4e6dfada27b0.png"
     },
     {
       "Identity": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\wwwroot\\uploads\\AvatarFoodDrink\\210\\3ced1d14-a006-4967-bb79-b9496be07a95.jpg",
@@ -137836,6 +137857,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-suv8F/DpubKUmvasuKK9rdqpVbtenDHiSV4gazWj0Ag="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/AvatarFoodDrink/210/1e26357d-6f97-418c-99af-4e6dfada27b0.iv2ab2ypwo.png",
+      "AssetFile": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\wwwroot\\uploads\\AvatarFoodDrink\\210\\1e26357d-6f97-418c-99af-4e6dfada27b0.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "77684"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8j9lYrMxIM2OSHGKLtD9C/MYRiFInqtQBe/yWeSqYCs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 20 Jun 2025 16:01:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "iv2ab2ypwo"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/AvatarFoodDrink/210/1e26357d-6f97-418c-99af-4e6dfada27b0.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-8j9lYrMxIM2OSHGKLtD9C/MYRiFInqtQBe/yWeSqYCs="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/AvatarFoodDrink/210/1e26357d-6f97-418c-99af-4e6dfada27b0.png",
+      "AssetFile": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\wwwroot\\uploads\\AvatarFoodDrink\\210\\1e26357d-6f97-418c-99af-4e6dfada27b0.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "77684"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"8j9lYrMxIM2OSHGKLtD9C/MYRiFInqtQBe/yWeSqYCs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Fri, 20 Jun 2025 16:01:36 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-8j9lYrMxIM2OSHGKLtD9C/MYRiFInqtQBe/yWeSqYCs="
         }
       ]
     },

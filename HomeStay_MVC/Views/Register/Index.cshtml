@@ -35,54 +35,54 @@
                 <img src="~/Assets/img/Homestay_logo.png" alt="Logo Homestay" />
             </div>
 
-            <div class="form-right">
+            <div class="form-right" style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw;">
                 @if (ViewBag.Message != null)
                 {
-                    <div style="color: red;font-size:25px;">@ViewBag.Message</div>
+                    <div style="color: red; font-size: 25px;">@ViewBag.Message</div>
                 }
+
                 @using (Html.BeginForm("Index", "Register", FormMethod.Post))
-                  {
+                {
+                    <div class="register-form" style="width: 400px;">
+                        <h2 class="form-title">Đăng ký tài khoản</h2>
 
-                <div class="register-form">
-                    <h2 class="form-title">Đăng ký tài khoản</h2>
+                        <div class="form-group">
+                            <label for="username">Tên đăng nhập<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(m => m.Users, new { @id = "username", @required = "required" })
+                        </div>
 
-                    <div class="form-group">
-                        <label for="username">Tên đăng nhập</label>
-                        @Html.TextBoxFor(m => m.Users, new { @id = "username", @required = "required" })
-                    </div>
+                        <div class="form-group">
+                            <label for="email">Email<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(m => m.Email, new { @id = "email", Type = "email", @required = "required" })
+                        </div>
 
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        @Html.TextBoxFor(m => m.Email, new { @id = "email",Type="email", @required = "required" })
-                    </div>
+                        <div class="form-group">
+                            <label for="fullname">Họ và tên<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(m => m.Name, new { @id = "fullname", @required = "required" })
+                        </div>
 
-                    <div class="form-group">
-                        <label for="fullname">Họ và tên</label>
-                        @Html.TextBoxFor(m => m.Name, new { @id = "fullname", @required = "required" })
-                    </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại<span style="color:red">*</span></label>
+                            @Html.TextBoxFor(m => m.Phone, new { @id = "phone", @type = "number", @class = "no-spinner", @required = "required" })
+                        </div>
 
-                    <div class="form-group">
-                        <label for="phone">Số điện thoại</label>
-                            @Html.TextBoxFor(m => m.Phone, new { @id = "phone", @type = "number", @class = "no-spinner",@required = "required" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password">Mật khẩu</label>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu<span style="color:red">*</span></label>
                             @Html.PasswordFor(m => m.Pass1, new { @id = "password", @required = "required" })
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm-password">Nhập lại mật khẩu<span style="color:red">*</span></label>
+                            @Html.PasswordFor(m => m.Pass2, new { @id = "confirm-password", @required = "required" })
+                        </div>
+
+                        <button type="submit" class="submit-btn">Đăng ký</button>
+
+                        <p class="login-link">Bạn đã có tài khoản? <a href="/Login">Đăng nhập</a></p>
                     </div>
-
-                    <div class="form-group">
-                        <label for="confirm-password">Nhập lại mật khẩu</label>
-                        @Html.PasswordFor(m => m.Pass2, new { @id = "confirm-password", @required = "required" })
-                    </div>
-
-                    <button type="submit" class="submit-btn">Đăng ký</button>
-
-                    <p class="login-link">Bạn đã có tài khoản? <a href="/Login">Đăng nhập</a></p>
-                        
-                </div>
                 }
             </div>
+
         </div>
     </main>
 </body>

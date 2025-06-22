@@ -234,10 +234,10 @@ D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\staticwebasset
 D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.HomeStay_MVC.props
 D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.HomeStay_MVC.props
 D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\staticwebassets.pack.json
-D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\HomeStay.99226246.Up2Date
 D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\HomeStay_MVC.dll
 D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\refint\HomeStay_MVC.dll
 D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\HomeStay_MVC.pdb
 D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\HomeStay_MVC.genruntimeconfig.cache
 D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\ref\HomeStay_MVC.dll
+D:\DATN\Finished\HomeStayManagement\HomeStay_MVC\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
