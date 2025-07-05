@@ -64,7 +64,7 @@ namespace HomeStay_MVC.Controllers
                     }
                 }
 
-                return View();
+                return View(model);
             }
 
             return View(model);

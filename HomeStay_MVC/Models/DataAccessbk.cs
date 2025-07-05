@@ -12,13 +12,7 @@ namespace HomeStay_MVC.Model
         {
             DataSet ds = new DataSet();
 
-            //ket noi vao firebase
-
             string url_db = CommonFunction.GetValuesAppSetting("config", "firebaseURL");
-
-
-
-
 
             return ds;
         }

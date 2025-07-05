@@ -1227,7 +1227,6 @@ namespace ResfullApi.Models
 
         public static OracleConnection getPoolingConnection()
         {
-            //string conn = ConfigurationSettings.AppSettings["Connection"];
             string conn = CommonFunction.GetValuesAppSetting("webConfig", "Connection");
             OracleConnection dbConn = new OracleConnection(conn);
             return dbConn;

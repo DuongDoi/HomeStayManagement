@@ -15,8 +15,8 @@ namespace HomeStay_MVC.Controllers
             _env = env;
         }
 
-
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(int page = 1, int pageSize = 5)
         {
             if (!CheckAuthToken())
             {
@@ -88,7 +88,17 @@ namespace HomeStay_MVC.Controllers
                 }
 
                 logger.Info("Pro Food Select All success.");
-                return View(foods);
+            int totalItems = foods.Count;
+            var pagedFood = foods
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+
+            return View(pagedFood);
         }
 
 

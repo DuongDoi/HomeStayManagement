@@ -8,12 +8,73 @@
 }
 
 <h2 class="text-center mt-4">Menu</h2>
-@if (role != "manager")
-{
-    <p style="text-align:right; margin-right:20px;">
-        <a class="btn btn-success" asp-action="Add">Tạo món mới</a>
-    </p>
-}
+<form id="filter-form" method="get" action="/Foods/Filter">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; padding: 20px 30px;">
+        <div id="filter" style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <div style="display: flex; flex-direction: column;">
+                <label for="search_text">Tên món</label>
+                <input type="search" name="SEARCH_TEXT" id="search_text" class="form-control" value="@ViewBag.check_out" placeholder="Nhập tên món..."/>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <label for="type-food-select">Loại</label>
+                <select id="type-food-select" name="TYPE_FOOD_VALUE" class="form-control">
+                    <option value="0">-- Chọn loại thực phẩm --</option>
+                    @if (ViewBag.room_type == "1")
+                    {
+                        <option value="1" selected>Đồ ăn</option>
+                        <option value="2">Đồ uống</option>
+                    }
+                    else
+                    {
+                        if (ViewBag.room_type == "2")
+                        {
+                            <option value="1">Đồ ăn</option>
+                            <option value="2" selected>Đồ uống</option>
+                        }
+                        else
+                        {
+                            <option value="1">Đồ ăn</option>
+                            <option value="2">Đồ uống</option>
+                        }
+                    }
+
+                </select>
+            </div>
+            <div style="display: flex; flex-direction: column;">
+                <label for="type-price-select">Giá</label>
+                <select id="type-price-select" name="TYPE_PRICE_VALUE" class="form-control">
+
+                    @if (ViewBag.room_type == "2")
+                    {
+                        <option value="1">Tăng dần</option>
+                        <option value="2" selected>Giảm dần</option>
+                    }
+                    else
+                    {
+                        <option value="1" selected>Tăng dần</option>
+                        <option value="2">Giảm dần</option>
+                    }
+
+                </select>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Lọc</label>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i>Tìm</button>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                <label style="visibility: hidden;">Xóa lọc</label>
+                <a asp-action="Index" class="btn btn-danger">Xóa lọc</a>
+            </div>
+            @if (role != "manager")
+            {
+                <div style="display: flex; flex-direction: column; justify-content: flex-end;">
+                    <a class="btn btn-success" asp-action="Add"><i class="fa-solid fa-plus"></i> Tạo món mới</a>
+                </div>
+            }
+        </div>
+    </div>
+</form>
 <div class="table-responsive">
     <table class="table table-bordered table-hover text-center">
         <thead class="table-dark">
@@ -78,6 +139,45 @@
         </tbody>
     </table>
 </div>
+@if (ViewBag.TotalPages > 1)
+{
+    <nav class="mt-3">
+        <ul class="pagination justify-content-center">
+            @{
+                int currentPage = ViewBag.CurrentPage;
+                int totalPages = ViewBag.TotalPages;
+                int pageSize = ViewBag.PageSize;
+            }
+
+            <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = currentPage - 1, pageSize = pageSize })">&laquo;</a>
+            </li>
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                // Chỉ hiển thị các trang đầu, cuối, và xung quanh trang hiện tại
+                if (i == 1 || i == totalPages || (i >= currentPage - 1 && i <= currentPage + 1))
+                {
+                    <li class="page-item @(i == currentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = pageSize })">@i</a>
+                    </li>
+                }
+                else if (i == 2 && currentPage > 4)
+                {
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                }
+                else if (i == totalPages - 1 && currentPage < totalPages - 3)
+                {
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                }
+            }
+
+            <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = currentPage + 1, pageSize = pageSize })">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
+}
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

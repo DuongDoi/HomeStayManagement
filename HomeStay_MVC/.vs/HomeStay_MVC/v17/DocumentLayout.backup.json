@@ -3,12 +3,48 @@
   "WorkspaceRootPath": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\views\\foods\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:views\\foods\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\models\\response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:models\\response.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\controllers\\foodscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:controllers\\foodscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\models\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:models\\dataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\models\\dataaccessbk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:models\\dataaccessbk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\models\\commonfunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:models\\commonfunction.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\models\\common.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:models\\common.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\controllers\\logoutcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:controllers\\logoutcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\controllers\\homestaycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:controllers\\homestaycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|d:\\datn\\finished\\homestaymanagement\\homestay_mvc\\controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ADB9C4BA-1864-339D-163C-E44AF5440E7E}|HomeStay_MVC.csproj|solutionrelative:controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +54,157 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Foods\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Foods\\Index.cshtml",
-              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Views\\Foods\\Index.cshtml",
-              "RelativeToolTip": "Views\\Foods\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-06-20T17:09:35.764Z",
+              "Title": "Response.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\Response.cs",
+              "RelativeDocumentMoniker": "Models\\Response.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\Response.cs",
+              "RelativeToolTip": "Models\\Response.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:20:15.221Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "FoodsController.cs",
-              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\FoodsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\FoodsController.cs",
-              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\FoodsController.cs",
-              "RelativeToolTip": "Controllers\\FoodsController.cs",
-              "ViewState": "AgIAAH0BAAAAAAAAAAAQwJABAAASAAAAAAAAAA==",
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "Models\\ErrorViewModel.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T16:53:45.365Z"
+              "WhenOpened": "2025-07-05T17:19:58.805Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DataAccess.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\DataAccess.cs",
+              "RelativeDocumentMoniker": "Models\\DataAccess.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\DataAccess.cs",
+              "RelativeToolTip": "Models\\DataAccess.cs",
+              "ViewState": "AgIAACoEAAAAAAAAAADwv2YEAADHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:18:39.518Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DataAccessbk.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\DataAccessbk.cs",
+              "RelativeDocumentMoniker": "Models\\DataAccessbk.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\DataAccessbk.cs",
+              "RelativeToolTip": "Models\\DataAccessbk.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:18:07.838Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CommonFunction.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\CommonFunction.cs",
+              "RelativeDocumentMoniker": "Models\\CommonFunction.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\CommonFunction.cs",
+              "RelativeToolTip": "Models\\CommonFunction.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:17:59.666Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Common.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\Common.cs",
+              "RelativeDocumentMoniker": "Models\\Common.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Models\\Common.cs",
+              "RelativeToolTip": "Models\\Common.cs",
+              "ViewState": "AgIAAGkAAAAAAAAAAAAowHwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:17:25.678Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LogoutController.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\LogoutController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LogoutController.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\LogoutController.cs",
+              "RelativeToolTip": "Controllers\\LogoutController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:16:56.809Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAA5wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T17:16:41.933Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "HomeStayController.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\HomeStayController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeStayController.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\HomeStayController.cs",
+              "RelativeToolTip": "Controllers\\HomeStayController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAOUBAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T11:03:53.501Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ServicesController.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\ServicesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ServicesController.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\ServicesController.cs",
+              "RelativeToolTip": "Controllers\\ServicesController.cs",
+              "ViewState": "AgIAAA4BAAAAAAAAAAAmwCEBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T10:57:07.533Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UsersController.cs",
+              "ToolTip": "D:\\DATN\\Finished\\HomeStayManagement\\HomeStay_MVC\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Controllers\\UsersController.cs",
+              "ViewState": "AgIAAOsAAAAAAAAAAAAAAGEAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-05T10:42:05.547Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c9c0ae26-aa77-11d2-b3f0-0000f87570ee}"
             }
           ]
         }
