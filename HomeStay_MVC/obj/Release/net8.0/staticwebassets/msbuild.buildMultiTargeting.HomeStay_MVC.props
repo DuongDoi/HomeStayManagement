@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\HomeStay_MVC.props" />
-</Project>
