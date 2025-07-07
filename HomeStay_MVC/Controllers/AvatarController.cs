@@ -90,7 +90,7 @@ namespace HomeStay_MVC.Controllers
                 string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "AvatarUser", user);
                 Directory.CreateDirectory(uploadsFolder);
 
-                // Tên file cố định theo user (hoặc ID người dùng nếu có)
+                // Tên file cố định 
                 string fileName = "avatar" + fileExtension;
                 string filePath = Path.Combine(uploadsFolder, fileName);
 

@@ -464,7 +464,7 @@ namespace HomeStay_MVC.Controllers
                 return View(model);
             }
 
-            string savedFileName = SaveImageToUploads(avatarFile,model.HOMESTAYS_ID);
+            string savedFileName = SaveImageToUploads(id,avatarFile,model.HOMESTAYS_ID);
             string avatar_path;
             if (!string.IsNullOrEmpty(savedFileName)) { avatar_path = savedFileName; }
             else
@@ -698,11 +698,11 @@ namespace HomeStay_MVC.Controllers
         }
 
 
-        protected string SaveImageToUploads(IFormFile file,string ht_id)
+        protected string SaveImageToUploads(string id,IFormFile file,string ht_id)
         {
             if (file == null || file.Length == 0)
                 return null;
-
+            var fileExtension = Path.GetExtension(file.FileName).ToLower();
             try
             {
                 
@@ -710,19 +710,16 @@ namespace HomeStay_MVC.Controllers
                 string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "AvatarRoom", ht_id);
                 Directory.CreateDirectory(uploadsFolder);
 
-                // Tạo tên file duy nhất
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-
-                // Đường dẫn tuyệt đối
+                // Tên file cố định 
+                string fileName = "avatar_" + id + fileExtension;
                 string filePath = Path.Combine(uploadsFolder, fileName);
 
-                // Lưu file
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                // Ghi đè nếu đã tồn tại
+                using (var stream = new FileStream(filePath, FileMode.Create)) // FileMode.Create sẽ tự động ghi đè
                 {
                     file.CopyTo(stream);
                 }
 
-                // Trả về tên file (để lưu vào DB hoặc hiển thị lại)
                 return fileName;
             }
             catch (Exception ex)

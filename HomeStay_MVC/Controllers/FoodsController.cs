@@ -16,7 +16,7 @@ namespace HomeStay_MVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int page = 1, int pageSize = 5)
+        public IActionResult Index(int page = 1, int pageSize = 10)
         {
             if (!CheckAuthToken())
             {
@@ -101,7 +101,7 @@ namespace HomeStay_MVC.Controllers
             return View(pagedFood);
         }
 
-        public IActionResult Filter(string? SEARCH_TEXT, int? TYPE_FOOD_VALUE,int? TYPE_PRICE_VALUE, int page = 1, int pageSize = 5)
+        public IActionResult Filter(string? SEARCH_TEXT, int? TYPE_FOOD_VALUE,int? TYPE_PRICE_VALUE, int page = 1, int pageSize = 10)
         {
             if (!CheckAuthToken())
                 return RedirectToAction("Index", "Login");
@@ -329,8 +329,7 @@ namespace HomeStay_MVC.Controllers
                 ViewBag.Message = "Sai mã PIN";
                 return View(model);
             }
-
-            string savedFileName = SaveImageToUploads(model.USERS_ID, avatarFile);
+            string savedFileName = SaveImageToUploads(id,model.USERS_ID, avatarFile);
             string avatar_path;
             if (!string.IsNullOrEmpty(savedFileName)) { avatar_path = savedFileName; }
             else
@@ -507,30 +506,27 @@ namespace HomeStay_MVC.Controllers
 
 
 
-        protected string SaveImageToUploads(string userID,IFormFile file)
+        protected string SaveImageToUploads(string id,string userID,IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return null;
-
+            var fileExtension = Path.GetExtension(file.FileName).ToLower();
             try
             {
                 // Đảm bảo thư mục tồn tại
                 string uploadsFolder = Path.Combine(_env.WebRootPath, "uploads", "AvatarFoodDrink", userID);
                 Directory.CreateDirectory(uploadsFolder);
 
-                // Tạo tên file duy nhất
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-
-                // Đường dẫn tuyệt đối
+                // Tên file cố định 
+                string fileName = "avatar_" + id + fileExtension;
                 string filePath = Path.Combine(uploadsFolder, fileName);
 
-                // Lưu file
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                // Ghi đè nếu đã tồn tại
+                using (var stream = new FileStream(filePath, FileMode.Create)) // FileMode.Create sẽ tự động ghi đè
                 {
                     file.CopyTo(stream);
                 }
 
-                // Trả về tên file (để lưu vào DB hoặc hiển thị lại)
                 return fileName;
             }
             catch (Exception ex)

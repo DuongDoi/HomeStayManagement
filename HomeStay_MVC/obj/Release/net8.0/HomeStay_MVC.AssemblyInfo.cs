@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HomeStay_MVC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ee8c93b8e64d314ebcfa71bbda47875d4fa749b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cb42a7ca64003541cd51a60344f4a084e654d785")]
 [assembly: System.Reflection.AssemblyProductAttribute("HomeStay_MVC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HomeStay_MVC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

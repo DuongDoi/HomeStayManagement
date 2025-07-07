@@ -127,7 +127,7 @@
                         @Html.DisplayFor(modelItem => food.FOODS_TYPE)
                     </td>
                     <td class="align-middle text-center">
-                        @Html.DisplayFor(modelItem => food.FOODS_PRICE) VND
+                        @int.Parse(food.FOODS_PRICE).ToString("N0") VND
                     </td>
                     @if (role != "manager")
                     {

@@ -39,7 +39,7 @@
                         @Html.DisplayFor(modelItem => service.SERVICES_NAME)
                     </td>
                     <td class="align-middle text-center">
-                        @Html.DisplayFor(modelItem => service.SERVICES_PRICE) VND
+                        @int.Parse(service.SERVICES_PRICE).ToString("N0") VND
                     </td>
                     @if (role != "manager")
                     {
