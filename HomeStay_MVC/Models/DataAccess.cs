@@ -653,7 +653,29 @@ namespace ResfullApi.Models
 
             return getDataFromProcedure(str, "", parms);
         }
+        public static DataSet FOODS_FILTER(string search_value,string type_value, string price_value, string user_id)
+        {
 
+            string str;
+            str = "";
+            str = "foods_pkg.FOODS_FILTER";
+            OracleParameter[] parms;
+            parms = new OracleParameter[]
+                            {
+                                new OracleParameter("v_search_text", OracleDbType.NVarchar2),
+                                new OracleParameter("v_type_food", OracleDbType.Varchar2),
+                                new OracleParameter("v_type_price", OracleDbType.Varchar2),
+                                new OracleParameter("v_user_id", OracleDbType.Varchar2),
+                                new OracleParameter("P_RESULT",OracleDbType.RefCursor,ParameterDirection.Output),
+            };
+            parms[0].Value = search_value;
+            parms[1].Value = type_value;
+            parms[2].Value = price_value;
+            parms[3].Value = user_id;
+
+
+            return getDataFromProcedure(str, "", parms);
+        }
 
 
         //SERVICE

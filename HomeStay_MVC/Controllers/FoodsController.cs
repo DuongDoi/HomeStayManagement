@@ -101,7 +101,96 @@ namespace HomeStay_MVC.Controllers
             return View(pagedFood);
         }
 
+        public IActionResult Filter(string? SEARCH_TEXT, int? TYPE_FOOD_VALUE,int? TYPE_PRICE_VALUE, int page = 1, int pageSize = 5)
+        {
+            if (!CheckAuthToken())
+                return RedirectToAction("Index", "Login");
+            string _role = HttpContext.Session.GetString("Role");
+            string id = "0";
+            string user_id = "-1";
+            string v_type = "0";
+            if (_role == "admin")
+            {
+                id = "0";
+                user_id = "-1";
+                v_type = "0";
+            }
+            else
+            {
+                if (_role == "owner")
+                {
+                    id = "-1";
+                    user_id = HttpContext.Session.GetString("ID");
+                    v_type = "1";
+                }
+                else
+                {
+                    DataSet ds1 = DataAccess.USERS_GET_LIST(HttpContext.Session.GetString("Create_By"));
+                    if (ds1.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow dr1 = ds1.Tables[0].Rows[0];
+                        user_id = dr1["ID"].ToString();
+                        id = "-1";
+                        v_type = "1";
+                    }
+                    else return RedirectToAction("Index", "Login");
+                }
+            }
+            string search_value = !string.IsNullOrEmpty(SEARCH_TEXT) ? SEARCH_TEXT : "-1";
+            string type_value = TYPE_FOOD_VALUE.HasValue?(TYPE_FOOD_VALUE.Value == 0?"-1":(TYPE_FOOD_VALUE.Value == 1?"FOOD":"DRINK")) :"-1";
+            string price_value = TYPE_PRICE_VALUE.HasValue? TYPE_PRICE_VALUE.Value.ToString():"0";
+            DataSet ds = DataAccess.FOODS_FILTER(search_value,type_value,price_value, user_id);
+            List<FOODS> foods = new List<FOODS>();
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    FOODS _obj = new FOODS();
+                    _obj.ID = dr["ID"].ToString();
+                    _obj.FOODS_NAME = dr["FOODS_NAME"].ToString();
+                    _obj.FOODS_PRICE = dr["FOODS_PRICE"].ToString();
+                    var food_type = dr["FOODS_TYPE"].ToString();
+                    if (food_type == "FOOD")
+                        _obj.FOODS_TYPE = "Đồ ăn";
+                    else
+                        _obj.FOODS_TYPE = "Đồ uống";
 
+                    _obj.USERS_ID = dr["USERS_ID"].ToString();
+                    string _avatar_name = dr["AVATAR_PATH"].ToString();
+                    if (!string.IsNullOrWhiteSpace(_avatar_name))
+                    {
+
+                        _obj.AVATAR_PATH = $"{_obj.USERS_ID}/{_avatar_name}";
+                    }
+                    else { _obj.AVATAR_PATH = "no_image.png"; }
+
+                    try { _obj.CREATE_AT = DateTime.Parse(dr["CREATE_AT"].ToString()); }
+                    catch { }
+                    try { _obj.UPDATE_AT = DateTime.Parse(dr["UPDATE_AT"].ToString()); }
+                    catch { }
+
+                    foods.Add(_obj);
+
+                }
+            }
+            else
+            {
+                ViewBag.notfound = "Không tìm thấy kết quả phù hợp";
+            }
+
+                // Phân trang
+                int totalItems = foods.Count;
+            var pagedFoods = foods.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.PageSize = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.order_type = TYPE_PRICE_VALUE;
+            ViewBag.food_type = TYPE_FOOD_VALUE;
+            ViewBag.search_text = SEARCH_TEXT;
+
+            return View("Index", pagedFoods);
+        }
         public IActionResult Details(string id)
         {
             if (!CheckAuthToken())

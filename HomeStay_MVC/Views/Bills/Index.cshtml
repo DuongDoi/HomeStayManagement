@@ -111,25 +111,40 @@
             @{
                 int currentPage = ViewBag.CurrentPage;
                 int totalPages = ViewBag.TotalPages;
+                int pageSize = ViewBag.PageSize;
+                var homestayId = ViewBag.HomestayId;
+                var billType = ViewBag.BillType;
             }
 
-            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Filter", new { page = currentPage - 1, pageSize = ViewBag.PageSize, HomestayId = ViewBag.HomestayId, BILL_TYPE_VALUE = ViewBag.BillType })">&laquo;</a>
+            <li class="page-item @(currentPage <= 1 ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Filter", new { page = currentPage - 1, pageSize = pageSize, HomestayId = homestayId, BILL_TYPE_VALUE = billType })">&laquo;</a>
             </li>
 
             @for (int i = 1; i <= totalPages; i++)
             {
-                <li class="page-item @(i == currentPage ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Filter", new { page = i, pageSize = ViewBag.PageSize, HomestayId = ViewBag.HomestayId, BILL_TYPE_VALUE = ViewBag.BillType })">@i</a>
-                </li>
+                if (i == 1 || i == totalPages || (i >= currentPage - 1 && i <= currentPage + 1))
+                {
+                    <li class="page-item @(i == currentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Filter", new { page = i, pageSize = pageSize, HomestayId = homestayId, BILL_TYPE_VALUE = billType })">@i</a>
+                    </li>
+                }
+                else if (i == 2 && currentPage > 4)
+                {
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                }
+                else if (i == totalPages - 1 && currentPage < totalPages - 3)
+                {
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                }
             }
 
-            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
-                <a class="page-link" href="@Url.Action("Filter", new { page = currentPage + 1, pageSize = ViewBag.PageSize, HomestayId = ViewBag.HomestayId, BILL_TYPE_VALUE = ViewBag.BillType })">&raquo;</a>
+            <li class="page-item @(currentPage >= totalPages ? "disabled" : "")">
+                <a class="page-link" href="@Url.Action("Filter", new { page = currentPage + 1, pageSize = pageSize, HomestayId = homestayId, BILL_TYPE_VALUE = billType })">&raquo;</a>
             </li>
         </ul>
     </nav>
 }
+
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>

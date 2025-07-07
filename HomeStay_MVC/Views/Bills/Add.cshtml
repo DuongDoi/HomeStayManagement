@@ -15,33 +15,43 @@
     <br />
     <form asp-action="Add" method="post">
         
-        <div style="display:flex; flex-direction:row;gap:30px;margin-bottom: 20px; margin-left: 30px;">
-            <div style="min-width:300px;">
-                <!-- Danh sách cơ sở -->
-                <div class="mb-3">
-                    <label for="homestay-select" class="form-label"><h5>Chọn cơ sở<span style="color:red">*</span></h5></label>
-                    <select asp-for="ID_HOMESTAYS" asp-items="Model.HomestayOptions" class="form-select" id="homestay-select" required>
-                        <option value="" selected>-- Chọn cơ sở --</option>
-                    </select>
-                </div>
-                </div>
-            <div style="min-width:400px;">
-                <!-- Khách hàng -->
-                <div class="row mb-3">
-                    <div class="col-md-8">
-                        <label for="search-customer" class="form-label"><h5>Tìm khách hàng</h5></label>
-                        <input type="number" id="search-customer" class="form-control" placeholder="Nhập CCCD khách hàng" />
-                        <button type="button" class="btn btn-success w-50" id="btn-search-customer" style="margin-top:10px;">Tìm kiếm</button>
-                    </div>
-                </div>
-                <div class="mb-3">
-                    <label for="customer-select" class="form-label"><h5>Chọn khách hàng<span style="color:red">*</span></h5></label>
-                    <select asp-for="CUSTOMERS_CARD_ID" asp-items="Model.CustomerOptions" class="form-select" id="customer-select" required>
-                        <option value="">-- Chọn khách hàng --</option>
-                    </select>
-                </div>
+        <div style="display: flex; flex-direction: row; align-items: flex-end; gap: 30px; margin: 20px 30px;">
+            <!-- Chọn cơ sở -->
+            <div style="min-width: 250px;">
+                <label for="homestay-select" class="form-label">
+                    <h5>Chọn cơ sở<span style="color:red">*</span></h5>
+                </label>
+                <select asp-for="ID_HOMESTAYS" asp-items="Model.HomestayOptions" class="form-select" id="homestay-select" required>
+                    <option value="" selected>-- Chọn cơ sở --</option>
+                </select>
             </div>
-        </div>     
+
+            <!-- Chọn khách hàng -->
+            <div style="min-width: 250px;">
+                <label for="customer-select" class="form-label">
+                    <h5>Chọn khách hàng<span style="color:red">*</span></h5>
+                </label>
+                <select asp-for="CUSTOMERS_CARD_ID" asp-items="Model.CustomerOptions" class="form-select" id="customer-select" required>
+                    <option value="">-- Chọn khách hàng --</option>
+                </select>
+            </div>
+
+            <!-- Nhập CCCD khách hàng -->
+            <div style="min-width: 250px;">
+                <label for="search-customer" class="form-label">
+                    <h5>Nhập CCCD</h5>
+                </label>
+                <input type="number" id="search-customer" class="form-control" placeholder="Nhập CCCD khách hàng" />
+            </div>
+
+            <!-- Nút tìm kiếm -->
+            <div style="max-width: 120px;">
+                <label for="btn-search-customer" class="form-label" hidden>Tìm kiếm</label>
+                <button type="button" class="btn btn-success" id="btn-search-customer">Tìm kiếm</button>
+            </div>
+        </div>
+
+
         <div style="display:none; flex-direction:row;" id="div_room" >
             <div style="min-width:700px;max-width:700px;">
                 <!-- Danh sách phòng -->
